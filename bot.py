@@ -13,7 +13,7 @@ from aiogram.client.default import DefaultBotProperties
 from config import BOT_TOKEN
 from database import init_database
 from questions_loader import questions_manager
-from handlers import start_router, quiz_router, admin_router
+from handlers import start_router, quiz_router, admin_router, group_quiz_router
 
 
 # Исправление кодировки для Windows
@@ -77,6 +77,7 @@ async def main():
     dp.include_router(start_router)
     dp.include_router(quiz_router)
     dp.include_router(admin_router)
+    dp.include_router(group_quiz_router)
     
     # Регистрация событий
     dp.startup.register(on_startup)

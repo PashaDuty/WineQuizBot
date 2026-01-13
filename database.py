@@ -32,6 +32,36 @@ async def init_database():
             )
         """)
         
+        # Таблица групповых игр
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS group_games (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL,
+                chat_title TEXT,
+                total_questions INTEGER DEFAULT 0,
+                participants_count INTEGER DEFAULT 0,
+                winner_user_id INTEGER,
+                winner_username TEXT,
+                winner_score INTEGER DEFAULT 0,
+                played_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        # Таблица статистики участников групповых игр
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS group_participants (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                game_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                username TEXT,
+                first_name TEXT,
+                correct_answers INTEGER DEFAULT 0,
+                total_answered INTEGER DEFAULT 0,
+                place INTEGER DEFAULT 0,
+                FOREIGN KEY (game_id) REFERENCES group_games(id)
+            )
+        """)
+        
         await db.commit()
 
 
@@ -186,3 +216,102 @@ async def export_users_csv() -> str:
         )
     
     return "\n".join(csv_lines)
+
+
+# ============ ФУНКЦИИ ДЛЯ ГРУППОВЫХ ИГР ============
+
+async def save_group_game(chat_id: int, chat_title: str, total_questions: int,
+                          participants: list, winner: dict) -> int:
+    """Сохранить результаты групповой игры"""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Сохраняем игру
+        cursor = await db.execute("""
+            INSERT INTO group_games (chat_id, chat_title, total_questions, 
+                                     participants_count, winner_user_id, 
+                                     winner_username, winner_score)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            chat_id,
+            chat_title,
+            total_questions,
+            len(participants),
+            winner.get('user_id') if winner else None,
+            winner.get('username') if winner else None,
+            winner.get('correct_count', 0) if winner else 0
+        ))
+        game_id = cursor.lastrowid
+        
+        # Сохраняем участников
+        for i, participant in enumerate(participants):
+            await db.execute("""
+                INSERT INTO group_participants (game_id, user_id, username, 
+                                                first_name, correct_answers,
+                                                total_answered, place)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                game_id,
+                participant['user_id'],
+                participant.get('username'),
+                participant.get('first_name'),
+                participant.get('correct_count', 0),
+                participant.get('total_answered', 0),
+                i + 1  # Место (1, 2, 3...)
+            ))
+        
+        await db.commit()
+        return game_id
+
+
+async def get_group_stats(chat_id: int) -> dict:
+    """Получить статистику групповых игр для чата"""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        
+        # Общее количество игр
+        cursor = await db.execute(
+            "SELECT COUNT(*) as count FROM group_games WHERE chat_id = ?",
+            (chat_id,)
+        )
+        result = await cursor.fetchone()
+        total_games = result['count'] if result else 0
+        
+        # Топ победителей
+        cursor = await db.execute("""
+            SELECT winner_username, COUNT(*) as wins
+            FROM group_games 
+            WHERE chat_id = ? AND winner_username IS NOT NULL
+            GROUP BY winner_user_id
+            ORDER BY wins DESC
+            LIMIT 5
+        """, (chat_id,))
+        top_winners = await cursor.fetchall()
+        
+        return {
+            'total_games': total_games,
+            'top_winners': [dict(row) for row in top_winners]
+        }
+
+
+async def get_user_group_stats(user_id: int) -> dict:
+    """Получить статистику участия пользователя в групповых играх"""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        
+        # Статистика участия
+        cursor = await db.execute("""
+            SELECT 
+                COUNT(*) as games_played,
+                SUM(correct_answers) as total_correct,
+                SUM(total_answered) as total_questions,
+                SUM(CASE WHEN place = 1 THEN 1 ELSE 0 END) as wins
+            FROM group_participants
+            WHERE user_id = ?
+        """, (user_id,))
+        result = await cursor.fetchone()
+        
+        return dict(result) if result else {
+            'games_played': 0,
+            'total_correct': 0,
+            'total_questions': 0,
+            'wins': 0
+        }

@@ -32,8 +32,21 @@ COUNTRIES = {
         "regions": {
             "bordeaux": {"name": "🍷 Бордо", "file": "Bordeaux.json"},
             "burgundy": {"name": "🍇 Бургундия", "file": "burgundy.json"},
+            "champagne": {"name": "🍾 Шампань", "file": "champagne.json"},
+            "alsace": {"name": "🏔️ Эльзас", "file": "Alsace.json"},
+            "loire": {"name": "🏰 Долина Луары", "file": "loire Valley.json"},
+            "rhone": {"name": "☀️ Долина Роны", "file": "Rhone Valley.json"},
+            "south": {"name": "🌊 Юг Франции", "file": "south of france.json"},
         },
         "random_label": "🎲 Случайно по всей Франции"
+    },
+    "italy": {
+        "name": "🇮🇹 Италия",
+        "flag": "🇮🇹",
+        "regions": {
+            "south": {"name": "🌋 Юг Италии", "file": "Campania,Calabria,Puglia,Basilicata.json"},
+        },
+        "random_label": "🎲 Случайно по всей Италии"
     },
     "spain": {
         "name": "🇪🇸 Испания",
@@ -43,6 +56,22 @@ COUNTRIES = {
             "other": {"name": "🏔️ Другие регионы Испании", "file": "Basque Country, Galicia, La Mancha.json"},
         },
         "random_label": "🎲 Случайно по всей Испании"
+    },
+    "germany": {
+        "name": "🇩🇪 Германия",
+        "flag": "🇩🇪",
+        "regions": {
+            "all": {"name": "🍷 Все регионы Германии", "file": "Germany.json"},
+        },
+        "random_label": "🎲 Случайно по Германии"
+    },
+    "austria": {
+        "name": "🇦🇹 Австрия",
+        "flag": "🇦🇹",
+        "regions": {
+            "all": {"name": "🍷 Все регионы Австрии", "file": "Austria.json"},
+        },
+        "random_label": "🎲 Случайно по Австрии"
     }
 }
 

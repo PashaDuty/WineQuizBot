@@ -235,3 +235,170 @@ def get_admin_back_keyboard() -> InlineKeyboardMarkup:
     ))
     
     return builder.as_markup()
+
+
+# ============ ГРУППОВЫЕ КЛАВИАТУРЫ ============
+
+def get_group_countries_keyboard() -> InlineKeyboardMarkup:
+    """Клавиатура выбора страны для групповой викторины"""
+    builder = InlineKeyboardBuilder()
+    
+    for country_code, country_data in COUNTRIES.items():
+        builder.row(InlineKeyboardButton(
+            text=country_data["name"],
+            callback_data=f"gcountry:{country_code}"
+        ))
+    
+    builder.row(InlineKeyboardButton(
+        text="🌍 Рандом по всем странам",
+        callback_data="gcountry:all"
+    ))
+    
+    return builder.as_markup()
+
+
+def get_group_regions_keyboard(country_code: str) -> InlineKeyboardMarkup:
+    """Клавиатура выбора региона для групповой викторины"""
+    builder = InlineKeyboardBuilder()
+    
+    if country_code not in COUNTRIES:
+        return builder.as_markup()
+    
+    country_data = COUNTRIES[country_code]
+    
+    for region_code, region_data in country_data["regions"].items():
+        builder.row(InlineKeyboardButton(
+            text=region_data["name"],
+            callback_data=f"gregion:{country_code}:{region_code}"
+        ))
+    
+    builder.row(InlineKeyboardButton(
+        text=country_data["random_label"],
+        callback_data=f"gregion:{country_code}:all"
+    ))
+    
+    builder.row(InlineKeyboardButton(
+        text="⬅️ Назад к выбору страны",
+        callback_data="gback:countries"
+    ))
+    
+    return builder.as_markup()
+
+
+def get_group_question_count_keyboard(country: str, region: str, available_count: int) -> InlineKeyboardMarkup:
+    """Клавиатура выбора количества вопросов для группы"""
+    builder = InlineKeyboardBuilder()
+    
+    for count in QUESTION_COUNTS:
+        label = f"{count} вопросов"
+        if available_count < count:
+            label = f"{count} вопросов (доступно {available_count})"
+        
+        builder.row(InlineKeyboardButton(
+            text=label,
+            callback_data=f"gcount:{country}:{region}:{count}"
+        ))
+    
+    back_callback = f"gback:region:{country}" if region != "all" else "gback:countries"
+    builder.row(InlineKeyboardButton(
+        text="⬅️ Назад",
+        callback_data=back_callback
+    ))
+    
+    return builder.as_markup()
+
+
+def get_group_join_keyboard() -> InlineKeyboardMarkup:
+    """Клавиатура присоединения к групповой викторине"""
+    builder = InlineKeyboardBuilder()
+    
+    builder.row(InlineKeyboardButton(
+        text="✋ Присоединиться",
+        callback_data="gjoin"
+    ))
+    
+    builder.row(InlineKeyboardButton(
+        text="🚀 Начать сейчас",
+        callback_data="gstart_now"
+    ))
+    
+    return builder.as_markup()
+
+
+def get_group_start_keyboard() -> InlineKeyboardMarkup:
+    """Клавиатура старта групповой викторины"""
+    builder = InlineKeyboardBuilder()
+    
+    builder.row(InlineKeyboardButton(
+        text="🚀 Начать викторину",
+        callback_data="gstart_now"
+    ))
+    
+    return builder.as_markup()
+
+
+def get_group_answer_keyboard(question_id: int) -> InlineKeyboardMarkup:
+    """Клавиатура с вариантами ответа для группы"""
+    builder = InlineKeyboardBuilder()
+    
+    builder.row(
+        InlineKeyboardButton(text="a", callback_data=f"ganswer:{question_id}:a"),
+        InlineKeyboardButton(text="b", callback_data=f"ganswer:{question_id}:b")
+    )
+    builder.row(
+        InlineKeyboardButton(text="c", callback_data=f"ganswer:{question_id}:c"),
+        InlineKeyboardButton(text="d", callback_data=f"ganswer:{question_id}:d")
+    )
+    
+    return builder.as_markup()
+
+
+def get_group_result_keyboard() -> InlineKeyboardMarkup:
+    """Клавиатура после завершения групповой викторины"""
+    builder = InlineKeyboardBuilder()
+    
+    builder.row(InlineKeyboardButton(
+        text="📖 ПОСМОТРЕТЬ ПОЯСНЕНИЯ",
+        callback_data="gshow_explanations"
+    ))
+    
+    builder.row(InlineKeyboardButton(
+        text="🔄 Новая групповая викторина",
+        callback_data="gnew_quiz"
+    ))
+    
+    return builder.as_markup()
+
+
+def get_group_explanation_keyboard(question_index: int, total_questions: int) -> InlineKeyboardMarkup:
+    """Клавиатура для просмотра пояснений в группе"""
+    builder = InlineKeyboardBuilder()
+    
+    buttons = []
+    
+    if question_index > 0:
+        buttons.append(InlineKeyboardButton(
+            text="⬅️ Пред.",
+            callback_data=f"gexplanation:{question_index - 1}"
+        ))
+    
+    if question_index < total_questions - 1:
+        buttons.append(InlineKeyboardButton(
+            text="След. ➡️",
+            callback_data=f"gexplanation:{question_index + 1}"
+        ))
+    
+    if buttons:
+        builder.row(*buttons)
+    
+    builder.row(InlineKeyboardButton(
+        text="📋 Все пояснения списком",
+        callback_data="gall_explanations"
+    ))
+    
+    builder.row(InlineKeyboardButton(
+        text="🔄 Новая викторина",
+        callback_data="gnew_quiz"
+    ))
+    
+    return builder.as_markup()

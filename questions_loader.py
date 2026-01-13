@@ -24,38 +24,45 @@ class QuestionsManager:
         
         for country_code, country_data in COUNTRIES.items():
             self._questions_cache[country_code] = {}
-            country_path = os.path.join(QUESTIONS_PATH, country_code.capitalize() 
-                                        if country_code == "france" else country_code)
-            
-            # Проверяем альтернативные варианты названия папки
-            if not os.path.exists(country_path):
-                # Пробуем разные варианты
-                for variant in [country_code, country_code.capitalize(), country_code.upper(), 
-                               country_code.lower()]:
-                    test_path = os.path.join(QUESTIONS_PATH, variant)
-                    if os.path.exists(test_path):
-                        country_path = test_path
-                        break
-            
-            if not os.path.exists(country_path):
-                logger.warning(f"[WARN] Papka strany ne najdena: {country_path}")
-                continue
             
             for region_code, region_data in country_data["regions"].items():
-                file_path = os.path.join(country_path, region_data["file"])
+                file_name = region_data["file"]
                 
-                if os.path.exists(file_path):
+                # Пробуем найти файл в разных местах
+                possible_paths = [
+                    # В папке страны (France/Bordeaux.json)
+                    os.path.join(QUESTIONS_PATH, country_code.capitalize(), file_name),
+                    os.path.join(QUESTIONS_PATH, country_code, file_name),
+                    os.path.join(QUESTIONS_PATH, country_code.capitalize().replace('y', 'Y'), file_name),
+                    # В корне (Germany.json, Austria.json)
+                    os.path.join(QUESTIONS_PATH, file_name),
+                ]
+                
+                # Специальные случаи для Italy
+                if country_code == "italy":
+                    possible_paths.insert(0, os.path.join(QUESTIONS_PATH, "Italy", file_name))
+                
+                file_path = None
+                for path in possible_paths:
+                    if os.path.exists(path):
+                        file_path = path
+                        break
+                
+                if file_path:
                     try:
                         with open(file_path, 'r', encoding='utf-8') as f:
                             questions = json.load(f)
-                            self._questions_cache[country_code][region_code] = questions
-                            logger.info(f"[OK] Zagruzheno {len(questions)} voprosov: {country_code}/{region_code}")
+                            if isinstance(questions, list) and len(questions) > 0:
+                                self._questions_cache[country_code][region_code] = questions
+                                logger.info(f"[OK] Zagruzheno {len(questions)} voprosov: {country_code}/{region_code}")
+                            else:
+                                logger.warning(f"[WARN] Fajl pust ili nevernyj format: {file_path}")
                     except json.JSONDecodeError as e:
                         logger.error(f"[ERROR] Oshibka JSON v fajle {file_path}: {e}")
                     except Exception as e:
                         logger.error(f"[ERROR] Oshibka pri zagruzke {file_path}: {e}")
                 else:
-                    logger.warning(f"[WARN] Fajl ne najden: {file_path}")
+                    logger.warning(f"[WARN] Fajl ne najden: {file_name} dlya {country_code}")
         
         self._loaded = True
         logger.info("[DONE] Zagruzka voprosov zavershena!")
