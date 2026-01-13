@@ -2,6 +2,7 @@
 Модуль управления групповыми сессиями викторины
 """
 import asyncio
+import time
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set
 from datetime import datetime
@@ -91,7 +92,7 @@ class GroupQuizSession:
             # Вычисляем время ответа
             answer_time = None
             if self.question_start_time:
-                answer_time = asyncio.get_event_loop().time() - self.question_start_time
+                answer_time = time.time() - self.question_start_time
             
             participant.answers.append({
                 "question": question,
@@ -108,8 +109,8 @@ class GroupQuizSession:
     def start_question(self):
         """Начать новый вопрос"""
         self.is_question_active = True
-        self.answered_users = set()
-        self.question_start_time = asyncio.get_event_loop().time()
+        self.answered_users.clear()  # Используем clear() вместо присваивания нового set
+        self.question_start_time = time.time()
         # Сбрасываем текущие ответы участников
         for participant in self.participants.values():
             participant.current_answer = None
@@ -260,20 +261,40 @@ def format_group_leaderboard(session: GroupQuizSession, is_final: bool = False) 
     
     medals = ["🥇", "🥈", "🥉"]
     
+    # Определяем места с учётом одинаковых результатов
+    current_place = 0
+    prev_score = None
+    
     for i, participant in enumerate(leaderboard):
-        medal = medals[i] if i < 3 else f"{i + 1}."
+        score = participant.correct_count
+        
+        # Если результат отличается от предыдущего, увеличиваем место
+        if score != prev_score:
+            current_place = i
+            prev_score = score
+        
+        medal = medals[current_place] if current_place < 3 else f"{current_place + 1}."
         percentage = participant.percentage
         text += f"{medal} {participant.display_name}: "
         text += f"{participant.correct_count}/{participant.total_answered} "
         text += f"({percentage}%)\n"
     
     if is_final and leaderboard:
-        winner = leaderboard[0]
-        text += f"\n🎉 *Победитель: {winner.display_name}!*"
+        # Находим всех победителей (с максимальным количеством правильных ответов)
+        max_score = leaderboard[0].correct_count
+        winners = [p for p in leaderboard if p.correct_count == max_score]
         
-        if winner.percentage >= 90:
+        if len(winners) == 1:
+            text += f"\n🎉 *Победитель: {winners[0].display_name}!*"
+        else:
+            winner_names = ", ".join([w.display_name for w in winners])
+            text += f"\n🎉 *Победители (ничья): {winner_names}!*"
+        
+        # Сообщение в зависимости от результата
+        best_percentage = winners[0].percentage
+        if best_percentage >= 90:
             text += "\n🏆 Великолепный результат!"
-        elif winner.percentage >= 70:
+        elif best_percentage >= 70:
             text += "\n👏 Отличная игра!"
         else:
             text += "\n🍷 Спасибо за участие!"

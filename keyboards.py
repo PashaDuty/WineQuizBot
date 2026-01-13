@@ -358,8 +358,13 @@ def get_group_result_keyboard() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     
     builder.row(InlineKeyboardButton(
-        text="📖 ПОСМОТРЕТЬ ПОЯСНЕНИЯ",
+        text="📖 ПОСМОТРЕТЬ ПОЯСНЕНИЯ КО ВСЕМ ВОПРОСАМ",
         callback_data="gshow_explanations"
+    ))
+    
+    builder.row(InlineKeyboardButton(
+        text="📋 Все пояснения списком",
+        callback_data="gall_explanations"
     ))
     
     builder.row(InlineKeyboardButton(

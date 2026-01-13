@@ -2,10 +2,13 @@
 Обработчик групповой викторины
 """
 import asyncio
+import logging
 from aiogram import Router, F, Bot
 from aiogram.types import Message, CallbackQuery, ChatMemberUpdated
 from aiogram.filters import Command, ChatMemberUpdatedFilter, IS_MEMBER, IS_NOT_MEMBER
 from aiogram.enums import ChatType
+
+logger = logging.getLogger(__name__)
 
 from keyboards import (
     get_group_answer_keyboard,
@@ -27,7 +30,7 @@ from group_quiz_session import (
     format_group_all_explanations,
     format_group_leaderboard
 )
-from database import get_setting, save_group_game
+from database import get_setting, save_group_game, update_user_stats, get_or_create_user
 from config import TIME_PER_QUESTION, MIN_QUESTIONS, COUNTRIES
 
 router = Router()
@@ -305,6 +308,11 @@ async def join_timer(bot: Bot, chat_id: int, message_id: int, session):
             await asyncio.sleep(5)
             remaining -= 5
             
+            # Проверяем, не была ли игра уже запущена
+            if session.is_question_active or session.current_index > 0:
+                logger.info(f"[GROUP] Join timer: game already started, exiting")
+                return
+            
             # Обновляем сообщение каждые 5 секунд
             participants_list = "\n".join([
                 f"• {p.display_name}" for p in session.participants.values()
@@ -326,7 +334,13 @@ async def join_timer(bot: Bot, chat_id: int, message_id: int, session):
             except Exception:
                 pass
         
+        # Проверяем ещё раз перед стартом
+        if session.is_question_active or session.current_index > 0:
+            logger.info(f"[GROUP] Join timer: game already started before auto-start")
+            return
+        
         # Время вышло - начинаем игру
+        logger.info(f"[GROUP] Join timer finished, participants: {session.participants_count}")
         if session.participants_count >= MIN_PARTICIPANTS:
             await start_group_quiz(bot, chat_id, session)
         else:
@@ -338,7 +352,7 @@ async def join_timer(bot: Bot, chat_id: int, message_id: int, session):
             )
     
     except asyncio.CancelledError:
-        pass
+        logger.info(f"[GROUP] Join timer cancelled for chat {chat_id}")
 
 
 @router.callback_query(F.data == "gjoin")
@@ -415,6 +429,8 @@ async def callback_start_now(callback: CallbackQuery):
 
 async def start_group_quiz(bot: Bot, chat_id: int, session):
     """Начать групповую викторину"""
+    logger.info(f"[GROUP] Starting quiz in chat {chat_id} with {session.participants_count} participants")
+    
     participants_list = ", ".join([p.display_name for p in session.participants.values()])
     
     await bot.send_message(
@@ -438,6 +454,8 @@ async def send_group_question(bot: Bot, chat_id: int, session):
     
     session.start_question()
     time_limit = await get_time_per_question()
+    
+    logger.info(f"[GROUP] Sending question {session.current_index + 1}/{session.total_questions} to chat {chat_id}, time_limit={time_limit}s")
     
     text = format_group_question(
         question,
@@ -571,6 +589,25 @@ async def finish_group_quiz(bot: Bot, chat_id: int, session):
     # Сохраняем статистику в БД
     try:
         leaderboard = session.get_leaderboard()
+        
+        # Обновляем ЛИЧНУЮ статистику каждого участника
+        for participant in leaderboard:
+            # Создаём/обновляем пользователя в БД
+            await get_or_create_user(
+                participant.user_id,
+                participant.username,
+                participant.first_name
+            )
+            # Добавляем результаты к личной статистике
+            await update_user_stats(
+                participant.user_id,
+                participant.total_answered,  # всего вопросов
+                participant.correct_count    # правильных ответов
+            )
+        
+        logger.info(f"[GROUP] Updated personal stats for {len(leaderboard)} participants")
+        
+        # Сохраняем групповую игру
         participants_data = [
             {
                 'user_id': p.user_id,
@@ -604,8 +641,7 @@ async def finish_group_quiz(bot: Bot, chat_id: int, session):
         )
     except Exception as e:
         # Логируем ошибку, но не прерываем работу
-        import logging
-        logging.error(f"Error saving group game stats: {e}")
+        logger.error(f"Error saving group game stats: {e}")
     
     # НЕ удаляем сессию, чтобы можно было посмотреть пояснения
 
@@ -619,24 +655,34 @@ async def callback_group_answer(callback: CallbackQuery):
     question_index = int(parts[1])
     answer = parts[2]
     
-    session = group_session_manager.get_session(callback.message.chat.id)
+    chat_id = callback.message.chat.id
+    user_id = callback.from_user.id
+    
+    logger.info(f"[GROUP] Answer received: chat={chat_id}, user={user_id}, q_idx={question_index}, answer={answer}")
+    
+    session = group_session_manager.get_session(chat_id)
     
     if not session:
+        logger.warning(f"[GROUP] Session not found for chat {chat_id}")
         await callback.answer("❌ Сессия не найдена! Начните новую викторину командой /quiz", show_alert=True)
         return
     
+    logger.info(f"[GROUP] Session state: is_active={session.is_question_active}, current_idx={session.current_index}, answered={session.answered_users}")
+    
     # Проверяем, активен ли вопрос
     if not session.is_question_active:
+        logger.warning(f"[GROUP] Question not active for chat {chat_id}")
         await callback.answer("❌ Время на ответ истекло!", show_alert=True)
         return
     
     # Проверяем, что отвечаем на текущий вопрос
     if session.current_index != question_index:
+        logger.warning(f"[GROUP] Wrong question index: got {question_index}, expected {session.current_index}")
         await callback.answer("❌ Этот вопрос уже не активен!", show_alert=True)
         return
     
     # Проверяем, не ответил ли уже
-    if callback.from_user.id in session.answered_users:
+    if user_id in session.answered_users:
         await callback.answer("❌ Вы уже ответили!", show_alert=True)
         return
     
