@@ -1,9 +1,10 @@
 """
-Обработчик логики викторины
+Обработчик логики викторины (личный режим)
 """
 import asyncio
 from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery
+from aiogram.enums import ChatType
 
 from keyboards import (
     get_answer_keyboard, 
@@ -24,6 +25,11 @@ from database import update_user_stats, get_setting
 from config import TIME_PER_QUESTION, MIN_QUESTIONS
 
 router = Router()
+
+
+def is_private_chat(callback: CallbackQuery) -> bool:
+    """Проверить, что это личный чат"""
+    return callback.message.chat.type == ChatType.PRIVATE
 
 
 async def get_time_per_question() -> int:
@@ -167,7 +173,11 @@ async def finish_quiz(bot: Bot, chat_id: int, session):
 
 @router.callback_query(F.data.startswith("count:"))
 async def callback_start_quiz(callback: CallbackQuery):
-    """Начало викторины после выбора количества вопросов"""
+    """Начало викторины после выбора количества вопросов (личный режим)"""
+    # Этот обработчик только для личных чатов
+    if not is_private_chat(callback):
+        return  # В группе используется gcount:
+    
     parts = callback.data.split(":")
     country = parts[1]
     region = parts[2]
@@ -213,7 +223,11 @@ async def callback_start_quiz(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("answer:"))
 async def callback_answer(callback: CallbackQuery):
-    """Обработка ответа на вопрос"""
+    """Обработка ответа на вопрос (личный режим)"""
+    # Этот обработчик только для личных чатов
+    if not is_private_chat(callback):
+        return  # Пропускаем, пусть обработает group_quiz
+    
     parts = callback.data.split(":")
     question_index = int(parts[1])
     answer = parts[2]

@@ -259,36 +259,34 @@ def format_group_leaderboard(session: GroupQuizSession, is_final: bool = False) 
         text += "_Пока нет участников_"
         return text
     
-    medals = ["🥇", "🥈", "🥉"]
-    
     # Определяем места с учётом одинаковых результатов
-    current_place = 0
+    current_place = 1
     prev_score = None
     
     for i, participant in enumerate(leaderboard):
         score = participant.correct_count
         
         # Если результат отличается от предыдущего, увеличиваем место
-        if score != prev_score:
-            current_place = i
-            prev_score = score
+        if prev_score is not None and score != prev_score:
+            current_place = i + 1
+        prev_score = score
         
-        medal = medals[current_place] if current_place < 3 else f"{current_place + 1}."
-        percentage = participant.percentage
-        text += f"{medal} {participant.display_name}: "
-        text += f"{participant.correct_count}/{participant.total_answered} "
-        text += f"({percentage}%)\n"
+        # Формат: 1. @username, 60%, 6/10
+        text += f"{current_place}. {participant.display_name}, "
+        text += f"{participant.percentage}%, "
+        text += f"{participant.correct_count}/{session.total_questions}\n"
     
     if is_final and leaderboard:
         # Находим всех победителей (с максимальным количеством правильных ответов)
         max_score = leaderboard[0].correct_count
         winners = [p for p in leaderboard if p.correct_count == max_score]
         
+        text += "\n"
         if len(winners) == 1:
-            text += f"\n🎉 *Победитель: {winners[0].display_name}!*"
+            text += f"🎉 *Победитель: {winners[0].display_name}!*"
         else:
             winner_names = ", ".join([w.display_name for w in winners])
-            text += f"\n🎉 *Победители (ничья): {winner_names}!*"
+            text += f"🎉 *Победители (ничья): {winner_names}!*"
         
         # Сообщение в зависимости от результата
         best_percentage = winners[0].percentage
