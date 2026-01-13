@@ -96,6 +96,23 @@ async def get_all_users_stats() -> List[dict]:
         return [dict(row) for row in rows]
 
 
+async def get_user_stats(user_id: int) -> Optional[dict]:
+    """Получить статистику конкретного пользователя"""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute("""
+            SELECT user_id, username, first_name, total_questions, correct_answers, quizzes_completed,
+                   CASE WHEN total_questions > 0 
+                        THEN ROUND(correct_answers * 100.0 / total_questions, 1) 
+                        ELSE 0 
+                   END as success_rate
+            FROM users 
+            WHERE user_id = ?
+        """, (user_id,))
+        row = await cursor.fetchone()
+        return dict(row) if row else None
+
+
 async def get_top_users(limit: int = 10) -> List[dict]:
     """Получить топ пользователей"""
     async with aiosqlite.connect(DATABASE_PATH) as db:
@@ -151,18 +168,21 @@ async def export_users_csv() -> str:
     """Экспортировать статистику пользователей в CSV формат"""
     users = await get_all_users_stats()
     
-    # Заголовок CSV
-    csv_lines = ["user_id,username,total_questions,correct_answers,success_rate,last_active"]
+    # Заголовок CSV с понятными названиями (разделитель ;)
+    csv_lines = ["ID пользователя;Username;Имя;Всего вопросов;Правильных ответов;Процент успеха;Викторин пройдено;Последняя активность"]
     
     for user in users:
         success_rate = 0.0
         if user['total_questions'] > 0:
             success_rate = round(user['correct_answers'] * 100.0 / user['total_questions'], 1)
         
-        username = user['username'] if user['username'] else ''
+        username = user['username'] if user['username'] else '-'
+        first_name = user['first_name'] if user['first_name'] else '-'
+        quizzes = user.get('quizzes_completed', 0)
+        
         csv_lines.append(
-            f"{user['user_id']},{username},{user['total_questions']},"
-            f"{user['correct_answers']},{success_rate},{user['last_active']}"
+            f"{user['user_id']};@{username};{first_name};{user['total_questions']};"
+            f"{user['correct_answers']};{success_rate}%;{quizzes};{user['last_active']}"
         )
     
     return "\n".join(csv_lines)

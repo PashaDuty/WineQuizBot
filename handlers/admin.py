@@ -29,6 +29,16 @@ def is_admin(user_id: int) -> bool:
     return user_id == ADMIN_ID
 
 
+def escape_markdown(text: str) -> str:
+    """Экранирование специальных символов Markdown"""
+    if not text:
+        return text
+    chars_to_escape = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for char in chars_to_escape:
+        text = text.replace(char, f'\\{char}')
+    return text
+
+
 @router.message(Command("admin"))
 async def cmd_admin(message: Message):
     """Обработчик команды /admin"""
@@ -68,24 +78,37 @@ async def callback_admin_stats(callback: CallbackQuery):
     total_users, total_answers = await get_total_stats()
     top_users = await get_top_users(10)
     
-    text = "📊 *СТАТИСТИКА ПОЛЬЗОВАТЕЛЕЙ:*\n\n"
-    text += f"👥 Всего пользователей: {total_users:,}\n"
-    text += f"📝 Всего ответов: {total_answers:,}\n\n"
+    lines = []
+    lines.append("📊 СТАТИСТИКА ПОЛЬЗОВАТЕЛЕЙ:")
+    lines.append("")
+    lines.append(f"👥 Всего пользователей: {total_users}")
+    lines.append(f"📝 Всего ответов: {total_answers}")
+    lines.append("")
     
     if top_users:
-        text += "*ТОП-10 пользователей:*\n"
+        lines.append("🏆 ТОП-10:")
         for i, user in enumerate(top_users, 1):
-            username = f"@{user['username']}" if user['username'] else user.get('first_name', 'Без имени')
+            username = user.get('username', '')
+            first_name = user.get('first_name', 'Без имени')
+            
+            if username:
+                display_name = f"@{username}"
+            else:
+                display_name = first_name
+            
             success_rate = user.get('success_rate', 0)
             total = user.get('total_questions', 0)
-            text += f"{i}. {username} — {total} ответов ({success_rate}%)\n"
+            
+            lines.append(f"{i}. {display_name} — {success_rate}% ({total} вопр.)")
     else:
-        text += "_Пока нет данных о пользователях_"
+        lines.append("Пока нет данных о пользователях")
+    
+    text = "\n".join(lines)
     
     await callback.message.edit_text(
         text,
         reply_markup=get_admin_back_keyboard(),
-        parse_mode="Markdown"
+        parse_mode=None  # Отключаем Markdown чтобы _ не ломал форматирование
     )
     await callback.answer()
 
@@ -103,14 +126,13 @@ async def callback_admin_time(callback: CallbackQuery):
     else:
         current_time = int(current_time)
     
-    text = "⏱ *НАСТРОЙКА ВРЕМЕНИ НА ОТВЕТ*\n\n"
-    text += f"Текущее значение: *{current_time} секунд*\n\n"
+    text = f"⏱ НАСТРОЙКА ВРЕМЕНИ НА ОТВЕТ\n\n"
+    text += f"Текущее значение: {current_time} секунд\n\n"
     text += "Выберите новое значение:"
     
     await callback.message.edit_text(
         text,
-        reply_markup=get_time_settings_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=get_time_settings_keyboard()
     )
     await callback.answer()
 
@@ -151,7 +173,7 @@ async def callback_admin_reload(callback: CallbackQuery):
     countries = questions_manager.get_available_countries()
     total = sum(countries.values())
     
-    text = "✅ *Вопросы успешно перезагружены!*\n\n"
+    text = "✅ Вопросы успешно перезагружены!\n\n"
     text += f"📚 Всего загружено: {total} вопросов\n\n"
     
     for country_code, count in countries.items():
@@ -161,8 +183,7 @@ async def callback_admin_reload(callback: CallbackQuery):
     
     await callback.message.edit_text(
         text,
-        reply_markup=get_admin_back_keyboard(),
-        parse_mode="Markdown"
+        reply_markup=get_admin_back_keyboard()
     )
 
 
@@ -178,21 +199,23 @@ async def callback_admin_export(callback: CallbackQuery):
     # Генерируем CSV
     csv_data = await export_users_csv()
     
+    # Добавляем BOM для корректного открытия в Excel
+    csv_bytes = b'\xef\xbb\xbf' + csv_data.encode('utf-8')
+    
     # Создаём файл
     file = BufferedInputFile(
-        csv_data.encode('utf-8'),
+        csv_bytes,
         filename="wine_quiz_stats.csv"
     )
     
     # Отправляем файл
     await callback.message.answer_document(
         file,
-        caption="📊 Статистика пользователей Wine Quiz"
+        caption="📊 Статистика пользователей Wine Quiz\n\nОткройте файл в Excel или Google Sheets"
     )
     
     # Обновляем сообщение с кнопкой назад
     await callback.message.edit_text(
-        "✅ *Файл отправлен!*",
-        reply_markup=get_admin_back_keyboard(),
-        parse_mode="Markdown"
+        "✅ Файл отправлен!",
+        reply_markup=get_admin_back_keyboard()
     )
