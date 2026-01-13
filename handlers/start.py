@@ -8,10 +8,11 @@ from aiogram.filters import Command
 from keyboards import (
     get_countries_keyboard, 
     get_regions_keyboard, 
-    get_question_count_keyboard
+    get_question_count_keyboard,
+    get_main_menu_keyboard
 )
 from questions_loader import questions_manager
-from database import get_or_create_user
+from database import get_or_create_user, get_user_stats
 from config import COUNTRIES
 
 router = Router()
@@ -57,12 +58,67 @@ async def cmd_start(message: Message):
     # Сохраняем/обновляем пользователя в БД
     await get_or_create_user(user.id, user.username, user.first_name)
     
+    # Показываем главное меню с кнопками
+    await message.answer(
+        "🍷 Привет! Выбери действие:",
+        reply_markup=get_main_menu_keyboard()
+    )
+    
     # Показываем меню выбора страны
     await message.answer(
         WELCOME_MESSAGE,
         reply_markup=get_countries_keyboard(),
         parse_mode="Markdown"
     )
+
+
+@router.message(F.text == "🍷 Начать викторину")
+async def btn_start_quiz(message: Message):
+    """Кнопка начать викторину"""
+    user = message.from_user
+    
+    # Сохраняем/обновляем пользователя в БД
+    await get_or_create_user(user.id, user.username, user.first_name)
+    
+    await message.answer(
+        WELCOME_MESSAGE,
+        reply_markup=get_countries_keyboard(),
+        parse_mode="Markdown"
+    )
+
+
+@router.message(F.text == "📊 Моя статистика")
+async def btn_my_stats(message: Message):
+    """Кнопка моя статистика"""
+    user = message.from_user
+    
+    # Получаем статистику пользователя
+    stats = await get_user_stats(user.id)
+    
+    if not stats or stats['total_questions'] == 0:
+        await message.answer(
+            "📊 У тебя пока нет статистики.\n\n"
+            "Пройди хотя бы одну викторину! 🍷"
+        )
+        return
+    
+    success_rate = stats.get('success_rate', 0)
+    total = stats.get('total_questions', 0)
+    correct = stats.get('correct_answers', 0)
+    quizzes = stats.get('quizzes_completed', 0)
+    
+    text = f"📊 Твоя статистика:\n\n"
+    text += f"✅ Правильных ответов: {success_rate}% ({total} вопросов)\n"
+    text += f"🎯 Верных ответов: {correct} из {total}\n"
+    text += f"🏆 Викторин пройдено: {quizzes}"
+    
+    await message.answer(text)
+
+
+@router.message(Command("stats"))
+async def cmd_stats(message: Message):
+    """Команда /stats - статистика пользователя"""
+    await btn_my_stats(message)
 
 
 @router.callback_query(F.data == "new_quiz")

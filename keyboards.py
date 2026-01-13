@@ -1,9 +1,19 @@
 """
 Клавиатуры и меню для бота
 """
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 from config import COUNTRIES, QUESTION_COUNTS
+
+
+def get_main_menu_keyboard() -> ReplyKeyboardMarkup:
+    """Главное меню с постоянными кнопками"""
+    builder = ReplyKeyboardBuilder()
+    builder.row(
+        KeyboardButton(text="🍷 Начать викторину"),
+        KeyboardButton(text="📊 Моя статистика")
+    )
+    return builder.as_markup(resize_keyboard=True)
 
 
 def get_countries_keyboard() -> InlineKeyboardMarkup:
