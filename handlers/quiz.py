@@ -176,6 +176,7 @@ async def callback_start_quiz(callback: CallbackQuery):
     """Начало викторины после выбора количества вопросов (личный режим)"""
     # Этот обработчик только для личных чатов
     if not is_private_chat(callback):
+        await callback.answer()  # Отвечаем на колбэк, чтобы не было зависания
         return  # В группе используется gcount:
     
     parts = callback.data.split(":")
@@ -226,6 +227,7 @@ async def callback_answer(callback: CallbackQuery):
     """Обработка ответа на вопрос (личный режим)"""
     # Этот обработчик только для личных чатов
     if not is_private_chat(callback):
+        await callback.answer()  # Отвечаем на колбэк, чтобы не было зависания
         return  # Пропускаем, пусть обработает group_quiz
     
     parts = callback.data.split(":")

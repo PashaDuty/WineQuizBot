@@ -9,6 +9,7 @@ from aiogram.filters import Command
 from aiogram.enums import ChatType
 
 logger = logging.getLogger(__name__)
+logger.info("[GROUP_MODULE] Group quiz module loaded")
 
 from keyboards import (
     get_group_answer_keyboard,
@@ -31,13 +32,24 @@ from group_quiz_session import (
 from database import get_setting, save_group_game, update_user_stats, get_or_create_user
 from config import TIME_PER_QUESTION, MIN_QUESTIONS, COUNTRIES
 
-router = Router()
+router = Router(name="group_quiz")
 
 # Время ожидания присоединения участников (секунды)
 JOIN_TIMEOUT = 60
 
 # Минимум участников для старта
 MIN_PARTICIPANTS = 1
+
+
+def escape_markdown(text: str) -> str:
+    """Экранировать специальные символы Markdown"""
+    if not text:
+        return ""
+    # Экранируем символы, которые могут вызвать проблемы в Markdown
+    escape_chars = ['*', '_', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for char in escape_chars:
+        text = text.replace(char, f'\\{char}')
+    return text
 
 
 def is_group_chat(message_or_callback) -> bool:
@@ -118,6 +130,59 @@ async def cmd_score(message: Message):
 
 # ============ ВЫБОР СТРАНЫ/РЕГИОНА ДЛЯ ГРУППЫ ============
 
+@router.callback_query(F.data.startswith("country:"))
+async def callback_legacy_country_in_group(callback: CallbackQuery):
+    """Обработка старых колбэков country: в групповых чатах"""
+    if not is_group_chat(callback):
+        await callback.answer()
+        return  # Не групповой чат - пусть обработает start.py
+    
+    logger.info(f"[GROUP] Legacy country callback detected: {callback.data} in group chat")
+    
+    # Проверяем, нет ли уже сессии
+    if group_session_manager.get_session(callback.message.chat.id):
+        await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
+        return
+    
+    country_code = callback.data.split(":")[1]
+    
+    if country_code == "all":
+        available = questions_manager.get_questions_count()
+        
+        if available == 0:
+            await callback.answer("❌ Нет доступных вопросов!", show_alert=True)
+            return
+        
+        text = "🌍 *Викторина по всем странам*\n\n"
+        text += f"📊 Доступно вопросов: {available}\n\n"
+        text += "Выберите количество вопросов:"
+        
+        await callback.message.edit_text(
+            text,
+            reply_markup=get_group_question_count_keyboard("all", "all", available),
+            parse_mode="Markdown"
+        )
+    else:
+        if country_code not in COUNTRIES:
+            await callback.answer("❌ Страна не найдена!", show_alert=True)
+            return
+        
+        country_data = COUNTRIES[country_code]
+        available = questions_manager.get_questions_count(country=country_code)
+        
+        text = f"{country_data['flag']} *{country_data['name']}*\n\n"
+        text += f"📊 Всего вопросов: {available}\n\n"
+        text += "Выберите регион:"
+        
+        await callback.message.edit_text(
+            text,
+            reply_markup=get_group_regions_keyboard(country_code),
+            parse_mode="Markdown"
+        )
+    
+    await callback.answer()
+
+
 @router.callback_query(F.data.startswith("gcountry:"))
 async def callback_group_country(callback: CallbackQuery):
     """Выбор страны для групповой викторины"""
@@ -166,6 +231,48 @@ async def callback_group_country(callback: CallbackQuery):
             parse_mode="Markdown"
         )
     
+    await callback.answer()
+
+
+@router.callback_query(F.data.startswith("region:"))
+async def callback_legacy_region_in_group(callback: CallbackQuery):
+    """Обработка старых колбэков region: в групповых чатах"""
+    if not is_group_chat(callback):
+        await callback.answer()
+        return  # Не групповой чат - пусть обработает start.py
+    
+    logger.info(f"[GROUP] Legacy region callback detected: {callback.data} in group chat")
+    
+    if group_session_manager.get_session(callback.message.chat.id):
+        await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
+        return
+    
+    parts = callback.data.split(":")
+    country_code = parts[1]
+    region_code = parts[2]
+    
+    if region_code == "all":
+        available = questions_manager.get_questions_count(country=country_code)
+        region_name = "все регионы"
+    else:
+        available = questions_manager.get_questions_count(country=country_code, region=region_code)
+        region_data = COUNTRIES.get(country_code, {}).get("regions", {}).get(region_code, {})
+        region_name = region_data.get("name", region_code)
+    
+    if available == 0:
+        await callback.answer("❌ Нет доступных вопросов!", show_alert=True)
+        return
+    
+    text = f"📊 *Групповая викторина*\n\n"
+    text += f"📍 Регион: {region_name}\n"
+    text += f"📚 Доступно вопросов: {available}\n\n"
+    text += "Выберите количество вопросов:"
+    
+    await callback.message.edit_text(
+        text,
+        reply_markup=get_group_question_count_keyboard(country_code, region_code, available),
+        parse_mode="Markdown"
+    )
     await callback.answer()
 
 
@@ -251,23 +358,27 @@ async def callback_group_back_region(callback: CallbackQuery):
 
 # ============ СТАРТ ИГРЫ И ПРИСОЕДИНЕНИЕ ============
 
-@router.callback_query(F.data.startswith("gcount:"))
-async def callback_group_start(callback: CallbackQuery):
-    """Начать набор участников после выбора количества вопросов"""
+@router.callback_query(F.data.startswith("count:"))
+async def callback_legacy_count_in_group(callback: CallbackQuery):
+    """Обработка старых колбэков count: в групповых чатах"""
+    if not is_group_chat(callback):
+        await callback.answer()
+        return  # Не групповой чат - пусть обработает quiz.py
+    
+    logger.info(f"[GROUP] Legacy count callback detected: {callback.data} in group chat")
+    
     try:
         chat_id = callback.message.chat.id
         user_id = callback.from_user.id
         
-        logger.info(f"[GROUP] gcount: callback from user {user_id} in chat {chat_id}, data={callback.data}")
+        logger.info(f"[GROUP] Processing legacy count: callback from user {user_id} in chat {chat_id}, data={callback.data}")
         
-        # Проверяем тип чата
-        if not is_group_chat(callback):
-            await callback.answer("❌ Только для групповых чатов!", show_alert=True)
-            return
+        # Сразу отвечаем на callback, чтобы пользователь видел реакцию
+        await callback.answer("⏳ Загружаю вопросы...")
         
         # Проверяем, нет ли уже сессии
         if group_session_manager.get_session(chat_id):
-            await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
+            await callback.bot.send_message(chat_id, "⚠️ В этом чате уже идёт викторина!")
             return
         
         parts = callback.data.split(":")
@@ -329,6 +440,14 @@ async def callback_group_start(callback: CallbackQuery):
         )
         
         logger.info(f"[GROUP] Sending registration message to chat {chat_id}")
+        
+        # Проверяем, что бот может отправлять сообщения
+        try:
+            bot_member = await callback.bot.get_chat_member(chat_id, callback.bot.id)
+            logger.info(f"[GROUP] Bot member status: {bot_member.status}")
+        except Exception as e:
+            logger.warning(f"[GROUP] Could not check bot member status: {e}")
+        
         msg = await callback.bot.send_message(
             chat_id,
             registration_text,
@@ -338,8 +457,126 @@ async def callback_group_start(callback: CallbackQuery):
         session.registration_message_id = msg.message_id
         logger.info(f"[GROUP] Registration message sent successfully, msg_id={session.registration_message_id}")
         
-        # Отвечаем на callback после успешной отправки
-        await callback.answer("✅ Регистрация началась!")
+        # Запускаем таймер регистрации
+        session.timer_task = asyncio.create_task(
+            registration_timer(callback.bot, chat_id, session.registration_message_id, session)
+        )
+        logger.info(f"[GROUP] Registration timer task created")
+        
+    except Exception as e:
+        logger.error(f"[GROUP] CRITICAL ERROR in callback_legacy_count_in_group: {e}", exc_info=True)
+        try:
+            await callback.answer(f"❌ Ошибка: {str(e)[:100]}", show_alert=True)
+        except:
+            pass
+        # Очищаем сессию при ошибке
+        if 'chat_id' in locals():
+            group_session_manager.end_session(chat_id)
+
+
+@router.callback_query(F.data.startswith("gcount:"))
+async def callback_group_start(callback: CallbackQuery):
+    """Начать набор участников после выбора количества вопросов"""
+    # Логируем ДО всех проверок
+    logger.info(f"[GROUP] ====== gcount CALLBACK RECEIVED ======")
+    logger.info(f"[GROUP] Data: {callback.data}")
+    logger.info(f"[GROUP] Chat ID: {callback.message.chat.id}")
+    logger.info(f"[GROUP] User ID: {callback.from_user.id}")
+    
+    try:
+        chat_id = callback.message.chat.id
+        user_id = callback.from_user.id
+        
+        logger.info(f"[GROUP] Processing gcount: callback from user {user_id} in chat {chat_id}, data={callback.data}")
+        
+        # Сразу отвечаем на callback, чтобы пользователь видел реакцию
+        await callback.answer("⏳ Загружаю вопросы...")
+        
+        # Проверяем тип чата
+        if not is_group_chat(callback):
+            await callback.bot.send_message(chat_id, "❌ Эта команда работает только в групповых чатах!")
+            return
+        
+        # Проверяем, нет ли уже сессии
+        if group_session_manager.get_session(chat_id):
+            await callback.bot.send_message(chat_id, "⚠️ В этом чате уже идёт викторина!")
+            return
+        
+        parts = callback.data.split(":")
+        if len(parts) != 4:
+            logger.error(f"[GROUP] Invalid callback data format: {callback.data}")
+            await callback.answer("❌ Ошибка формата данных!", show_alert=True)
+            return
+        
+        country = parts[1]
+        region = parts[2]
+        count = int(parts[3])
+        
+        logger.info(f"[GROUP] Selected: country={country}, region={region}, count={count}")
+    
+        # Получаем вопросы
+        logger.info(f"[GROUP] Getting questions: country={country}, region={region}, count={count}")
+        if country == "all":
+            available = questions_manager.get_questions_count()
+            questions = questions_manager.get_random_questions(count)
+        elif region == "all":
+            available = questions_manager.get_questions_count(country=country)
+            questions = questions_manager.get_random_questions(count, country=country)
+        else:
+            available = questions_manager.get_questions_count(country=country, region=region)
+            questions = questions_manager.get_random_questions(count, country=country, region=region)
+        
+        logger.info(f"[GROUP] Got {len(questions) if questions else 0} questions, available={available}")
+        
+        if available < MIN_QUESTIONS:
+            await callback.answer(f"❌ Недостаточно вопросов! Минимум {MIN_QUESTIONS}.", show_alert=True)
+            return
+        
+        if not questions:
+            logger.error(f"[GROUP] No questions returned!")
+            await callback.answer("❌ Не удалось загрузить вопросы!", show_alert=True)
+            return
+        
+        # Создаём сессию
+        logger.info(f"[GROUP] Creating session...")
+        session = group_session_manager.create_session(chat_id, questions, callback.from_user.id)
+        
+        # Добавляем организатора как первого участника
+        organizer = session.add_participant(
+            callback.from_user.id,
+            callback.from_user.username or "",
+            callback.from_user.first_name or "Участник"
+        )
+        
+        logger.info(f"[GROUP] Created session in chat {chat_id}, organizer: {organizer.display_name}, questions: {len(questions)}")
+        
+        # Отправляем новое сообщение с регистрацией
+        registration_text = (
+            f"🍷 *Регистрация на викторину!*\n\n"
+            f"📊 Вопросов: {len(questions)}\n"
+            f"⏱ Регистрация: {JOIN_TIMEOUT} сек\n\n"
+            f"👥 *Участники ({session.participants_count}):*\n"
+            f"• {organizer.display_name} (организатор)\n\n"
+            f"_Нажмите «Участвую» чтобы присоединиться!_"
+        )
+        
+        logger.info(f"[GROUP] Sending registration message to chat {chat_id}")
+        
+        # Проверяем, что бот может отправлять сообщения
+        try:
+            bot_member = await callback.bot.get_chat_member(chat_id, callback.bot.id)
+            logger.info(f"[GROUP] Bot member status: {bot_member.status}")
+        except Exception as e:
+            logger.warning(f"[GROUP] Could not check bot member status: {e}")
+        
+        msg = await callback.bot.send_message(
+            chat_id,
+            registration_text,
+            reply_markup=get_group_join_keyboard(),
+            parse_mode="Markdown"
+        )
+        session.registration_message_id = msg.message_id
+        logger.info(f"[GROUP] Registration message sent successfully, msg_id={session.registration_message_id}")
         
         # Запускаем таймер регистрации
         session.timer_task = asyncio.create_task(

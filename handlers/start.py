@@ -4,6 +4,7 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
+from aiogram.enums import ChatType
 
 from keyboards import (
     get_countries_keyboard, 
@@ -16,6 +17,14 @@ from database import get_or_create_user, get_user_stats
 from config import COUNTRIES
 
 router = Router()
+
+
+def is_private_chat(message_or_callback) -> bool:
+    """Проверить, что это личный чат"""
+    if isinstance(message_or_callback, Message):
+        return message_or_callback.chat.type == ChatType.PRIVATE
+    else:
+        return message_or_callback.message.chat.type == ChatType.PRIVATE
 
 
 # Сообщение при отсутствии username
@@ -123,7 +132,10 @@ async def cmd_stats(message: Message):
 
 @router.callback_query(F.data == "new_quiz")
 async def callback_new_quiz(callback: CallbackQuery):
-    """Начать новую викторину"""
+    """Начать новую викторину (личный режим)"""
+    if not is_private_chat(callback):
+        await callback.answer()  # Отвечаем на колбэк, чтобы не было зависания
+        return  # В группе используется gnew_quiz
     await callback.message.edit_text(
         WELCOME_MESSAGE,
         reply_markup=get_countries_keyboard(),
@@ -134,7 +146,12 @@ async def callback_new_quiz(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("country:"))
 async def callback_country_selected(callback: CallbackQuery):
-    """Обработка выбора страны"""
+    """Обработка выбора страны (личный режим)"""
+    # Этот обработчик только для личных чатов
+    if not is_private_chat(callback):
+        await callback.answer()  # Отвечаем на колбэк, чтобы не было зависания
+        return  # В группе используется gcountry:
+    
     country_code = callback.data.split(":")[1]
     
     if country_code == "all":
@@ -177,7 +194,12 @@ async def callback_country_selected(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("region:"))
 async def callback_region_selected(callback: CallbackQuery):
-    """Обработка выбора региона"""
+    """Обработка выбора региона (личный режим)"""
+    # Этот обработчик только для личных чатов
+    if not is_private_chat(callback):
+        await callback.answer()  # Отвечаем на колбэк, чтобы не было зависания
+        return  # В группе используется gregion:
+    
     parts = callback.data.split(":")
     country_code = parts[1]
     region_code = parts[2]
@@ -211,7 +233,10 @@ async def callback_region_selected(callback: CallbackQuery):
 
 @router.callback_query(F.data == "back:countries")
 async def callback_back_to_countries(callback: CallbackQuery):
-    """Возврат к выбору страны"""
+    """Возврат к выбору страны (личный режим)"""
+    if not is_private_chat(callback):
+        await callback.answer()  # Отвечаем на колбэк, чтобы не было зависания
+        return  # В группе используется gback:countries
     await callback.message.edit_text(
         WELCOME_MESSAGE,
         reply_markup=get_countries_keyboard(),
@@ -222,7 +247,11 @@ async def callback_back_to_countries(callback: CallbackQuery):
 
 @router.callback_query(F.data.startswith("back:region:"))
 async def callback_back_to_regions(callback: CallbackQuery):
-    """Возврат к выбору региона"""
+    """Возврат к выбору региона (личный режим)"""
+    if not is_private_chat(callback):
+        await callback.answer()  # Отвечаем на колбэк, чтобы не было зависания
+        return  # В группе используется gback:region:
+    
     country_code = callback.data.split(":")[2]
     
     if country_code not in COUNTRIES:

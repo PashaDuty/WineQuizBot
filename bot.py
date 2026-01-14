@@ -73,15 +73,26 @@ async def main():
     )
     dp = Dispatcher()
     
-    # Регистрация роутеров
+    # Регистрация роутеров (group_quiz ПЕРВЫМ, чтобы перехватывать групповые callback'и)
+    logger.info("[ROUTERS] Registering group_quiz_router first...")
+    dp.include_router(group_quiz_router)  # Групповой роутер ПЕРВЫМ!
+    logger.info("[ROUTERS] Registering other routers...")
     dp.include_router(start_router)
     dp.include_router(quiz_router)
     dp.include_router(admin_router)
-    dp.include_router(group_quiz_router)
+    logger.info("[ROUTERS] All routers registered")
     
     # Регистрация событий
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
+    
+    # Middleware для логирования всех update'ов
+    @dp.update.middleware()
+    async def log_updates_middleware(handler, event, data):
+        """Логировать все update'и для отладки"""
+        if hasattr(event, 'callback_query') and event.callback_query:
+            logger.info(f"[UPDATE] Callback: {event.callback_query.data} in chat {event.callback_query.message.chat.id}")
+        return await handler(event, data)
     
     # Запуск бота
     try:
