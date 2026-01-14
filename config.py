@@ -44,6 +44,14 @@ COUNTRIES = {
         "name": "🇮🇹 Италия",
         "flag": "🇮🇹",
         "regions": {
+            "piedmont": {"name": "🍷 Пьемонт", "file": "Piedmont.json"},
+            "lombardy": {"name": "🏔️ Ломбардия", "file": "Lombardy.json"},
+            "veneto": {"name": "🥂 Венето", "file": "Veneto.json"},
+            "trentino": {"name": "⛰️ Трентино-Альто-Адидже", "file": "Trentino Alto Adige.json"},
+            "friuli": {"name": "🌿 Фриули-Венеция-Джулия", "file": "Friuli Venezia Giulia.json"},
+            "tuscany": {"name": "🍇 Тоскана", "file": "Tuscany.json"},
+            "central": {"name": "🏛️ Центральная Италия", "file": "Central Italy.json"},
+            "sicily": {"name": "🏝️ Сицилия и Сардиния", "file": "Sicily and Sardinia.json"},
             "south": {"name": "🌋 Юг Италии", "file": "Campania,Calabria,Puglia,Basilicata.json"},
         },
         "random_label": "🎲 Случайно по всей Италии"
@@ -53,6 +61,8 @@ COUNTRIES = {
         "flag": "🇪🇸",
         "regions": {
             "rioja": {"name": "🍷 Риоха", "file": "rioja.json"},
+            "catalonia_levante": {"name": "🌞 Каталония и Леванте", "file": "Catalonia and Levante.json"},
+            "castile_leon": {"name": "🏰 Кастилия и Леон", "file": "Castile Leon.json"},
             "other": {"name": "🏔️ Другие регионы Испании", "file": "Basque Country, Galicia, La Mancha.json"},
         },
         "random_label": "🎲 Случайно по всей Испании"
