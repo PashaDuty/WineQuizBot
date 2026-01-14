@@ -186,6 +186,17 @@ class GroupSessionManager:
 
 # Функции форматирования для групповой игры
 
+def escape_markdown(text: str) -> str:
+    """Экранировать специальные символы Markdown"""
+    if not text:
+        return ""
+    # Экранируем символы, которые могут вызвать проблемы в Markdown
+    escape_chars = ['*', '_', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for char in escape_chars:
+        text = text.replace(char, f'\\{char}')
+    return text
+
+
 def format_group_question(question: dict, current: int, total: int, 
                           remaining_time: Optional[int] = None,
                           total_time: Optional[int] = None,
@@ -194,19 +205,21 @@ def format_group_question(question: dict, current: int, total: int,
     """Форматировать текст вопроса для группы"""
     from quiz_session import generate_progress_bar
     
+    question_text = escape_markdown(question['question'])
+    options = question.get('options', {})
+    
     text = f"👥 *ГРУППОВАЯ ВИКТОРИНА*\n\n"
     text += f"❓ *Вопрос {current}/{total}:*\n\n"
-    text += f"{question['question']}\n\n"
+    text += f"{question_text}\n\n"
     
-    options = question.get('options', {})
-    text += f"a) {options.get('a', '—')}\n"
-    text += f"b) {options.get('b', '—')}\n"
-    text += f"c) {options.get('c', '—')}\n"
-    text += f"d) {options.get('d', '—')}\n"
+    text += f"a\\) {escape_markdown(str(options.get('a', '—')))}\n"
+    text += f"b\\) {escape_markdown(str(options.get('b', '—')))}\n"
+    text += f"c\\) {escape_markdown(str(options.get('c', '—')))}\n"
+    text += f"d\\) {escape_markdown(str(options.get('d', '—')))}\n"
     
     if remaining_time is not None and total_time is not None:
         progress = generate_progress_bar(remaining_time, total_time)
-        text += f"\n⏱ Осталось: {remaining_time} сек [{progress}]"
+        text += f"\n⏱ Осталось: {remaining_time} сек \\[{progress}\\]"
     
     if total_participants > 0:
         text += f"\n\n📊 Ответили: {answered_count}/{total_participants}"
@@ -218,9 +231,10 @@ def format_group_answer_result(question: dict, session: GroupQuizSession) -> str
     """Форматировать результат ответа для группы"""
     correct_answer = question.get('correct_answer', '')
     options = question.get('options', {})
+    correct_option_text = escape_markdown(str(options.get(correct_answer, '—')))
     
-    text = f"⏱ *Время вышло!*\n\n"
-    text += f"✅ Правильный ответ: *{correct_answer}) {options.get(correct_answer, '—')}*\n\n"
+    text = f"⏱ *Время вышло\\!*\n\n"
+    text += f"✅ Правильный ответ: *{correct_answer}\\) {correct_option_text}*\n\n"
     
     # Показываем кто как ответил
     correct_users = []
@@ -231,11 +245,11 @@ def format_group_answer_result(question: dict, session: GroupQuizSession) -> str
         last_answer = participant.answers[-1] if participant.answers else None
         
         if participant.user_id not in session.answered_users:
-            no_answer_users.append(participant.display_name)
+            no_answer_users.append(escape_markdown(participant.display_name))
         elif last_answer and last_answer.get('is_correct'):
-            correct_users.append(participant.display_name)
+            correct_users.append(escape_markdown(participant.display_name))
         else:
-            wrong_users.append(participant.display_name)
+            wrong_users.append(escape_markdown(participant.display_name))
     
     if correct_users:
         text += f"✅ Правильно: {', '.join(correct_users)}\n"
@@ -252,7 +266,7 @@ def format_group_leaderboard(session: GroupQuizSession, is_final: bool = False) 
     leaderboard = session.get_leaderboard()
     
     if is_final:
-        text = "🏆 *ФИНАЛЬНЫЕ РЕЗУЛЬТАТЫ!*\n\n"
+        text = "🏆 *ФИНАЛЬНЫЕ РЕЗУЛЬТАТЫ\\!*\n\n"
     else:
         text = "📊 *Текущий счёт:*\n\n"
     
@@ -273,7 +287,8 @@ def format_group_leaderboard(session: GroupQuizSession, is_final: bool = False) 
         prev_score = score
         
         # Формат: 1. @username, 60%, 6/10
-        text += f"{current_place}. {participant.display_name}, "
+        display_name = escape_markdown(participant.display_name)
+        text += f"{current_place}\\. {display_name}, "
         text += f"{participant.percentage}%, "
         text += f"{participant.correct_count}/{session.total_questions}\n"
     
@@ -284,10 +299,11 @@ def format_group_leaderboard(session: GroupQuizSession, is_final: bool = False) 
         
         text += "\n"
         if len(winners) == 1:
-            text += f"🎉 *Победитель: {winners[0].display_name}!*"
+            winner_name = escape_markdown(winners[0].display_name)
+            text += f"🎉 *Победитель: {winner_name}\\!*"
         else:
-            winner_names = ", ".join([w.display_name for w in winners])
-            text += f"🎉 *Победители (ничья): {winner_names}!*"
+            winner_names = ", ".join([escape_markdown(w.display_name) for w in winners])
+            text += f"🎉 *Победители \\(ничья\\): {winner_names}\\!*"
         
         # Сообщение в зависимости от результата
         best_percentage = winners[0].percentage
@@ -303,7 +319,7 @@ def format_group_leaderboard(session: GroupQuizSession, is_final: bool = False) 
 
 def format_group_quiz_result(session: GroupQuizSession) -> str:
     """Форматировать итоговый результат групповой викторины"""
-    text = "🎉 *ВИКТОРИНА ЗАВЕРШЕНА!*\n\n"
+    text = "🎉 *ВИКТОРИНА ЗАВЕРШЕНА\\!*\n\n"
     text += f"📊 Вопросов: {session.total_questions}\n"
     text += f"👥 Участников: {session.participants_count}\n\n"
     text += format_group_leaderboard(session, is_final=True)
