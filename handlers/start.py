@@ -163,16 +163,20 @@ async def btn_developer_info(message: Message):
     try:
         logger.info(f"[DEV] Sending developer info to chat {message.chat.id}")
         photo = FSInputFile(photo_path)
-        await message.answer_photo(photo, caption=DEV_INFO_TEXT)
+        await message.answer_photo(photo, caption=DEV_INFO_TEXT, parse_mode=None)
     except Exception as e:
         logger.warning(f"[DEV] Failed to send photo, fallback to text: {e}")
-        await message.answer(DEV_INFO_TEXT)
+        await message.answer(DEV_INFO_TEXT, parse_mode=None)
 
 
-@router.message(Command("developer"))
-async def cmd_developer_info(message: Message):
-    """Команда /developer"""
-    await btn_developer_info(message)
+@router.message(F.text == "👥 Multiplayer")
+async def btn_multiplayer_info(message: Message):
+    """Кнопка информации о мультиплеере"""
+    text = (
+        "Для игры в режиме мультиплеер добавьте бота в групповой чат "
+        "и нажмите /start. После этого выберите «Начать викторину» в меню."
+    )
+    await message.answer(text)
 
 
 @router.message(Command("stats"))
