@@ -313,12 +313,12 @@ def get_group_join_keyboard() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     
     builder.row(InlineKeyboardButton(
-        text="✋ Присоединиться",
+        text="✋ УЧАСТВУЮ",
         callback_data="gjoin"
     ))
     
     builder.row(InlineKeyboardButton(
-        text="🚀 Начать сейчас",
+        text="🚀 Начать сейчас (организатор)",
         callback_data="gstart_now"
     ))
     

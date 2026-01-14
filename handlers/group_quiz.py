@@ -4,8 +4,8 @@
 import asyncio
 import logging
 from aiogram import Router, F, Bot
-from aiogram.types import Message, CallbackQuery, ChatMemberUpdated
-from aiogram.filters import Command, ChatMemberUpdatedFilter, IS_MEMBER, IS_NOT_MEMBER
+from aiogram.types import Message, CallbackQuery
+from aiogram.filters import Command
 from aiogram.enums import ChatType
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,6 @@ from keyboards import (
     get_group_answer_keyboard,
     get_group_result_keyboard,
     get_group_explanation_keyboard,
-    get_group_start_keyboard,
     get_group_join_keyboard,
     get_group_countries_keyboard,
     get_group_regions_keyboard,
@@ -26,7 +25,6 @@ from group_quiz_session import (
     format_group_question,
     format_group_answer_result,
     format_group_quiz_result,
-    format_group_explanation,
     format_group_all_explanations,
     format_group_leaderboard
 )
@@ -36,10 +34,19 @@ from config import TIME_PER_QUESTION, MIN_QUESTIONS, COUNTRIES
 router = Router()
 
 # Время ожидания присоединения участников (секунды)
-JOIN_TIMEOUT = 30
+JOIN_TIMEOUT = 60
 
 # Минимум участников для старта
 MIN_PARTICIPANTS = 1
+
+
+def is_group_chat(message_or_callback) -> bool:
+    """Проверить, что это групповой чат"""
+    if isinstance(message_or_callback, Message):
+        chat = message_or_callback.chat
+    else:
+        chat = message_or_callback.message.chat
+    return chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]
 
 
 async def get_time_per_question() -> int:
@@ -50,11 +57,6 @@ async def get_time_per_question() -> int:
     return TIME_PER_QUESTION
 
 
-def is_group_chat(message: Message) -> bool:
-    """Проверить, что сообщение из группового чата"""
-    return message.chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]
-
-
 # ============ КОМАНДЫ ДЛЯ ГРУППЫ ============
 
 @router.message(Command("quiz"))
@@ -63,13 +65,17 @@ async def cmd_group_quiz(message: Message):
     if not is_group_chat(message):
         await message.answer(
             "⚠️ Эта команда работает только в групповых чатах!\n\n"
-            "Добавьте меня в группу и напишите /quiz"
+            "Добавьте бота в группу и напишите /quiz"
         )
         return
     
     # Проверяем, нет ли уже активной сессии
-    if group_session_manager.has_active_session(message.chat.id):
-        await message.answer("⚠️ В этом чате уже идёт викторина!")
+    existing_session = group_session_manager.get_session(message.chat.id)
+    if existing_session:
+        await message.answer(
+            "⚠️ В этом чате уже идёт викторина!\n"
+            "Дождитесь окончания или используйте /stop_quiz"
+        )
         return
     
     await message.answer(
@@ -91,8 +97,6 @@ async def cmd_stop_quiz(message: Message):
         await message.answer("⚠️ В этом чате нет активной викторины.")
         return
     
-    # Только тот, кто начал, или админ может остановить
-    # Для простоты разрешаем любому участнику
     group_session_manager.end_session(message.chat.id)
     await message.answer("🛑 Викторина остановлена.")
 
@@ -117,14 +121,18 @@ async def cmd_score(message: Message):
 @router.callback_query(F.data.startswith("gcountry:"))
 async def callback_group_country(callback: CallbackQuery):
     """Выбор страны для групповой викторины"""
-    if not is_group_chat(callback.message):
+    if not is_group_chat(callback):
         await callback.answer("Только для групповых чатов!", show_alert=True)
+        return
+    
+    # Проверяем, нет ли уже сессии
+    if group_session_manager.get_session(callback.message.chat.id):
+        await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
         return
     
     country_code = callback.data.split(":")[1]
     
     if country_code == "all":
-        # Рандом по всем странам
         available = questions_manager.get_questions_count()
         
         if available == 0:
@@ -133,7 +141,7 @@ async def callback_group_country(callback: CallbackQuery):
         
         text = "🌍 *Викторина по всем странам*\n\n"
         text += f"📊 Доступно вопросов: {available}\n\n"
-        text += "Выбери количество вопросов:"
+        text += "Выберите количество вопросов:"
         
         await callback.message.edit_text(
             text,
@@ -141,7 +149,6 @@ async def callback_group_country(callback: CallbackQuery):
             parse_mode="Markdown"
         )
     else:
-        # Конкретная страна
         if country_code not in COUNTRIES:
             await callback.answer("❌ Страна не найдена!", show_alert=True)
             return
@@ -149,8 +156,9 @@ async def callback_group_country(callback: CallbackQuery):
         country_data = COUNTRIES[country_code]
         available = questions_manager.get_questions_count(country=country_code)
         
-        text = f"{country_data['flag']} *Выберите регион для {country_data['name'].replace(country_data['flag'], '').strip()}:*\n\n"
-        text += f"📊 Всего вопросов по стране: {available}\n"
+        text = f"{country_data['flag']} *{country_data['name']}*\n\n"
+        text += f"📊 Всего вопросов: {available}\n\n"
+        text += "Выберите регион:"
         
         await callback.message.edit_text(
             text,
@@ -164,13 +172,17 @@ async def callback_group_country(callback: CallbackQuery):
 @router.callback_query(F.data.startswith("gregion:"))
 async def callback_group_region(callback: CallbackQuery):
     """Выбор региона для групповой викторины"""
+    if group_session_manager.get_session(callback.message.chat.id):
+        await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
+        return
+    
     parts = callback.data.split(":")
     country_code = parts[1]
     region_code = parts[2]
     
     if region_code == "all":
         available = questions_manager.get_questions_count(country=country_code)
-        region_name = "всей стране"
+        region_name = "все регионы"
     else:
         available = questions_manager.get_questions_count(country=country_code, region=region_code)
         region_data = COUNTRIES.get(country_code, {}).get("regions", {}).get(region_code, {})
@@ -183,7 +195,7 @@ async def callback_group_region(callback: CallbackQuery):
     text = f"📊 *Групповая викторина*\n\n"
     text += f"📍 Регион: {region_name}\n"
     text += f"📚 Доступно вопросов: {available}\n\n"
-    text += "Выбери количество вопросов:"
+    text += "Выберите количество вопросов:"
     
     await callback.message.edit_text(
         text,
@@ -196,6 +208,10 @@ async def callback_group_region(callback: CallbackQuery):
 @router.callback_query(F.data == "gback:countries")
 async def callback_group_back_countries(callback: CallbackQuery):
     """Вернуться к выбору страны"""
+    if group_session_manager.get_session(callback.message.chat.id):
+        await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
+        return
+    
     await callback.message.edit_text(
         "🍷 *Групповая викторина Wine Quiz!*\n\n"
         "Выберите страну для викторины:",
@@ -208,6 +224,10 @@ async def callback_group_back_countries(callback: CallbackQuery):
 @router.callback_query(F.data.startswith("gback:region:"))
 async def callback_group_back_region(callback: CallbackQuery):
     """Вернуться к выбору региона"""
+    if group_session_manager.get_session(callback.message.chat.id):
+        await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
+        return
+    
     country_code = callback.data.split(":")[2]
     
     if country_code not in COUNTRIES:
@@ -217,8 +237,9 @@ async def callback_group_back_region(callback: CallbackQuery):
     country_data = COUNTRIES[country_code]
     available = questions_manager.get_questions_count(country=country_code)
     
-    text = f"{country_data['flag']} *Выберите регион для {country_data['name'].replace(country_data['flag'], '').strip()}:*\n\n"
-    text += f"📊 Всего вопросов по стране: {available}\n"
+    text = f"{country_data['flag']} *{country_data['name']}*\n\n"
+    text += f"📊 Всего вопросов: {available}\n\n"
+    text += "Выберите регион:"
     
     await callback.message.edit_text(
         text,
@@ -233,74 +254,112 @@ async def callback_group_back_region(callback: CallbackQuery):
 @router.callback_query(F.data.startswith("gcount:"))
 async def callback_group_start(callback: CallbackQuery):
     """Начать набор участников после выбора количества вопросов"""
-    parts = callback.data.split(":")
-    country = parts[1]
-    region = parts[2]
-    count = int(parts[3])
+    try:
+        chat_id = callback.message.chat.id
+        user_id = callback.from_user.id
+        
+        logger.info(f"[GROUP] gcount: callback from user {user_id} in chat {chat_id}, data={callback.data}")
+        
+        # Проверяем тип чата
+        if not is_group_chat(callback):
+            await callback.answer("❌ Только для групповых чатов!", show_alert=True)
+            return
+        
+        # Проверяем, нет ли уже сессии
+        if group_session_manager.get_session(chat_id):
+            await callback.answer("⚠️ Викторина уже запущена!", show_alert=True)
+            return
+        
+        parts = callback.data.split(":")
+        if len(parts) != 4:
+            logger.error(f"[GROUP] Invalid callback data format: {callback.data}")
+            await callback.answer("❌ Ошибка формата данных!", show_alert=True)
+            return
+        
+        country = parts[1]
+        region = parts[2]
+        count = int(parts[3])
+        
+        logger.info(f"[GROUP] Selected: country={country}, region={region}, count={count}")
     
-    # Проверяем доступность вопросов
-    if country == "all":
-        available = questions_manager.get_questions_count()
-    elif region == "all":
-        available = questions_manager.get_questions_count(country=country)
-    else:
-        available = questions_manager.get_questions_count(country=country, region=region)
-    
-    if available < MIN_QUESTIONS:
-        await callback.answer(
-            f"❌ Недостаточно вопросов! Минимум {MIN_QUESTIONS}, доступно {available}.",
-            show_alert=True
+        # Получаем вопросы
+        logger.info(f"[GROUP] Getting questions: country={country}, region={region}, count={count}")
+        if country == "all":
+            available = questions_manager.get_questions_count()
+            questions = questions_manager.get_random_questions(count)
+        elif region == "all":
+            available = questions_manager.get_questions_count(country=country)
+            questions = questions_manager.get_random_questions(count, country=country)
+        else:
+            available = questions_manager.get_questions_count(country=country, region=region)
+            questions = questions_manager.get_random_questions(count, country=country, region=region)
+        
+        logger.info(f"[GROUP] Got {len(questions) if questions else 0} questions, available={available}")
+        
+        if available < MIN_QUESTIONS:
+            await callback.answer(f"❌ Недостаточно вопросов! Минимум {MIN_QUESTIONS}.", show_alert=True)
+            return
+        
+        if not questions:
+            logger.error(f"[GROUP] No questions returned!")
+            await callback.answer("❌ Не удалось загрузить вопросы!", show_alert=True)
+            return
+        
+        # Создаём сессию
+        logger.info(f"[GROUP] Creating session...")
+        session = group_session_manager.create_session(chat_id, questions, callback.from_user.id)
+        
+        # Добавляем организатора как первого участника
+        organizer = session.add_participant(
+            callback.from_user.id,
+            callback.from_user.username or "",
+            callback.from_user.first_name or "Участник"
         )
-        return
-    
-    # Получаем вопросы
-    if country == "all":
-        questions = questions_manager.get_random_questions(count)
-    elif region == "all":
-        questions = questions_manager.get_random_questions(count, country=country)
-    else:
-        questions = questions_manager.get_random_questions(count, country=country, region=region)
-    
-    if not questions:
-        await callback.answer("❌ Не удалось загрузить вопросы!", show_alert=True)
-        return
-    
-    # Создаём сессию
-    session = group_session_manager.create_session(
-        callback.message.chat.id, 
-        questions,
-        callback.from_user.id
-    )
-    
-    # Добавляем инициатора как первого участника
-    session.add_participant(
-        callback.from_user.id,
-        callback.from_user.username,
-        callback.from_user.first_name
-    )
-    
-    # Показываем экран ожидания участников
-    await callback.message.edit_text(
-        f"🍷 *Групповая викторина начинается!*\n\n"
-        f"📊 Вопросов: {len(questions)}\n"
-        f"⏱ Ожидание участников: {JOIN_TIMEOUT} сек\n\n"
-        f"👥 *Участники ({session.participants_count}):*\n"
-        f"• {session.participants[callback.from_user.id].display_name}\n\n"
-        f"_Нажмите кнопку ниже, чтобы присоединиться!_",
-        reply_markup=get_group_join_keyboard(),
-        parse_mode="Markdown"
-    )
-    
-    await callback.answer("Вы присоединились к викторине!")
-    
-    # Запускаем таймер ожидания
-    session.timer_task = asyncio.create_task(
-        join_timer(callback.bot, callback.message.chat.id, callback.message.message_id, session)
-    )
+        
+        logger.info(f"[GROUP] Created session in chat {chat_id}, organizer: {organizer.display_name}, questions: {len(questions)}")
+        
+        # Отправляем новое сообщение с регистрацией
+        registration_text = (
+            f"🍷 *Регистрация на викторину!*\n\n"
+            f"📊 Вопросов: {len(questions)}\n"
+            f"⏱ Регистрация: {JOIN_TIMEOUT} сек\n\n"
+            f"👥 *Участники ({session.participants_count}):*\n"
+            f"• {organizer.display_name} (организатор)\n\n"
+            f"_Нажмите «Участвую» чтобы присоединиться!_"
+        )
+        
+        logger.info(f"[GROUP] Sending registration message to chat {chat_id}")
+        msg = await callback.bot.send_message(
+            chat_id,
+            registration_text,
+            reply_markup=get_group_join_keyboard(),
+            parse_mode="Markdown"
+        )
+        session.registration_message_id = msg.message_id
+        logger.info(f"[GROUP] Registration message sent successfully, msg_id={session.registration_message_id}")
+        
+        # Отвечаем на callback после успешной отправки
+        await callback.answer("✅ Регистрация началась!")
+        
+        # Запускаем таймер регистрации
+        session.timer_task = asyncio.create_task(
+            registration_timer(callback.bot, chat_id, session.registration_message_id, session)
+        )
+        logger.info(f"[GROUP] Registration timer task created")
+        
+    except Exception as e:
+        logger.error(f"[GROUP] CRITICAL ERROR in callback_group_start: {e}", exc_info=True)
+        try:
+            await callback.answer(f"❌ Ошибка: {str(e)[:100]}", show_alert=True)
+        except:
+            pass
+        # Очищаем сессию при ошибке
+        group_session_manager.end_session(chat_id)
 
 
-async def join_timer(bot: Bot, chat_id: int, message_id: int, session):
-    """Таймер ожидания участников"""
+async def registration_timer(bot: Bot, chat_id: int, message_id: int, session):
+    """Таймер регистрации участников (60 секунд)"""
+    logger.info(f"[GROUP] Registration timer started for chat {chat_id}, msg_id={message_id}")
     try:
         remaining = JOIN_TIMEOUT
         
@@ -310,119 +369,151 @@ async def join_timer(bot: Bot, chat_id: int, message_id: int, session):
             
             # Проверяем, не была ли игра уже запущена
             if session.is_question_active or session.current_index > 0:
-                logger.info(f"[GROUP] Join timer: game already started, exiting")
+                logger.info(f"[GROUP] Registration timer: game already started")
                 return
             
-            # Обновляем сообщение каждые 5 секунд
+            # Проверяем, существует ли ещё сессия
+            current_session = group_session_manager.get_session(chat_id)
+            if current_session is not session:
+                logger.info(f"[GROUP] Registration timer: session changed or removed")
+                return
+            
+            # Обновляем сообщение
             participants_list = "\n".join([
-                f"• {p.display_name}" for p in session.participants.values()
+                f"• {p.display_name}" + (" (организатор)" if p.user_id == session.started_by else "")
+                for p in session.participants.values()
             ])
             
             try:
                 await bot.edit_message_text(
-                    f"🍷 *Групповая викторина начинается!*\n\n"
+                    f"🍷 *Регистрация на викторину!*\n\n"
                     f"📊 Вопросов: {session.total_questions}\n"
                     f"⏱ Осталось: {remaining} сек\n\n"
                     f"👥 *Участники ({session.participants_count}):*\n"
                     f"{participants_list}\n\n"
-                    f"_Нажмите кнопку ниже, чтобы присоединиться!_",
+                    f"_Нажмите «Участвую» чтобы присоединиться!_",
                     chat_id=chat_id,
                     message_id=message_id,
                     reply_markup=get_group_join_keyboard(),
                     parse_mode="Markdown"
                 )
-            except Exception:
-                pass
-        
-        # Проверяем ещё раз перед стартом
-        if session.is_question_active or session.current_index > 0:
-            logger.info(f"[GROUP] Join timer: game already started before auto-start")
-            return
+            except Exception as e:
+                logger.debug(f"[GROUP] Failed to update registration message: {e}")
         
         # Время вышло - начинаем игру
-        logger.info(f"[GROUP] Join timer finished, participants: {session.participants_count}")
+        current_session = group_session_manager.get_session(chat_id)
+        if current_session is not session:
+            return
+        
+        if session.is_question_active or session.current_index > 0:
+            return
+        
+        logger.info(f"[GROUP] Registration finished, participants: {session.participants_count}")
+        
         if session.participants_count >= MIN_PARTICIPANTS:
             await start_group_quiz(bot, chat_id, session)
         else:
             group_session_manager.end_session(chat_id)
             await bot.send_message(
                 chat_id,
-                f"⚠️ Недостаточно участников для начала викторины.\n"
-                f"Минимум: {MIN_PARTICIPANTS}, присоединилось: {session.participants_count}"
+                f"⚠️ Недостаточно участников.\n"
+                f"Минимум: {MIN_PARTICIPANTS}, зарегистрировалось: {session.participants_count}"
             )
     
     except asyncio.CancelledError:
-        logger.info(f"[GROUP] Join timer cancelled for chat {chat_id}")
+        logger.info(f"[GROUP] Registration timer cancelled for chat {chat_id}")
+    except Exception as e:
+        logger.error(f"[GROUP] Registration timer error: {e}")
 
 
 @router.callback_query(F.data == "gjoin")
 async def callback_join_quiz(callback: CallbackQuery):
     """Присоединиться к викторине"""
-    session = group_session_manager.get_session(callback.message.chat.id)
+    chat_id = callback.message.chat.id
+    user_id = callback.from_user.id
+    
+    session = group_session_manager.get_session(chat_id)
     
     if not session:
-        await callback.answer("❌ Викторина не найдена!", show_alert=True)
+        await callback.answer("❌ Регистрация завершена или викторина не найдена!", show_alert=True)
         return
     
-    if session.is_question_active:
-        await callback.answer("❌ Викторина уже началась!", show_alert=True)
+    # Если игра уже идёт - нельзя присоединиться
+    if session.is_question_active or session.current_index > 0:
+        await callback.answer("❌ Викторина уже началась! Дождитесь следующей.", show_alert=True)
+        return
+    
+    # Проверяем, уже ли участник зарегистрирован
+    if user_id in session.participants:
+        await callback.answer("✅ Вы уже зарегистрированы!", show_alert=True)
         return
     
     # Добавляем участника
     participant = session.add_participant(
-        callback.from_user.id,
-        callback.from_user.username,
-        callback.from_user.first_name
+        user_id,
+        callback.from_user.username or "",
+        callback.from_user.first_name or "Участник"
     )
+    
+    logger.info(f"[GROUP] Player joined: {participant.display_name} in chat {chat_id}")
     
     # Обновляем список участников
     participants_list = "\n".join([
-        f"• {p.display_name}" for p in session.participants.values()
+        f"• {p.display_name}" + (" (организатор)" if p.user_id == session.started_by else "")
+        for p in session.participants.values()
     ])
     
-    try:
-        await callback.message.edit_text(
-            f"🍷 *Групповая викторина начинается!*\n\n"
-            f"📊 Вопросов: {session.total_questions}\n"
-            f"⏱ Ожидание участников...\n\n"
-            f"👥 *Участники ({session.participants_count}):*\n"
-            f"{participants_list}\n\n"
-            f"_Нажмите кнопку ниже, чтобы присоединиться!_",
-            reply_markup=get_group_join_keyboard(),
-            parse_mode="Markdown"
-        )
-    except Exception:
-        pass
+    # Обновляем сообщение регистрации
+    if session.registration_message_id:
+        try:
+            await callback.bot.edit_message_text(
+                f"🍷 *Регистрация на викторину!*\n\n"
+                f"📊 Вопросов: {session.total_questions}\n"
+                f"⏱ Ожидание участников...\n\n"
+                f"👥 *Участники ({session.participants_count}):*\n"
+                f"{participants_list}\n\n"
+                f"_Нажмите «Участвую» чтобы присоединиться!_",
+                chat_id=chat_id,
+                message_id=session.registration_message_id,
+                reply_markup=get_group_join_keyboard(),
+                parse_mode="Markdown"
+            )
+        except Exception as e:
+            logger.warning(f"[GROUP] Failed to update registration message: {e}")
     
     await callback.answer(f"✅ {participant.display_name} присоединился!")
 
 
 @router.callback_query(F.data == "gstart_now")
 async def callback_start_now(callback: CallbackQuery):
-    """Начать викторину немедленно"""
-    session = group_session_manager.get_session(callback.message.chat.id)
+    """Начать викторину досрочно (только организатор)"""
+    chat_id = callback.message.chat.id
+    user_id = callback.from_user.id
+    
+    session = group_session_manager.get_session(chat_id)
     
     if not session:
         await callback.answer("❌ Викторина не найдена!", show_alert=True)
         return
     
-    # Только инициатор может начать раньше
-    if callback.from_user.id != session.started_by:
-        await callback.answer("❌ Только организатор может начать раньше!", show_alert=True)
+    # Только организатор может начать досрочно
+    if user_id != session.started_by:
+        await callback.answer("❌ Только организатор может начать досрочно!", show_alert=True)
+        return
+    
+    if session.is_question_active or session.current_index > 0:
+        await callback.answer("❌ Викторина уже началась!", show_alert=True)
         return
     
     if session.participants_count < MIN_PARTICIPANTS:
-        await callback.answer(
-            f"❌ Минимум {MIN_PARTICIPANTS} участник(ов) для старта!",
-            show_alert=True
-        )
+        await callback.answer(f"❌ Нужно минимум {MIN_PARTICIPANTS} участник!", show_alert=True)
         return
     
-    # Отменяем таймер ожидания
+    # Отменяем таймер регистрации
     session.cancel_timer()
     
     await callback.answer("🚀 Начинаем!")
-    await start_group_quiz(callback.bot, callback.message.chat.id, session)
+    await start_group_quiz(callback.bot, chat_id, session)
 
 
 # ============ ИГРОВОЙ ПРОЦЕСС ============
@@ -455,7 +546,7 @@ async def send_group_question(bot: Bot, chat_id: int, session):
     session.start_question()
     time_limit = await get_time_per_question()
     
-    logger.info(f"[GROUP] Sending question {session.current_index + 1}/{session.total_questions} to chat {chat_id}, time_limit={time_limit}s")
+    logger.info(f"[GROUP] Question {session.current_index + 1}/{session.total_questions} in chat {chat_id}")
     
     text = format_group_question(
         question,
@@ -475,14 +566,14 @@ async def send_group_question(bot: Bot, chat_id: int, session):
     )
     session.message_id = msg.message_id
     
-    # Запускаем таймер
+    # Запускаем таймер вопроса
     session.timer_task = asyncio.create_task(
-        group_question_timer(bot, chat_id, session, time_limit)
+        question_timer(bot, chat_id, session, time_limit)
     )
 
 
-async def group_question_timer(bot: Bot, chat_id: int, session, total_time: int):
-    """Таймер для вопроса в групповой игре"""
+async def question_timer(bot: Bot, chat_id: int, session, total_time: int):
+    """Таймер для вопроса"""
     question = session.current_question
     if not question:
         return
@@ -496,6 +587,7 @@ async def group_question_timer(bot: Bot, chat_id: int, session, total_time: int)
             
             # Проверяем, все ли ответили
             if session.all_answered():
+                logger.info(f"[GROUP] All answered in chat {chat_id}")
                 break
             
             # Обновляем сообщение каждые 2 секунды
@@ -520,19 +612,21 @@ async def group_question_timer(bot: Bot, chat_id: int, session, total_time: int)
                 except Exception:
                     pass
         
-        # Время вышло или все ответили
-        await handle_group_timeout(bot, chat_id, session)
+        # Завершаем вопрос
+        await finish_question(bot, chat_id, session)
     
     except asyncio.CancelledError:
         pass
+    except Exception as e:
+        logger.error(f"[GROUP] Question timer error: {e}")
 
 
-async def handle_group_timeout(bot: Bot, chat_id: int, session):
-    """Обработка окончания времени на вопрос"""
+async def finish_question(bot: Bot, chat_id: int, session):
+    """Завершить вопрос и показать результаты"""
     session.end_question()
     question = session.current_question
     
-    # Записываем неответивших как неправильные
+    # Записываем неответивших
     for user_id, participant in session.participants.items():
         if user_id not in session.answered_users:
             participant.answers.append({
@@ -543,7 +637,7 @@ async def handle_group_timeout(bot: Bot, chat_id: int, session):
             })
             participant.total_answered += 1
     
-    # Показываем результаты
+    # Показываем правильный ответ
     text = format_group_answer_result(question, session)
     
     try:
@@ -563,10 +657,9 @@ async def handle_group_timeout(bot: Bot, chat_id: int, session):
         parse_mode="Markdown"
     )
     
-    # Пауза перед следующим вопросом
     await asyncio.sleep(4)
     
-    # Переход к следующему вопросу
+    # Следующий вопрос или финиш
     session.move_to_next()
     
     if session.is_finished:
@@ -577,6 +670,8 @@ async def handle_group_timeout(bot: Bot, chat_id: int, session):
 
 async def finish_group_quiz(bot: Bot, chat_id: int, session):
     """Завершение групповой викторины"""
+    logger.info(f"[GROUP] Quiz finished in chat {chat_id}")
+    
     text = format_group_quiz_result(session)
     
     await bot.send_message(
@@ -586,26 +681,24 @@ async def finish_group_quiz(bot: Bot, chat_id: int, session):
         parse_mode="Markdown"
     )
     
-    # Сохраняем статистику в БД
+    # Сохраняем статистику
     try:
         leaderboard = session.get_leaderboard()
         
-        # Обновляем ЛИЧНУЮ статистику каждого участника
+        # Обновляем личную статистику каждого участника
         for participant in leaderboard:
-            # Создаём/обновляем пользователя в БД
             await get_or_create_user(
                 participant.user_id,
                 participant.username,
                 participant.first_name
             )
-            # Добавляем результаты к личной статистике
             await update_user_stats(
                 participant.user_id,
-                participant.total_answered,  # всего вопросов
-                participant.correct_count    # правильных ответов
+                participant.total_answered,
+                participant.correct_count
             )
         
-        logger.info(f"[GROUP] Updated personal stats for {len(leaderboard)} participants")
+        logger.info(f"[GROUP] Saved stats for {len(leaderboard)} participants")
         
         # Сохраняем групповую игру
         participants_data = [
@@ -628,7 +721,6 @@ async def finish_group_quiz(bot: Bot, chat_id: int, session):
                 'correct_count': winner.correct_count
             }
         
-        # Получаем название чата
         chat_info = await bot.get_chat(chat_id)
         chat_title = chat_info.title or f"Chat {chat_id}"
         
@@ -640,44 +732,36 @@ async def finish_group_quiz(bot: Bot, chat_id: int, session):
             winner=winner_data
         )
     except Exception as e:
-        # Логируем ошибку, но не прерываем работу
-        logger.error(f"Error saving group game stats: {e}")
+        logger.error(f"[GROUP] Error saving stats: {e}")
     
-    # НЕ удаляем сессию, чтобы можно было посмотреть пояснения
+    # НЕ удаляем сессию - нужна для пояснений
 
 
 # ============ ОТВЕТЫ НА ВОПРОСЫ ============
 
 @router.callback_query(F.data.startswith("ganswer:"))
 async def callback_group_answer(callback: CallbackQuery):
-    """Обработка ответа участника в групповой игре"""
+    """Обработка ответа участника"""
+    chat_id = callback.message.chat.id
+    user_id = callback.from_user.id
+    
     parts = callback.data.split(":")
     question_index = int(parts[1])
     answer = parts[2]
     
-    chat_id = callback.message.chat.id
-    user_id = callback.from_user.id
-    
-    logger.info(f"[GROUP] Answer received: chat={chat_id}, user={user_id}, q_idx={question_index}, answer={answer}")
-    
     session = group_session_manager.get_session(chat_id)
     
     if not session:
-        logger.warning(f"[GROUP] Session not found for chat {chat_id}")
-        await callback.answer("❌ Сессия не найдена! Начните новую викторину командой /quiz", show_alert=True)
+        await callback.answer("❌ Викторина не найдена!", show_alert=True)
         return
-    
-    logger.info(f"[GROUP] Session state: is_active={session.is_question_active}, current_idx={session.current_index}, answered={session.answered_users}")
     
     # Проверяем, активен ли вопрос
     if not session.is_question_active:
-        logger.warning(f"[GROUP] Question not active for chat {chat_id}")
-        await callback.answer("❌ Время на ответ истекло!", show_alert=True)
+        await callback.answer("❌ Время вышло!", show_alert=True)
         return
     
-    # Проверяем, что отвечаем на текущий вопрос
+    # Проверяем индекс вопроса
     if session.current_index != question_index:
-        logger.warning(f"[GROUP] Wrong question index: got {question_index}, expected {session.current_index}")
         await callback.answer("❌ Этот вопрос уже не активен!", show_alert=True)
         return
     
@@ -686,38 +770,38 @@ async def callback_group_answer(callback: CallbackQuery):
         await callback.answer("❌ Вы уже ответили!", show_alert=True)
         return
     
-    # Проверяем, участник ли это
-    participant = session.get_participant(callback.from_user.id)
+    # Если участник не зарегистрирован - добавляем его
+    participant = session.get_participant(user_id)
     if not participant:
-        # Автоматически добавляем как участника
         participant = session.add_participant(
-            callback.from_user.id,
-            callback.from_user.username,
-            callback.from_user.first_name
+            user_id,
+            callback.from_user.username or "",
+            callback.from_user.first_name or "Участник"
         )
+        logger.info(f"[GROUP] Late join: {participant.display_name} in chat {chat_id}")
     
+    # Записываем ответ
     question = session.current_question
     correct_answer = question.get('correct_answer', '')
     is_correct = answer == correct_answer
     
-    # Записываем ответ
-    session.record_answer(callback.from_user.id, answer, is_correct)
+    session.record_answer(user_id, answer, is_correct)
+    
+    logger.info(f"[GROUP] Answer from {participant.display_name}: {answer}, correct={is_correct}")
     
     if is_correct:
         await callback.answer("✅ Правильно!")
     else:
         await callback.answer(f"❌ Неправильно! Ответ: {correct_answer}")
     
-    # Обновляем счётчик ответивших
+    # Обновляем счётчик
     try:
-        question = session.current_question
         time_limit = await get_time_per_question()
-        
         text = format_group_question(
             question,
             session.current_index + 1,
             session.total_questions,
-            None,  # Не показываем время, т.к. это промежуточное обновление
+            None,
             time_limit,
             len(session.answered_users),
             session.participants_count
@@ -735,18 +819,13 @@ async def callback_group_answer(callback: CallbackQuery):
 
 @router.callback_query(F.data == "gshow_explanations")
 async def callback_group_show_explanations(callback: CallbackQuery):
-    """Показать пояснения для группы"""
+    """Показать пояснения (первый вопрос)"""
     session = group_session_manager.get_session(callback.message.chat.id)
     
-    if not session:
-        await callback.answer("❌ Сессия не найдена!", show_alert=True)
+    if not session or not session.questions:
+        await callback.answer("❌ Данные не найдены!", show_alert=True)
         return
     
-    if not session.questions:
-        await callback.answer("❌ Нет данных для отображения!", show_alert=True)
-        return
-    
-    # Показываем пояснение к первому вопросу
     question = session.questions[0]
     correct = question.get('correct_answer', '')
     options = question.get('options', {})
@@ -799,12 +878,11 @@ async def callback_group_all_explanations(callback: CallbackQuery):
     session = group_session_manager.get_session(callback.message.chat.id)
     
     if not session:
-        await callback.answer("❌ Сессия не найдена!", show_alert=True)
+        await callback.answer("❌ Данные не найдены!", show_alert=True)
         return
     
     text = format_group_all_explanations(session)
     
-    # Telegram имеет лимит на длину сообщения
     if len(text) > 4000:
         text = text[:3997] + "..."
     
@@ -818,8 +896,7 @@ async def callback_group_all_explanations(callback: CallbackQuery):
 
 @router.callback_query(F.data == "gnew_quiz")
 async def callback_group_new_quiz(callback: CallbackQuery):
-    """Начать новую групповую викторину"""
-    # Завершаем текущую сессию
+    """Начать новую викторину"""
     group_session_manager.end_session(callback.message.chat.id)
     
     await callback.message.edit_text(

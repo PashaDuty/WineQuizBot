@@ -43,6 +43,7 @@ class GroupQuizSession:
     current_index: int = 0
     participants: Dict[int, GroupParticipant] = field(default_factory=dict)
     message_id: Optional[int] = None  # ID сообщения с текущим вопросом
+    registration_message_id: Optional[int] = None  # ID сообщения с регистрацией
     timer_task: Optional[asyncio.Task] = None  # Задача таймера
     is_question_active: bool = False  # Активен ли сейчас вопрос
     started_at: datetime = field(default_factory=datetime.now)
