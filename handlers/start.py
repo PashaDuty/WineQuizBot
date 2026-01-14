@@ -1,8 +1,10 @@
 """
 Обработчик команды /start и выбора страны/региона
 """
+import os
+import logging
 from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.filters import Command
 from aiogram.enums import ChatType
 
@@ -14,9 +16,10 @@ from keyboards import (
 )
 from questions_loader import questions_manager
 from database import get_or_create_user, get_user_stats
-from config import COUNTRIES
+from config import COUNTRIES, DEV_PHOTO_PATH, DEV_INFO_TEXT
 
 router = Router()
+logger = logging.getLogger(__name__)
 
 
 def is_private_chat(message_or_callback) -> bool:
@@ -81,6 +84,15 @@ async def cmd_start(message: Message):
     )
 
 
+@router.message(Command("menu"))
+async def cmd_menu(message: Message):
+    """Команда /menu - обновить кнопки меню"""
+    await message.answer(
+        "✅ Меню обновлено.",
+        reply_markup=get_main_menu_keyboard()
+    )
+
+
 @router.message(F.text == "🍷 Начать викторину")
 async def btn_start_quiz(message: Message):
     """Кнопка начать викторину"""
@@ -122,6 +134,45 @@ async def btn_my_stats(message: Message):
     text += f"🏆 Викторин пройдено: {quizzes}"
     
     await message.answer(text)
+
+
+@router.message(F.text == "👨‍💻 Разработчик")
+async def btn_developer_info(message: Message):
+    """Кнопка информация о разработчике"""
+    photo_path = DEV_PHOTO_PATH
+    data_dir = os.path.dirname(DEV_PHOTO_PATH)
+    if not os.path.exists(photo_path):
+        candidates = [
+            os.path.join(data_dir, "developer.jpg"),
+            os.path.join(data_dir, "developer.jpeg"),
+            os.path.join(data_dir, "developer.png"),
+        ]
+        for candidate in candidates:
+            if os.path.exists(candidate):
+                photo_path = candidate
+                break
+        else:
+            try:
+                for name in os.listdir(data_dir):
+                    if name.lower().startswith("developer."):
+                        photo_path = os.path.join(data_dir, name)
+                        break
+            except Exception:
+                photo_path = DEV_PHOTO_PATH
+
+    try:
+        logger.info(f"[DEV] Sending developer info to chat {message.chat.id}")
+        photo = FSInputFile(photo_path)
+        await message.answer_photo(photo, caption=DEV_INFO_TEXT)
+    except Exception as e:
+        logger.warning(f"[DEV] Failed to send photo, fallback to text: {e}")
+        await message.answer(DEV_INFO_TEXT)
+
+
+@router.message(Command("developer"))
+async def cmd_developer_info(message: Message):
+    """Команда /developer"""
+    await btn_developer_info(message)
 
 
 @router.message(Command("stats"))
