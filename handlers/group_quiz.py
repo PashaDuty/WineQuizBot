@@ -130,7 +130,7 @@ async def cmd_score(message: Message):
 
 # ============ ВЫБОР СТРАНЫ/РЕГИОНА ДЛЯ ГРУППЫ ============
 
-@router.callback_query(F.data.startswith("country:"))
+@router.callback_query(F.data.startswith("country:") & F.message.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP}))
 async def callback_legacy_country_in_group(callback: CallbackQuery):
     """Обработка старых колбэков country: в групповых чатах"""
     if not is_group_chat(callback):
@@ -234,7 +234,7 @@ async def callback_group_country(callback: CallbackQuery):
     await callback.answer()
 
 
-@router.callback_query(F.data.startswith("region:"))
+@router.callback_query(F.data.startswith("region:") & F.message.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP}))
 async def callback_legacy_region_in_group(callback: CallbackQuery):
     """Обработка старых колбэков region: в групповых чатах"""
     if not is_group_chat(callback):
@@ -358,7 +358,7 @@ async def callback_group_back_region(callback: CallbackQuery):
 
 # ============ СТАРТ ИГРЫ И ПРИСОЕДИНЕНИЕ ============
 
-@router.callback_query(F.data.startswith("count:"))
+@router.callback_query(F.data.startswith("count:") & F.message.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP}))
 async def callback_legacy_count_in_group(callback: CallbackQuery):
     """Обработка старых колбэков count: в групповых чатах"""
     if not is_group_chat(callback):
@@ -1113,11 +1113,14 @@ async def callback_group_show_explanations(callback: CallbackQuery):
     correct = question.get('correct_answer', '')
     options = question.get('options', {})
     explanation = question.get('explanation', 'Пояснение отсутствует.')
+    question_text = escape_markdown(question.get('question', ''))
+    correct_text = escape_markdown(str(options.get(correct, '—')))
+    explanation_text = escape_markdown(explanation)
     
     text = f"*1/{session.total_questions}*\n\n"
-    text += f"❓ _{question['question']}_\n\n"
-    text += f"✅ Правильный ответ: *{correct}) {options.get(correct, '—')}*\n\n"
-    text += f"📖 *Пояснение:*\n{explanation}"
+    text += f"❓ _{question_text}_\n\n"
+    text += f"✅ Правильный ответ: *{correct}\\) {correct_text}*\n\n"
+    text += f"📖 *Пояснение:*\n{explanation_text}"
     
     await callback.message.edit_text(
         text,
@@ -1141,11 +1144,14 @@ async def callback_group_explanation(callback: CallbackQuery):
     correct = question.get('correct_answer', '')
     options = question.get('options', {})
     explanation = question.get('explanation', 'Пояснение отсутствует.')
+    question_text = escape_markdown(question.get('question', ''))
+    correct_text = escape_markdown(str(options.get(correct, '—')))
+    explanation_text = escape_markdown(explanation)
     
     text = f"*{index + 1}/{session.total_questions}*\n\n"
-    text += f"❓ _{question['question']}_\n\n"
-    text += f"✅ Правильный ответ: *{correct}) {options.get(correct, '—')}*\n\n"
-    text += f"📖 *Пояснение:*\n{explanation}"
+    text += f"❓ _{question_text}_\n\n"
+    text += f"✅ Правильный ответ: *{correct}\\) {correct_text}*\n\n"
+    text += f"📖 *Пояснение:*\n{explanation_text}"
     
     await callback.message.edit_text(
         text,

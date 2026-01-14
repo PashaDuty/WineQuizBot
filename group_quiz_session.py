@@ -339,19 +339,22 @@ def format_group_explanation(answer_record: dict, index: int, participant_name: 
     question_text = question['question']
     if len(question_text) > 100:
         question_text = question_text[:97] + "..."
+    question_text = escape_markdown(question_text)
     
     text = f"*{index + 1}. {status}*\n"
     text += f"_{question_text}_\n\n"
     
     correct = question.get('correct_answer', '')
     options = question.get('options', {})
+    correct_text = escape_markdown(str(options.get(correct, '—')))
     
-    text += f"📝 Правильный ответ: *{correct}) {options.get(correct, '—')}*\n"
+    text += f"📝 Правильный ответ: *{correct}\\) {correct_text}*\n"
     
     if user_answer and user_answer != correct:
-        text += f"❌ Ваш ответ: {user_answer}) {options.get(user_answer, '—')}\n"
+        user_answer_text = escape_markdown(str(options.get(user_answer, '—')))
+        text += f"❌ Ваш ответ: {user_answer}\\) {user_answer_text}\n"
     
-    explanation = question.get('explanation', 'Пояснение отсутствует.')
+    explanation = escape_markdown(question.get('explanation', 'Пояснение отсутствует.'))
     text += f"\n📖 *Пояснение:*\n{explanation}"
     
     return text
@@ -370,13 +373,16 @@ def format_group_all_explanations(session: GroupQuizSession) -> str:
         question_text = question['question']
         if len(question_text) > 80:
             question_text = question_text[:77] + "..."
+        question_text = escape_markdown(question_text)
         
         # Сокращаем пояснение если оно слишком длинное
         if len(explanation) > 200:
             explanation = explanation[:197] + "..."
+        explanation = escape_markdown(explanation)
         
-        text += f"*{i + 1}.* {question_text}\n"
-        text += f"   ➡️ {correct}) {options.get(correct, '—')}\n"
+        correct_text = escape_markdown(str(options.get(correct, '—')))
+        text += f"*{i + 1}\\.* {question_text}\n"
+        text += f"   ➡️ {correct}\\) {correct_text}\n"
         text += f"   _{explanation}_\n\n"
     
     return text
