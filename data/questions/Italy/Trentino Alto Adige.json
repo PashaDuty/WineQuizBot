@@ -1,0 +1,377 @@
+[
+    {
+      "id": 1,
+      "question": "Какой сорт винограда является автохтонным для Трентино, чье название происходит от местного слова «noseia» (лесной орех) и используется для производства сухих и сладких вин, в том числе Vin Santo?",
+      "options": {
+        "a": "Нозиола (Nosiola)",
+        "b": "Терольдего (Teroldego)",
+        "c": "Лагрейн (Lagrein)",
+        "d": "Марцемино (Marzemino)"
+      },
+      "correct_answer": "a",
+      "explanation": "Нозиола — автохтонный белый сорт Трентино. Его название связывают с ароматом лесного ореха. Из него делают сухие вина и сладкое Vino Santo.",
+      "tags": ["italy", "trentino_alto_adige", "grape"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 2,
+      "question": "Какое игристое вино DOC, производимое в Трентино исключительно традиционным методом, известно под неформальным названием «Тренгодок»?",
+      "options": {
+        "a": "Trentino DOC",
+        "b": "Alto Adige DOC",
+        "c": "Trento DOC",
+        "d": "Teroldego Rotaliano DOC"
+      },
+      "correct_answer": "c",
+      "explanation": "Trento DOC — апелласьон для игристых вин традиционного метода в Трентино. Неформально их называют «Тренгодок» (Trentodoc).",
+      "tags": ["italy", "trentino_alto_adige", "sparkling", "appellations", "terms"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 3,
+      "question": "В Южном Тироле сорт Пино Неро может быть указан на этикетке под несколькими названиями. Какое из перечисленных НЕ является его синонимом?",
+      "options": {
+        "a": "Блаубургундер (Blauburgunder)",
+        "b": "Пино Нуар (Pinot Noir)",
+        "c": "Шпетбургундер (Spätburgunder)",
+        "d": "Троллингер (Trollinger)"
+      },
+      "correct_answer": "d",
+      "explanation": "Троллингер — это немецкое название сорта Вернач/Скьява, другого красного сорта региона.",
+      "tags": ["italy", "trentino_alto_adige", "grape", "terms"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 4,
+      "question": "Какой автохтонный красный сорт Альто-Адидже, известный с XVII века, дает вина с чернильной насыщенностью и бальзамическими ароматами?",
+      "options": {
+        "a": "Терольдего (Teroldego)",
+        "b": "Лагрейн (Lagrein)",
+        "c": "Марцемино (Marzemino)",
+        "d": "Схиава (Schiava)"
+      },
+      "correct_answer": "b",
+      "explanation": "Лагрейн известен насыщенными, танинными винами с глубоким цветом и ароматами темных ягод, черники и бальзамики.",
+      "tags": ["italy", "trentino_alto_adige", "grape"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 5,
+      "question": "Один из старейших винодельческих монастырей Италии, расположенный в Альто-Адидже в долине Изарко, — это:",
+      "options": {
+        "a": "Аббатство Новачелла (Abbazia di Novacella)",
+        "b": "Аббатство Розаццо (Abbazia di Rosazzo)",
+        "c": "Монастырь Святого Ипполита",
+        "d": "Аббатство Валь-ди-Соле"
+      },
+      "correct_answer": "a",
+      "explanation": "Аббатство Новачелла (основано в XII в.) — самая северная винодельня Италии, известная белыми винами.",
+      "tags": ["italy", "trentino_alto_adige", "producers", "historical"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 6,
+      "question": "Обширный апелласьон DOC, расположенный вокруг озера Кальдаро и производящий легкие красные вина из сортов семейства Скьява, называется:",
+      "options": {
+        "a": "Alto Adige DOC",
+        "b": "Lago di Caldaro DOC / Kalterersee DOC",
+        "c": "Trentino DOC",
+        "d": "Valdadige DOC"
+      },
+      "correct_answer": "b",
+      "explanation": "Этот апелласьон известен легкими, питкими красными винами из Скьявы.",
+      "tags": ["italy", "trentino_alto_adige", "appellations", "grape"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 7,
+      "question": "В ТАА существует общий апелласьон для тихих вин, который охватывает множество стилей и сортов. Как он называется?",
+      "options": {
+        "a": "Alto Adige DOC",
+        "b": "Trentino DOC",
+        "c": "Teroldego Rotaliano DOC",
+        "d": "Vigneti delle Dolomiti IGT"
+      },
+      "correct_answer": "b",
+      "explanation": "Trentino DOC — общий апелласьон для широкого спектра тихих вин провинции Трентино.",
+      "tags": ["italy", "trentino_alto_adige", "appellations"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 8,
+      "question": "Какой важнейший географический фактор является ключевым для качества вин в альпийском регионе ТАА?",
+      "options": {
+        "a": "Близость к Адриатическому морю",
+        "b": "Преобладание глинистых почв",
+        "c": "Высота виноградников (от 200 до 1000+ метров над уровнем моря)",
+        "d": "Частые осенние туманы"
+      },
+      "correct_answer": "c",
+      "explanation": "Высота обеспечивает дренаж, инсоляцию и большие суточные перепады температур, что критично для кислотности и сложности вин.",
+      "tags": ["italy", "trentino_alto_adige", "terroir"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 9,
+      "question": "Какой из этих сортов является красным и носит в Альто-Адидже название \"Вернач\" (Vernatsch)?",
+      "options": {
+        "a": "Пино Гриджио",
+        "b": "Сильванер",
+        "c": "Скьява (Schiava)",
+        "d": "Гевюрцтраминер"
+      },
+      "correct_answer": "c",
+      "explanation": "Скьява (нем.Vernatsch) — семейство красных автохтонных сортов, дающих легкие, фруктовые вина.",
+      "tags": ["italy", "trentino_alto_adige", "grape"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 10,
+      "question": "Площадь виноградников ТАА составляет около 16 500 Га. Какой примерный процент вин региона производится по категории DOC?",
+      "options": {
+        "a": "Около 50%",
+        "b": "Около 70%",
+        "c": "Около 90%",
+        "d": "Около 98%"
+      },
+      "correct_answer": "c",
+      "explanation": "ТАА — регион с очень высоким процентом вин высшей категории DOC/DOCG.",
+      "tags": ["italy", "trentino_alto_adige", "classifications"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 11,
+      "question": "Какой автохтонный сорт Альто-Адидже, дающий розовые вина (Kretzer), является родственником сортов Терольдего и Марцемино?",
+      "options": {
+        "a": "Скьява (Schiava)",
+        "b": "Лагрейн (Lagrein)",
+        "c": "Рефоско (Refosco)",
+        "d": "Энантио (Enantio)"
+      },
+      "correct_answer": "b",
+      "explanation": "Лагрейн генетически родственен Терольдего и Марцемино. Из него производят как красные, так и розовые вина.",
+      "tags": ["italy", "trentino_alto_adige", "grape", "wine_styles"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 12,
+      "question": "В какой субзоне Альто-Адидже DOC преобладают уникальные вулканические почвы из порфира, идеальные для долгоживущих белых вин?",
+      "options": {
+        "a": "Валь-Веноста (Val Venosta)",
+        "b": "Терлано (Terlano)",
+        "c": "Валь-Изарко (Valle Isarco)",
+        "d": "Брессаноне (Bressanone)"
+      },
+      "correct_answer": "b",
+      "explanation": "Субзона Терлано знаменита почвами вулканического происхождения (порфир), которые придают белым винам минеральность и потенциал к выдержке.",
+      "tags": ["italy", "trentino_alto_adige", "terroir", "soil", "geography"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 13,
+      "question": "Какой из этих сортов НЕ является традиционным для производства игристых вин Trento DOC?",
+      "options": {
+        "a": "Шардоне (Chardonnay)",
+        "b": "Пино Неро (Pinot Nero)",
+        "c": "Пино Бьянко (Pinot Bianco)",
+        "d": "Мюллер-Тургау (Müller-Thurgau)"
+      },
+      "correct_answer": "d",
+      "explanation": "Для Trento DOC разрешены только Шардоне, Пино Неро, Пино Бьянко и Менье. Мюллер-Тургау используется для тихих вин.",
+      "tags": ["italy", "trentino_alto_adige", "sparkling", "grape"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 14,
+      "question": "Какой известный производитель из Трентино, основавший компанию в 1902 году, считается «отцом» современного Trentodoc?",
+      "options": {
+        "a": "Феррари (Ferrari)",
+        "b": "Ротари (Rotari)",
+        "c": "Аббациа ди Новачелла (Abbazia di Novacella)",
+        "d": "Летерари (Letrerari)"
+      },
+      "correct_answer": "a",
+      "explanation": "Джулио Феррари привез технологию традиционного метода из Франции и основал компанию Ferrari, заложив основу индустрии Trentodoc.",
+      "tags": ["italy", "trentino_alto_adige", "producers", "sparkling", "historical"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 15,
+      "question": "Что означает термин «Kretzer» на этикетке вина из Альто-Адидже?",
+      "options": {
+        "a": "Красное вино из скьявы",
+        "b": "Розовое вино (чаще из лагрейна или скьявы)",
+        "c": "Белое вино из кернера",
+        "d": "Сладкое пассито из муската"
+      },
+      "correct_answer": "b",
+      "explanation": "«Kretzer» — традиционное немецкое обозначение для розовых вин в Альто-Адидже.",
+      "tags": ["italy", "trentino_alto_adige", "terms", "wine_styles"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 16,
+      "question": "Какой редкий сорт, используемый для сладких вин, в Альто-Адидже называется «Голдмускателлер» (Goldmuskateller)?",
+      "options": {
+        "a": "Мускат белый (Moscato Bianco)",
+        "b": "Мускат желтый (Moscato Giallo)",
+        "c": "Мускат розовый (Moscato Rosa)",
+        "d": "Мускат александрийский (Moscato d'Alessandria)"
+      },
+      "correct_answer": "b",
+      "explanation": "Сорт Moscato Giallo в Альто-Адидже известен под немецким названием Goldmuskateller.",
+      "tags": ["italy", "trentino_alto_adige", "grape", "wine_styles", "terms"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 17,
+      "question": "Согласно статистике, какой сорт является одним из самых распространённых в Альто-Адидже с долей около 10-11%?",
+      "options": {
+        "a": "Совиньон Блан (Sauvignon Blanc)",
+        "b": "Гевюрцтраминер (Gewürztraminer)",
+        "c": "Лагрейн (Lagrein)",
+        "d": "Терольдего (Teroldego)"
+      },
+      "correct_answer": "b",
+      "explanation": "Гевюрцтраминер — один из самых распространённых сортов Альто-Адидже, его визитная карточка.",
+      "tags": ["italy", "trentino_alto_adige", "grape", "statistics"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 18,
+      "question": "Какой красный автохтонный сорт, исторически самый распространенный в Альто-Адидже, дает легкие вина с ароматами фиалки и красных ягод?",
+      "options": {
+        "a": "Лагрейн (Lagrein)",
+        "b": "Пино Неро (Pinot Nero)",
+        "c": "Скьява (Schiava / Vernatsch)",
+        "d": "Мерло (Merlot)"
+      },
+      "correct_answer": "c",
+      "explanation": "Скьява (Вернач) исторически был главным красным сортом региона, известным легкими, питкими винами.",
+      "tags": ["italy", "trentino_alto_adige", "grape", "statistics"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 19,
+      "question": "В какой долине Трентино выращивают сорт Нозиола для производства Vino Santo?",
+      "options": {
+        "a": "Долина Адидже (Val d'Adige)",
+        "b": "Долина Сарка (Valle del Sarca)",
+        "c": "Долина Лагарина (Vallagarina)",
+        "d": "Долина деи Лаги (Valle dei Laghi)"
+      },
+      "correct_answer": "d",
+      "explanation": "Valle dei Laghi — историческая зона производства Vino Santo Trentino из Нозиолы.",
+      "tags": ["italy", "trentino_alto_adige", "grape", "wine_styles", "geography"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 20,
+      "question": "Какой минимальный срок выдержки на осадке для игристых вин категории «Ризерва» в Trento DOC?",
+      "options": {
+        "a": "15 месяцев",
+        "b": "24 месяца",
+        "c": "36 месяцев",
+        "d": "60 месяцев"
+      },
+      "correct_answer": "d",
+      "explanation": "Для категории «Riserva» в Trento DOC обязательна выдержка на дрожжевом осадке не менее 60 месяцев (5 лет).",
+      "tags": ["italy", "trentino_alto_adige", "sparkling", "classifications", "terms"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 21,
+      "question": "Какой апелласьон ТАА производит красные вина из автохтонного сорта Терольдего, выращенного на аллювиальных равнинах, и может быть как красным (Rubino), так и розовым (Kretzer)?",
+      "options": {
+        "a": "Alto Adige DOC",
+        "b": "Trentino DOC",
+        "c": "Teroldego Rotaliano DOC",
+        "d": "Casteller DOC"
+      },
+      "correct_answer": "c",
+      "explanation": "Teroldego Rotaliano DOC — апелласьон в долине Роталиано (Трентино), специализирующийся на винах из сорта Терольдего.",
+      "tags": ["italy", "trentino_alto_adige", "appellations", "grape"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 22,
+      "question": "Какая важная межрегиональная категория IGT охватывает виноградники в предгорьях Доломитовых Альп?",
+      "options": {
+        "a": "IGT delle Venezie",
+        "b": "IGT Vigneti delle Dolomiti",
+        "c": "IGT Alto Adige",
+        "d": "IGT Alpi Retiche"
+      },
+      "correct_answer": "b",
+      "explanation": "IGT Vigneti delle Dolomiti — межрегиональная категория для вин из зоны Доломитовых Альп.",
+      "tags": ["italy", "trentino_alto_adige", "classifications", "geography"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 23,
+      "question": "Для какого известного сладкого вина из Альто-Адидже, производимого из розового муската, характерны ароматы розы и личи?",
+      "options": {
+        "a": "Moscato Giallo Dolce",
+        "b": "Rosenmuskateller",
+        "c": "Goldmuskateller",
+        "d": "Moscato Rosa Passito"
+      },
+      "correct_answer": "b",
+      "explanation": "Rosenmuskateller — сладкое вино из Moscato Rosa с ярким ароматом роз, личи и специй.",
+      "tags": ["italy", "trentino_alto_adige", "wine_styles", "grape", "terms"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 24,
+      "question": "Какой апелласьон Трентино специализируется на красных винах, где Мерло должен составлять не менее 50%?",
+      "options": {
+        "a": "Casteller DOC",
+        "b": "Trentino DOC (в сортовой версии Merlot)",
+        "c": "Alto Adige DOC (в сортовой версии Merlot)",
+        "d": "Teroldego Rotaliano DOC"
+      },
+      "correct_answer": "a",
+      "explanation": "Casteller DOC предусматривает производство красных вин с долей Мерло не менее 50%, остальное — местные автохтоны.",
+      "tags": ["italy", "trentino_alto_adige", "appellations", "grape"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    },
+    {
+      "id": 25,
+      "question": "Как называется сорт, который является основным для производства игристого Просекко и чьё историческое название было изменено в 2009 году для защиты апелласьона?",
+      "options": {
+        "a": "Просекко (Prosecco)",
+        "b": "Вердизо (Verdiso)",
+        "c": "Бьянкетта Тревигана (Bianchetta Trevigiana)",
+        "d": "Глера (Glera)"
+      },
+      "correct_answer": "d",
+      "explanation": "До 2009 года сорт назывался «Просекко». Для защиты апелласьона его официально переименовали в «Глера».",
+      "tags": ["italy", "trentino_alto_adige", "grape", "historical"],
+      "country": "Italy",
+      "region": "Trentino-Alto Adige"
+    }
+  ]
