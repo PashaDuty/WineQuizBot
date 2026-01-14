@@ -3,7 +3,8 @@
 """
 import asyncio
 from aiogram import Router, F, Bot
-from aiogram.types import CallbackQuery
+from aiogram.types import CallbackQuery, Message
+from aiogram.filters import Command
 from aiogram.enums import ChatType
 
 from keyboards import (
@@ -18,6 +19,7 @@ from quiz_session import (
     format_question_text,
     format_answer_result,
     format_quiz_result,
+    format_quiz_partial_result,
     format_explanation,
     format_all_explanations
 )
@@ -282,6 +284,53 @@ async def callback_answer(callback: CallbackQuery):
         await finish_quiz(callback.bot, callback.message.chat.id, session)
     else:
         await send_question(callback.bot, callback.message.chat.id, session)
+
+
+@router.message(Command("stop"))
+async def cmd_stop_quiz(message: Message):
+    """Остановить викторину (личный режим)"""
+    if message.chat.type != ChatType.PRIVATE:
+        return
+
+    session = session_manager.get_session(message.from_user.id)
+    if not session:
+        await message.answer("⚠️ У вас нет активной викторины.")
+        return
+
+    session.cancel_timer()
+    session.current_index = len(session.questions)
+    session.is_answered = True
+
+    # Сохраняем статистику по отвеченным вопросам
+    answered = len(session.answers)
+    await update_user_stats(message.from_user.id, answered, session.correct_count)
+
+    text = format_quiz_partial_result(session)
+    await message.answer(text, reply_markup=get_result_keyboard(), parse_mode="Markdown")
+
+
+@router.callback_query(F.data == "stop_quiz")
+async def callback_stop_quiz(callback: CallbackQuery):
+    """Остановить викторину кнопкой (личный режим)"""
+    if not is_private_chat(callback):
+        await callback.answer()
+        return
+
+    session = session_manager.get_session(callback.from_user.id)
+    if not session:
+        await callback.answer("⚠️ Викторина не найдена!", show_alert=True)
+        return
+
+    session.cancel_timer()
+    session.current_index = len(session.questions)
+    session.is_answered = True
+
+    answered = len(session.answers)
+    await update_user_stats(callback.from_user.id, answered, session.correct_count)
+
+    text = format_quiz_partial_result(session)
+    await callback.message.edit_text(text, reply_markup=get_result_keyboard(), parse_mode="Markdown")
+    await callback.answer()
 
 
 @router.callback_query(F.data == "show_explanations")

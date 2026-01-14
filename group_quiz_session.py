@@ -327,6 +327,35 @@ def format_group_quiz_result(session: GroupQuizSession) -> str:
     return text
 
 
+def format_group_stop_result(session: GroupQuizSession) -> str:
+    """Форматировать результат остановленной групповой викторины"""
+    leaderboard = session.get_leaderboard()
+    text = "⛔ *ВИКТОРИНА ОСТАНОВЛЕНА!*\n\n"
+
+    if not leaderboard:
+        return text + "_Пока нет участников_"
+
+    text += "📊 *Текущий результат (по отвеченным вопросам):*\n\n"
+
+    current_place = 1
+    prev_score = None
+    for i, participant in enumerate(leaderboard):
+        score = participant.correct_count
+        if prev_score is not None and score != prev_score:
+            current_place = i + 1
+        prev_score = score
+
+        answered = participant.total_answered
+        percentage = round((participant.correct_count * 100 / answered), 1) if answered > 0 else 0.0
+        display_name = escape_markdown(participant.display_name)
+
+        text += f"{current_place}\\. {display_name}, "
+        text += f"{percentage}%, "
+        text += f"{participant.correct_count}/{answered}\n"
+
+    return text
+
+
 def format_group_explanation(answer_record: dict, index: int, participant_name: str = None) -> str:
     """Форматировать пояснение к вопросу для группы"""
     question = answer_record['question']

@@ -105,6 +105,10 @@ def get_answer_keyboard(question_id: int) -> InlineKeyboardMarkup:
         InlineKeyboardButton(text="c", callback_data=f"answer:{question_id}:c"),
         InlineKeyboardButton(text="d", callback_data=f"answer:{question_id}:d")
     )
+    builder.row(InlineKeyboardButton(
+        text="⛔ Стоп",
+        callback_data="stop_quiz"
+    ))
     
     return builder.as_markup()
 
@@ -349,6 +353,10 @@ def get_group_answer_keyboard(question_id: int) -> InlineKeyboardMarkup:
         InlineKeyboardButton(text="c", callback_data=f"ganswer:{question_id}:c"),
         InlineKeyboardButton(text="d", callback_data=f"ganswer:{question_id}:d")
     )
+    builder.row(InlineKeyboardButton(
+        text="⛔ Стоп",
+        callback_data="gstop"
+    ))
     
     return builder.as_markup()
 

@@ -168,6 +168,22 @@ def format_quiz_result(session: QuizSession) -> str:
     return text
 
 
+def format_quiz_partial_result(session: QuizSession) -> str:
+    """Форматировать результат остановленной викторины"""
+    from config import get_result_message
+
+    answered = len(session.answers)
+    correct = session.correct_count
+    percentage = round((correct * 100 / answered), 1) if answered > 0 else 0.0
+
+    text = "⛔ *ВИКТОРИНА ОСТАНОВЛЕНА!*\n\n"
+    text += f"✅ Правильных ответов: {correct} из {answered} "
+    text += f"({percentage}%)\n\n"
+    text += f"{get_result_message(percentage)}"
+
+    return text
+
+
 def format_explanation(answer_record: dict, index: int) -> str:
     """Форматировать пояснение к вопросу"""
     question = answer_record['question']

@@ -27,7 +27,9 @@ from group_quiz_session import (
     format_group_answer_result,
     format_group_quiz_result,
     format_group_all_explanations,
-    format_group_leaderboard
+    format_group_leaderboard,
+    format_group_stop_result,
+    escape_markdown
 )
 from database import get_setting, save_group_game, update_user_stats, get_or_create_user
 from config import TIME_PER_QUESTION, MIN_QUESTIONS, COUNTRIES
@@ -103,14 +105,15 @@ async def cmd_stop_quiz(message: Message):
     """Остановить текущую викторину"""
     if not is_group_chat(message):
         return
-    
-    session = group_session_manager.get_session(message.chat.id)
-    if not session:
-        await message.answer("⚠️ В этом чате нет активной викторины.")
+    await stop_group_quiz(message.bot, message.chat.id)
+
+
+@router.message(Command("stop"))
+async def cmd_stop_quiz_alias(message: Message):
+    """Остановить текущую викторину командой /stop"""
+    if not is_group_chat(message):
         return
-    
-    group_session_manager.end_session(message.chat.id)
-    await message.answer("🛑 Викторина остановлена.")
+    await stop_group_quiz(message.bot, message.chat.id)
 
 
 @router.message(Command("score"))
@@ -699,6 +702,45 @@ async def registration_timer(bot: Bot, chat_id: int, message_id: int, session):
         logger.error(f"[GROUP] Registration timer error: {e}")
 
 
+async def stop_group_quiz(bot: Bot, chat_id: int):
+    """Остановить групповую викторину и показать статистику по отвеченным вопросам"""
+    session = group_session_manager.get_session(chat_id)
+    if not session:
+        await bot.send_message(chat_id, "⚠️ В этом чате нет активной викторины.")
+        return
+
+    session.cancel_timer()
+    session.is_question_active = False
+    session.current_index = len(session.questions)
+
+    # Отправляем результат остановленной викторины
+    text = format_group_stop_result(session)
+    await bot.send_message(
+        chat_id,
+        text,
+        reply_markup=get_group_result_keyboard(),
+        parse_mode="Markdown"
+    )
+
+    # Сохраняем личную статистику по отвеченным вопросам
+    try:
+        leaderboard = session.get_leaderboard()
+        for participant in leaderboard:
+            await get_or_create_user(
+                participant.user_id,
+                participant.username,
+                participant.first_name
+            )
+            await update_user_stats(
+                participant.user_id,
+                participant.total_answered,
+                participant.correct_count
+            )
+        logger.info(f"[GROUP] Saved stop stats for {len(leaderboard)} participants")
+    except Exception as e:
+        logger.error(f"[GROUP] Error saving stop stats: {e}")
+
+
 @router.callback_query(F.data == "gjoin")
 async def callback_join_quiz(callback: CallbackQuery):
     """Присоединиться к викторине"""
@@ -787,6 +829,17 @@ async def callback_start_now(callback: CallbackQuery):
     
     await callback.answer("🚀 Начинаем!")
     await start_group_quiz(callback.bot, chat_id, session)
+
+
+@router.callback_query(F.data == "gstop")
+async def callback_group_stop(callback: CallbackQuery):
+    """Остановить групповую викторину кнопкой"""
+    if not is_group_chat(callback):
+        await callback.answer()
+        return
+
+    await callback.answer("⛔ Останавливаю викторину...")
+    await stop_group_quiz(callback.bot, callback.message.chat.id)
 
 
 # ============ ИГРОВОЙ ПРОЦЕСС ============
