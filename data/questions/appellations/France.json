@@ -1,0 +1,1588 @@
+[
+  {
+    "id": 1,
+    "question": "В каком регионе Франции находится коммуна Пюлиньи‑Монраше (Puligny‑Montrachet)?",
+    "options": {
+      "a": "Бургундия (Кот де Бон)",
+      "b": "Бордо",
+      "c": "Шампань",
+      "d": "Долина Луары"
+    },
+    "correct_answer": "a",
+    "explanation": "Puligny‑Montrachet — ключевая коммуна Кот де Бон на «Золотом склоне».",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 2,
+    "question": "В каком регионе Франции находится Монтань де Реймс (Montagne de Reims)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Шампань",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Montagne de Reims — один из ключевых районов Шампани.",
+    "tags": [
+      "france",
+      "champagne",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 3,
+    "question": "В каком регионе Франции находится Шабли (Chablis)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Шампань",
+      "c": "Бургундия (Шабли)",
+      "d": "Долина Роны"
+    },
+    "correct_answer": "c",
+    "explanation": "Chablis — северная зона Бургундии, географически отдельная от Кот де Нюи и Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "chablis",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 4,
+    "question": "В каком регионе Франции находится апелласьон Сент‑Эмильон (Saint‑Emilion)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Эльзас",
+      "c": "Бургундия",
+      "d": "Бордо (Правый берег)"
+    },
+    "correct_answer": "d",
+    "explanation": "Saint‑Emilion относится к Правому берегу Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "right_bank",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 5,
+    "question": "В каком регионе Франции находится апелласьон Сансер (Sancerre)?",
+    "options": {
+      "a": "Долина Луары (Центральные виноградники)",
+      "b": "Бордо",
+      "c": "Бургундия",
+      "d": "Шампань"
+    },
+    "correct_answer": "a",
+    "explanation": "Sancerre относится к Центральным виноградникам Луары.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "central_vineyards",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 6,
+    "question": "В каком регионе Франции находится Шатонеф‑дю‑Пап (Chateauneuf‑du‑Pape)?",
+    "options": {
+      "a": "Северная Рона",
+      "b": "Южная Рона",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Chateauneuf‑du‑Pape — ключевая зона Южной Роны.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "southern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 7,
+    "question": "В каком регионе Франции находится апелласьон Бандоль (Bandol)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Юг Франции (Прованс)",
+      "d": "Шампань"
+    },
+    "correct_answer": "c",
+    "explanation": "Bandol относится к Провансу.",
+    "tags": [
+      "france",
+      "southern_france",
+      "provence",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 8,
+    "question": "В каком регионе Франции находится апелласьон Моргон (Morgon)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Эльзас",
+      "c": "Долина Луары",
+      "d": "Божоле"
+    },
+    "correct_answer": "d",
+    "explanation": "Morgon — один из крю Божоле.",
+    "tags": [
+      "france",
+      "beaujolais",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 9,
+    "question": "В каком регионе Франции находится апелласьон Меркюре (Mercurey)?",
+    "options": {
+      "a": "Бургундия (Кот Шалонез)",
+      "b": "Бордо",
+      "c": "Эльзас",
+      "d": "Долина Луары"
+    },
+    "correct_answer": "a",
+    "explanation": "Mercurey относится к Кот Шалонез.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_chalonnaise",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 10,
+    "question": "В каком регионе Франции находится апелласьон Кот де Блан (Cote des Blancs)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Шампань",
+      "c": "Долина Луары",
+      "d": "Долина Роны"
+    },
+    "correct_answer": "b",
+    "explanation": "Cote des Blancs — ключевой район Шампани.",
+    "tags": [
+      "france",
+      "champagne",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 11,
+    "question": "В каком регионе Франции находится апелласьон Кроз‑Эрмитаж (Crozes‑Hermitage)?",
+    "options": {
+      "a": "Южная Рона",
+      "b": "Бордо",
+      "c": "Северная Рона",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Crozes‑Hermitage — одна из зон Северной Роны.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "northern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 12,
+    "question": "В каком регионе Франции находится апелласьон Савеннер (Savennieres)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия",
+      "c": "Шампань",
+      "d": "Долина Луары (Анжу)"
+    },
+    "correct_answer": "d",
+    "explanation": "Savennieres относится к Анжу в долине Луары.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "anjou",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 13,
+    "question": "В каком регионе Франции находится апелласьон Мадиран (Madiran)?",
+    "options": {
+      "a": "Юго‑Запад Франции",
+      "b": "Долина Луары",
+      "c": "Бургундия",
+      "d": "Шампань"
+    },
+    "correct_answer": "a",
+    "explanation": "Madiran — апелласьон Юго‑Запада.",
+    "tags": [
+      "france",
+      "south_west_france",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 14,
+    "question": "В каком регионе Франции находится апелласьон Пуйи‑Фюме (Pouilly‑Fume)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Долина Луары (Центральные виноградники)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Pouilly‑Fume относится к Центральным виноградникам Луары.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "central_vineyards",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 15,
+    "question": "В каком регионе Франции находится апелласьон Кот де Бар (Cote de Bar)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Долина Луары",
+      "c": "Шампань",
+      "d": "Долина Роны"
+    },
+    "correct_answer": "c",
+    "explanation": "Cote de Bar — южный район Шампани.",
+    "tags": [
+      "france",
+      "champagne",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 16,
+    "question": "В каком регионе Франции находится апелласьон Ривзальт (Rivesaltes)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Долина Луары",
+      "c": "Бургундия",
+      "d": "Юг Франции (Руссильон)"
+    },
+    "correct_answer": "d",
+    "explanation": "Rivesaltes относится к Руссильону.",
+    "tags": [
+      "france",
+      "southern_france",
+      "roussillon",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 17,
+    "question": "В каком регионе Франции находится коммуна Нюи‑Сен‑Жорж (Nuits‑Saint‑Georges)?",
+    "options": {
+      "a": "Бургундия (Кот де Нюи)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Nuits‑Saint‑Georges — коммуна Кот де Нюи.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_nuits",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 18,
+    "question": "В каком регионе Франции находится апелласьон Сотерн (Sauternes)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо (Грав)",
+      "c": "Бургундия",
+      "d": "Долина Роны"
+    },
+    "correct_answer": "b",
+    "explanation": "Sauternes относится к зоне Грав Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "graves",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 19,
+    "question": "В каком регионе Франции находится апелласьон Пойяк (Pauillac)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Бордо (Медок)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Pauillac — коммунальный апелласьон Медока.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "medoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 20,
+    "question": "В каком регионе Франции находится апелласьон Жюрансон (Jurancon)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Долина Луары",
+      "c": "Бургундия",
+      "d": "Юго‑Запад Франции"
+    },
+    "correct_answer": "d",
+    "explanation": "Jurancon — апелласьон Юго‑Запада.",
+    "tags": [
+      "france",
+      "south_west_france",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 21,
+    "question": "В каком регионе Франции находится апелласьон Менету‑Салон (Menetou‑Salon)?",
+    "options": {
+      "a": "Долина Луары (Центральные виноградники)",
+      "b": "Бордо",
+      "c": "Бургундия",
+      "d": "Шампань"
+    },
+    "correct_answer": "a",
+    "explanation": "Menetou‑Salon относится к Центральным виноградникам Луары.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "central_vineyards",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 22,
+    "question": "В каком регионе Франции находится апелласьон Вувре (Vouvray)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Долина Луары (Турень)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Vouvray относится к Турени.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "touraine",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 23,
+    "question": "В каком регионе Франции находится апелласьон Кондрие (Condrieu)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Южная Рона",
+      "c": "Северная Рона",
+      "d": "Долина Луары"
+    },
+    "correct_answer": "c",
+    "explanation": "Condrieu — апелласьон Северной Роны.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "northern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 24,
+    "question": "В каком регионе Франции находится апелласьон Пессак‑Леоньян (Pessac‑Leognan)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Эльзас",
+      "c": "Бургундия",
+      "d": "Бордо (Грав)"
+    },
+    "correct_answer": "d",
+    "explanation": "Pessac‑Leognan относится к Граву в Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "graves",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 25,
+    "question": "В каком регионе Франции находится апелласьон Вакейрас (Vacqueyras)?",
+    "options": {
+      "a": "Южная Рона",
+      "b": "Северная Рона",
+      "c": "Бордо",
+      "d": "Долина Луары"
+    },
+    "correct_answer": "a",
+    "explanation": "Vacqueyras — апелласьон Южной Роны.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "southern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 26,
+    "question": "В каком регионе Франции находится апелласьон Рюли (Rully)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия (Кот Шалонез)",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Rully — зона Кот Шалонез в Бургундии.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_chalonnaise",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 27,
+    "question": "В каком регионе Франции находится апелласьон Кото‑ду‑Лайон (Coteaux du Layon)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия",
+      "c": "Долина Луары (Анжу)",
+      "d": "Долина Роны"
+    },
+    "correct_answer": "c",
+    "explanation": "Coteaux du Layon относится к Анжу.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "anjou",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 28,
+    "question": "В каком регионе Франции находится апелласьон Жигондас (Gigondas)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Долина Луары",
+      "c": "Бургундия",
+      "d": "Южная Рона"
+    },
+    "correct_answer": "d",
+    "explanation": "Gigondas — апелласьон Южной Роны.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "southern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 29,
+    "question": "В каком регионе Франции находится апелласьон Каор (Cahors)?",
+    "options": {
+      "a": "Юго‑Запад Франции",
+      "b": "Долина Луары",
+      "c": "Бургундия",
+      "d": "Шампань"
+    },
+    "correct_answer": "a",
+    "explanation": "Cahors относится к Юго‑Западу.",
+    "tags": [
+      "france",
+      "south_west_france",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 30,
+    "question": "В каком регионе Франции находится апелласьон Кот де Прованс (Cotes de Provence)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Юг Франции (Прованс)",
+      "c": "Долина Луары",
+      "d": "Бордо"
+    },
+    "correct_answer": "b",
+    "explanation": "Cotes de Provence — базовая зона Прованса.",
+    "tags": [
+      "france",
+      "southern_france",
+      "provence",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 31,
+    "question": "В каком регионе Франции находится апелласьон Сен‑Перей (Saint‑Peray)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Южная Рона",
+      "c": "Северная Рона",
+      "d": "Долина Луары"
+    },
+    "correct_answer": "c",
+    "explanation": "Saint‑Peray — апелласьон Северной Роны.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "northern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 32,
+    "question": "В каком регионе Франции находится апелласьон Антр‑де‑Мер (Entre‑deux‑Mers)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Эльзас",
+      "d": "Бордо"
+    },
+    "correct_answer": "d",
+    "explanation": "Entre‑deux‑Mers относится к Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 33,
+    "question": "В каком регионе Франции находится апелласьон Пэй д’Ок IGP (Pays d’Oc)?",
+    "options": {
+      "a": "Юг Франции (Лангедок)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Pays d’Oc IGP относится к Лангедоку.",
+    "tags": [
+      "france",
+      "southern_france",
+      "languedoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 34,
+    "question": "В каком регионе Франции находится апелласьон Монбазийяк (Monbazillac)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Юго‑Запад Франции",
+      "c": "Бургундия",
+      "d": "Шампань"
+    },
+    "correct_answer": "b",
+    "explanation": "Monbazillac — зона Юго‑Запада.",
+    "tags": [
+      "france",
+      "south_west_france",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 35,
+    "question": "В каком регионе Франции находится апелласьон Мюскаде Севр э Мэн (Muscadet Sevre et Maine)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Бордо",
+      "c": "Долина Луары (Пеи Нанте)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Muscadet Sevre et Maine относится к Пеи Нанте.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "nantais",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 36,
+    "question": "В каком регионе Франции находится апелласьон Минервуа (Minervois)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Долина Луары",
+      "c": "Бургундия",
+      "d": "Юг Франции (Лангедок)"
+    },
+    "correct_answer": "d",
+    "explanation": "Minervois — апелласьон Лангедока.",
+    "tags": [
+      "france",
+      "southern_france",
+      "languedoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 37,
+    "question": "В каком регионе Франции находится апелласьон Фиту (Fitou)?",
+    "options": {
+      "a": "Юг Франции (Лангедок)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Fitou относится к Лангедоку.",
+    "tags": [
+      "france",
+      "southern_france",
+      "languedoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 38,
+    "question": "В каком регионе Франции находится апелласьон Сомюр‑Шампиньи (Saumur‑Champigny)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Долина Луары (Сомюр)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Saumur‑Champigny — зона Сомюр в Луара.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "saumur",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 39,
+    "question": "В каком регионе Франции находится Турень (Touraine)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия",
+      "c": "Долина Луары (Турень)",
+      "d": "Шампань"
+    },
+    "correct_answer": "c",
+    "explanation": "Touraine — центральная зона Луары.",
+    "tags": [
+      "france",
+      "loire_valley",
+      "touraine",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 40,
+    "question": "В каком регионе Франции находится апелласьон Корнас (Cornas)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Долина Луары",
+      "c": "Южная Рона",
+      "d": "Северная Рона"
+    },
+    "correct_answer": "d",
+    "explanation": "Cornas относится к Северной Роне.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "northern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 41,
+    "question": "В каком регионе Франции находится апелласьон Кот дю Рон Вилляж (Cotes du Rhone Villages)?",
+    "options": {
+      "a": "Южная Рона",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Cotes du Rhone Villages относится к Южной Роне.",
+    "tags": [
+      "france",
+      "rhone_valley",
+      "southern_rhone",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 42,
+    "question": "В каком регионе Франции находится коммунальный апелласьон Сент‑Эстеф (Saint‑Estephe)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо (Медок)",
+      "c": "Бургундия",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Saint‑Estephe — апелласьон Медока.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "medoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 43,
+    "question": "В каком регионе Франции находится коммунальный апелласьон Марго (Margaux)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Бордо (Медок)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Margaux — одна из ключевых коммун Медока.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "medoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 44,
+    "question": "В каком регионе Франции находится коммунальный апелласьон Сент‑Жюльен (Saint‑Julien)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Эльзас",
+      "d": "Бордо (Медок)"
+    },
+    "correct_answer": "d",
+    "explanation": "Saint‑Julien — апелласьон Медока.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "medoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 45,
+    "question": "В каком регионе Франции находится апелласьон Помроль (Pomerol)?",
+    "options": {
+      "a": "Бордо (Правый берег)",
+      "b": "Бургундия",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Pomerol относится к Правому берегу Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "right_bank",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 46,
+    "question": "В каком регионе Франции находится апелласьон Фронсак (Fronsac)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо (Правый берег)",
+      "c": "Бургундия",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Fronsac — апелласьон Правого берега.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "right_bank",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 47,
+    "question": "В каком регионе Франции находится апелласьон Грав (Graves)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Бордо (Грав)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Graves — историческая зона Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "graves",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 48,
+    "question": "В каком регионе Франции находится апелласьон Барсак (Barsac)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Эльзас",
+      "d": "Бордо (Грав)"
+    },
+    "correct_answer": "d",
+    "explanation": "Barsac относится к зоне Грав.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "graves",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 49,
+    "question": "В каком регионе Франции находится коммуна Бон (Beaune)?",
+    "options": {
+      "a": "Бургундия (Кот де Бон)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Beaune — центр Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 50,
+    "question": "В каком регионе Франции находится коммуна Поммар (Pommard)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия (Кот де Бон)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Pommard — коммуна Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 51,
+    "question": "В каком регионе Франции находится коммуна Вольне (Volnay)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Бургундия (Кот де Бон)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Volnay — коммуна Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 52,
+    "question": "В каком регионе Франции находится коммуна Мерсо (Meursault)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Эльзас",
+      "d": "Бургундия (Кот де Бон)"
+    },
+    "correct_answer": "d",
+    "explanation": "Meursault — коммуна Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 53,
+    "question": "В каком регионе Франции находится коммуна Алос‑Кортон (Aloxe‑Corton)?",
+    "options": {
+      "a": "Бургундия (Кот де Бон)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Aloxe‑Corton — коммуна Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 54,
+    "question": "В каком регионе Франции находится коммуна Вон‑Романе (Vosne‑Romanee)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия (Кот де Нюи)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Vosne‑Romanee — коммуна Кот де Нюи.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_nuits",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 55,
+    "question": "В каком регионе Франции находится коммуна Жевре‑Шамбертен (Gevrey‑Chambertin)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Бургундия (Кот де Нюи)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Gevrey‑Chambertin — коммуна Кот де Нюи.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_nuits",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 56,
+    "question": "В каком регионе Франции находится коммуна Шамболь‑Мюзиньи (Chambolle‑Musigny)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Эльзас",
+      "d": "Бургундия (Кот де Нюи)"
+    },
+    "correct_answer": "d",
+    "explanation": "Chambolle‑Musigny — коммуна Кот де Нюи.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_nuits",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 57,
+    "question": "В каком регионе Франции находится коммуна Море‑Сен‑Дени (Morey‑Saint‑Denis)?",
+    "options": {
+      "a": "Бургундия (Кот де Нюи)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Morey‑Saint‑Denis — коммуна Кот де Нюи.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_nuits",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 58,
+    "question": "В каком регионе Франции находится коммуна Вужо (Vougeot)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия (Кот де Нюи)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Vougeot — коммуна Кот де Нюи.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_nuits",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 59,
+    "question": "В каком регионе Франции находится коммуна Шассань‑Монраше (Chassagne‑Montrachet)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Бургундия (Кот де Бон)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Chassagne‑Montrachet — коммуна Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 60,
+    "question": "В каком регионе Франции находится зона Макон (Macon)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Эльзас",
+      "d": "Бургундия (Маконнэ)"
+    },
+    "correct_answer": "d",
+    "explanation": "Macon относится к Маконнэ в Бургундии.",
+    "tags": [
+      "france",
+      "burgundy",
+      "maconnais",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 61,
+    "question": "В каком регионе Франции находится Пюи‑Фюиссе (Pouilly‑Fuisse)?",
+    "options": {
+      "a": "Бургундия (Маконнэ)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Pouilly‑Fuisse относится к Маконнэ.",
+    "tags": [
+      "france",
+      "burgundy",
+      "maconnais",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 62,
+    "question": "В каком регионе Франции находится Сен‑Веран (Saint‑Veran)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия (Маконнэ)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Saint‑Veran относится к Маконнэ.",
+    "tags": [
+      "france",
+      "burgundy",
+      "maconnais",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 63,
+    "question": "В каком регионе Франции находится Вире‑Клесс (Vire‑Clesse)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Бургундия (Маконнэ)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Vire‑Clesse относится к Маконнэ.",
+    "tags": [
+      "france",
+      "burgundy",
+      "maconnais",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 64,
+    "question": "В каком регионе Франции находится Бузерон (Bouzeron)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Эльзас",
+      "d": "Бургундия (Кот Шалонез)"
+    },
+    "correct_answer": "d",
+    "explanation": "Bouzeron относится к Кот Шалонез.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_chalonnaise",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 65,
+    "question": "В каком регионе Франции находится Монтаньи (Montagny)?",
+    "options": {
+      "a": "Бургундия (Кот Шалонез)",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Montagny относится к Кот Шалонез.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_chalonnaise",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 66,
+    "question": "В каком регионе Франции находится Макон Вилляж (Macon Villages)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия (Маконнэ)",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Macon Villages относится к Маконнэ.",
+    "tags": [
+      "france",
+      "burgundy",
+      "maconnais",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 67,
+    "question": "В каком регионе Франции находится Пти Шабли (Petit Chablis)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Бургундия (Шабли)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Petit Chablis относится к зоне Шабли.",
+    "tags": [
+      "france",
+      "burgundy",
+      "chablis",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 68,
+    "question": "В каком регионе Франции находится Кот д’Ор (Cote d’Or)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бордо",
+      "c": "Эльзас",
+      "d": "Бургундия (Кот д’Ор)"
+    },
+    "correct_answer": "d",
+    "explanation": "Cote d’Or — ядро Бургундии («Золотой склон»).",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_d_or",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 69,
+    "question": "В каком регионе Франции находится Кот де Нюи (Cote de Nuits)?",
+    "options": {
+      "a": "Бургундия",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Cote de Nuits — северная часть «Золотого склона» Бургундии.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_nuits",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 70,
+    "question": "В каком регионе Франции находится Кот де Бон (Cote de Beaune)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Бордо",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Cote de Beaune — южная часть «Золотого склона» Бургундии.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 71,
+    "question": "В каком регионе Франции находится Зотценберг (Zotzenberg)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия",
+      "c": "Эльзас",
+      "d": "Долина Луары"
+    },
+    "correct_answer": "c",
+    "explanation": "Zotzenberg — зона Эльзаса.",
+    "tags": [
+      "france",
+      "alsace",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 72,
+    "question": "В каком регионе Франции находится Кафберкопф (Kaefferkopf)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "d",
+    "explanation": "Kaefferkopf относится к Эльзасу.",
+    "tags": [
+      "france",
+      "alsace",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 73,
+    "question": "В каком регионе Франции находится Розакер (Rosacker)?",
+    "options": {
+      "a": "Эльзас",
+      "b": "Бордо",
+      "c": "Долина Луары",
+      "d": "Бургундия"
+    },
+    "correct_answer": "a",
+    "explanation": "Rosacker — зона Эльзаса.",
+    "tags": [
+      "france",
+      "alsace",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 74,
+    "question": "В каком регионе Франции находится Шлоссберг (Schlossberg)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Эльзас",
+      "c": "Долина Луары",
+      "d": "Бургундия"
+    },
+    "correct_answer": "b",
+    "explanation": "Schlossberg относится к Эльзасу.",
+    "tags": [
+      "france",
+      "alsace",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 75,
+    "question": "В каком регионе Франции находится О‑Медок (Haut‑Medoc)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Бордо (Медок)",
+      "d": "Эльзас"
+    },
+    "correct_answer": "c",
+    "explanation": "Haut‑Medoc — часть Медока в Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "medoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 76,
+    "question": "В каком регионе Франции находится Медок (Medoc)?",
+    "options": {
+      "a": "Долина Луары",
+      "b": "Бургундия",
+      "c": "Эльзас",
+      "d": "Бордо (Медок)"
+    },
+    "correct_answer": "d",
+    "explanation": "Medoc — одна из ключевых зон Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "medoc",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 77,
+    "question": "В каком регионе Франции находится апелласьон Бург (Bourg)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "a",
+    "explanation": "Bourg относится к системе апелласьонов Бордо.",
+    "tags": [
+      "france",
+      "bordeaux",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 78,
+    "question": "В каком регионе Франции находится Шабли (Chablis)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Бургундия (Шабли)",
+      "c": "Долина Луары",
+      "d": "Эльзас"
+    },
+    "correct_answer": "b",
+    "explanation": "Chablis — северная зона Бургундии.",
+    "tags": [
+      "france",
+      "burgundy",
+      "chablis",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 79,
+    "question": "В каком регионе Франции находится Вольне (Volnay)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Эльзас",
+      "c": "Бургундия (Кот де Бон)",
+      "d": "Долина Луары"
+    },
+    "correct_answer": "c",
+    "explanation": "Volnay — коммуна Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  },
+  {
+    "id": 80,
+    "question": "В каком регионе Франции находится Пюлиньи‑Монраше (Puligny‑Montrachet)?",
+    "options": {
+      "a": "Бордо",
+      "b": "Долина Луары",
+      "c": "Эльзас",
+      "d": "Бургундия (Кот де Бон)"
+    },
+    "correct_answer": "d",
+    "explanation": "Puligny‑Montrachet — коммуна Кот де Бон.",
+    "tags": [
+      "france",
+      "burgundy",
+      "cote_de_beaune",
+      "geography"
+    ],
+    "country": "Франция",
+    "region": "Франция"
+  }
+]
