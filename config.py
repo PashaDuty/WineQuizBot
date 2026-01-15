@@ -76,7 +76,7 @@ COUNTRIES = {
             "rioja": {"name": "🍷 Риоха", "file": "rioja.json"},
             "catalonia_levante": {"name": "🌞 Каталония и Леванте", "file": "Catalonia and Levante.json"},
             "castile_leon": {"name": "🏰 Кастилия и Леон", "file": "Castile Leon.json"},
-            "other": {"name": "🏔️ Другие регионы Испании", "file": "Basque Country, Galicia, La Mancha.json"},
+            "basque_galicia_lamancha": {"name": "🏔️ Страна Басков, Галисия и Ла Манча", "file": "Basque Country, Galicia, La Mancha.json"},
         },
         "random_label": "🎲 Случайно по всей Испании"
     },
