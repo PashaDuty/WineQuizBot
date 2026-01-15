@@ -140,6 +140,9 @@ async def btn_my_stats(message: Message):
 @router.message(F.text == "👨‍💻 Разработчик")
 async def btn_developer_info(message: Message):
     """Кнопка информация о разработчике"""
+    await message.answer("ℹ️ Раздел временно недоступен.")
+    return
+
     photo_path = DEV_PHOTO_PATH
     data_dir = os.path.dirname(DEV_PHOTO_PATH)
     if not os.path.exists(photo_path):
