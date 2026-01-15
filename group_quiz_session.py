@@ -49,6 +49,8 @@ class GroupQuizSession:
     started_at: datetime = field(default_factory=datetime.now)
     question_start_time: Optional[float] = None  # Время начала вопроса
     answered_users: Set[int] = field(default_factory=set)  # Кто уже ответил на текущий вопрос
+    message_ids: Set[int] = field(default_factory=set)  # Сообщения бота по игре
+    result_message_id: Optional[int] = None  # Итоговое сообщение с результатом
     
     @property
     def total_questions(self) -> int:
@@ -116,6 +118,11 @@ class GroupQuizSession:
         for participant in self.participants.values():
             participant.current_answer = None
             participant.answer_time = None
+
+    def track_message(self, message_id: Optional[int]):
+        """Запомнить сообщение бота для последующей очистки"""
+        if message_id:
+            self.message_ids.add(message_id)
     
     def end_question(self):
         """Завершить текущий вопрос"""

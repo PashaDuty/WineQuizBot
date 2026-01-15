@@ -482,6 +482,7 @@ async def callback_legacy_count_in_group(callback: CallbackQuery):
             parse_mode="Markdown"
         )
         session.registration_message_id = msg.message_id
+        session.track_message(msg.message_id)
         logger.info(f"[GROUP] Registration message sent successfully, msg_id={session.registration_message_id}")
         
         # Запускаем таймер регистрации
@@ -604,6 +605,7 @@ async def callback_group_start(callback: CallbackQuery):
             parse_mode="Markdown"
         )
         session.registration_message_id = msg.message_id
+        session.track_message(msg.message_id)
         logger.info(f"[GROUP] Registration message sent successfully, msg_id={session.registration_message_id}")
         
         # Запускаем таймер регистрации
@@ -738,12 +740,14 @@ async def stop_group_quiz(bot: Bot, chat_id: int):
 
     # Отправляем результат остановленной викторины
     text = format_group_stop_result(session)
-    await bot.send_message(
+    msg = await bot.send_message(
         chat_id,
         text,
         reply_markup=get_group_result_keyboard(),
         parse_mode="Markdown"
     )
+    session.result_message_id = msg.message_id
+    session.track_message(msg.message_id)
 
     # Сохраняем личную статистику по отвеченным вопросам
     try:
@@ -873,7 +877,7 @@ async def start_group_quiz(bot: Bot, chat_id: int, session):
     
     participants_list = ", ".join([escape_markdown(p.display_name) for p in session.participants.values()])
     
-    await bot.send_message(
+    msg = await bot.send_message(
         chat_id,
         f"🎮 *ВИКТОРИНА НАЧИНАЕТСЯ\\!*\n\n"
         f"👥 Участники: {participants_list}\n"
@@ -881,6 +885,7 @@ async def start_group_quiz(bot: Bot, chat_id: int, session):
         f"_Первый вопрос через 3 секунды\\.\\.\\._",
         parse_mode="Markdown"
     )
+    session.track_message(msg.message_id)
     
     await asyncio.sleep(3)
     await send_group_question(bot, chat_id, session)
@@ -917,6 +922,7 @@ async def send_group_question(bot: Bot, chat_id: int, session):
         parse_mode="Markdown"
     )
     session.message_id = msg.message_id
+    session.track_message(msg.message_id)
     
     # Запускаем таймер вопроса
     session.timer_task = asyncio.create_task(
@@ -1023,12 +1029,14 @@ async def finish_group_quiz(bot: Bot, chat_id: int, session):
     
     text = format_group_quiz_result(session)
     
-    await bot.send_message(
+    msg = await bot.send_message(
         chat_id,
         text,
         reply_markup=get_group_result_keyboard(),
         parse_mode="Markdown"
     )
+    session.result_message_id = msg.message_id
+    session.track_message(msg.message_id)
     
     # Сохраняем статистику
     try:
@@ -1199,7 +1207,8 @@ async def callback_group_show_explanations(callback: CallbackQuery):
         parse_mode="Markdown"
     )
     for part in parts[1:]:
-        await callback.message.answer(part, parse_mode="Markdown")
+        extra_msg = await callback.message.answer(part, parse_mode="Markdown")
+        session.track_message(extra_msg.message_id)
     await callback.answer()
 
 
@@ -1227,7 +1236,8 @@ async def callback_group_explanation(callback: CallbackQuery):
         parse_mode="Markdown"
     )
     for part in parts[1:]:
-        await callback.message.answer(part, parse_mode="Markdown")
+        extra_msg = await callback.message.answer(part, parse_mode="Markdown")
+        session.track_message(extra_msg.message_id)
     await callback.answer()
 
 
@@ -1251,8 +1261,38 @@ async def callback_group_all_explanations(callback: CallbackQuery):
         parse_mode="Markdown"
     )
     for part in parts[1:]:
-        await callback.message.answer(part, parse_mode="Markdown")
+        extra_msg = await callback.message.answer(part, parse_mode="Markdown")
+        session.track_message(extra_msg.message_id)
     await callback.answer()
+
+
+@router.callback_query(F.data == "gcleanup")
+async def callback_group_cleanup(callback: CallbackQuery):
+    """Очистить сообщения бота по групповому квизу (кроме итогового)"""
+    if not is_group_chat(callback):
+        await callback.answer()
+        return
+
+    chat_id = callback.message.chat.id
+    session = group_session_manager.get_session(chat_id)
+    if not session:
+        await callback.answer("❌ Нет активной викторины.", show_alert=True)
+        return
+
+    keep_id = session.result_message_id
+    message_ids = [mid for mid in session.message_ids if mid != keep_id]
+
+    deleted = 0
+    for mid in message_ids:
+        try:
+            await callback.bot.delete_message(chat_id, mid)
+            deleted += 1
+        except Exception as e:
+            logger.debug(f"[GROUP] Failed to delete message {mid}: {e}")
+
+    session.message_ids = {keep_id} if keep_id else set()
+
+    await callback.answer("✅ Сообщения очищены.")
 
 
 @router.callback_query(F.data == "gnew_quiz")

@@ -1,0 +1,1430 @@
+[
+  {
+    "id": 1,
+    "question": "В каком регионе Италии находится Ланге (Langhe)?",
+    "options": {
+      "a": "Пьемонт",
+      "b": "Тоскана",
+      "c": "Венето",
+      "d": "Сицилия"
+    },
+    "correct_answer": "a",
+    "explanation": "Ланге — холмистая зона вокруг Альбы, ядро неббиоло-стиля (Бароло и Барбареско). Для региона характерны мергелевые почвы и мощная структура красных вин.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "langhe",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 2,
+    "question": "В каком регионе Италии находится Роэро (Roero)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Пьемонт",
+      "c": "Ломбардия",
+      "d": "Трентино-Альто Адидже"
+    },
+    "correct_answer": "b",
+    "explanation": "Roero расположен напротив Ланге, но отличается более песчаными почвами и нередко дает более ароматный, мягкий стиль неббиоло.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "roero",
+      "geography",
+      "terroir"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 3,
+    "question": "В каком регионе Италии находится Дольчетто д'Альба (Dolcetto d'Alba)?",
+    "options": {
+      "a": "Венето",
+      "b": "Абруццо",
+      "c": "Пьемонт",
+      "d": "Кампания"
+    },
+    "correct_answer": "c",
+    "explanation": "Dolcetto d'Alba — пьемонтская зона одноименного сорта, дающего фруктовые красные с умеренными танинами и свежей кислотностью.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "dolcetto_d_alba",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 4,
+    "question": "В каком регионе Италии находится Барбера д'Асти (Barbera d'Asti)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Тоскана",
+      "c": "Фриули-Венеция Джулия",
+      "d": "Пьемонт"
+    },
+    "correct_answer": "d",
+    "explanation": "Barbera d'Asti — классика Пьемонта: высокая кислотность, сочная фруктовость и мягкие танины.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "barbera_d_asti",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 5,
+    "question": "В каком регионе Италии находится Асти (Asti)?",
+    "options": {
+      "a": "Пьемонт",
+      "b": "Венето",
+      "c": "Тоскана",
+      "d": "Сицилия"
+    },
+    "correct_answer": "a",
+    "explanation": "Asti связано с мускатом (Moscato Bianco) и характерными ароматными игристыми/полуигристыми стилями.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "asti",
+      "geography",
+      "sparkling"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 6,
+    "question": "В каком регионе Италии находится Гави (Gavi)?",
+    "options": {
+      "a": "Лацио",
+      "b": "Пьемонт",
+      "c": "Ломбардия",
+      "d": "Сардиния"
+    },
+    "correct_answer": "b",
+    "explanation": "Gavi — белая зона Пьемонта на сорте кортезе, известная свежестью и минеральным профилем.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "gavi",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 7,
+    "question": "В каком регионе Италии находится Гаттинара (Gattinara)?",
+    "options": {
+      "a": "Венето",
+      "b": "Лигурия",
+      "c": "Пьемонт",
+      "d": "Абруццо"
+    },
+    "correct_answer": "c",
+    "explanation": "Gattinara — север Пьемонта; неббиоло здесь часто дает более строгий, минеральный стиль из-за вулканических пород.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "gattinara",
+      "geography",
+      "terroir"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 8,
+    "question": "В каком регионе Италии находится Барбареско (Barbaresco)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Венето",
+      "c": "Ломбардия",
+      "d": "Пьемонт"
+    },
+    "correct_answer": "d",
+    "explanation": "Barbaresco — зона неббиоло с более деликатной структурой, чем Бароло, но с высокой ароматической сложностью.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "barbaresco",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 9,
+    "question": "В каком регионе Италии находится Бароло (Barolo)?",
+    "options": {
+      "a": "Пьемонт",
+      "b": "Тоскана",
+      "c": "Венето",
+      "d": "Ломбардия"
+    },
+    "correct_answer": "a",
+    "explanation": "Barolo — флагман Пьемонта; неббиоло здесь дает мощные, танинные и долго живущие вина.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "barolo",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 10,
+    "question": "В каком регионе Италии находится Нейве (Neive)?",
+    "options": {
+      "a": "Марке",
+      "b": "Пьемонт",
+      "c": "Лацио",
+      "d": "Кампания"
+    },
+    "correct_answer": "b",
+    "explanation": "Neive — коммуна зоны Барбареско; основные стили строятся вокруг неббиоло с яркой кислотностью и ароматикой.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "neive",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 11,
+    "question": "В каком регионе Италии находится Трейзо (Treiso)?",
+    "options": {
+      "a": "Трентино-Альто Адидже",
+      "b": "Венето",
+      "c": "Пьемонт",
+      "d": "Сицилия"
+    },
+    "correct_answer": "c",
+    "explanation": "Treiso — коммуна Барбареско, где неббиоло проявляет тонкую ароматичность и структурность.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "treiso",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 12,
+    "question": "В каком регионе Италии находится Сан Рокко Сено д'Эльвио (San Rocco Seno d'Elvio)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Венето",
+      "c": "Умбрия",
+      "d": "Пьемонт"
+    },
+    "correct_answer": "d",
+    "explanation": "Коммуна относится к зоне Барбареско, где неббиоло доминирует в стиле красных.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "san_rocco_seno_d_elvio",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 13,
+    "question": "В каком регионе Италии находится Ла Морра (La Morra)?",
+    "options": {
+      "a": "Пьемонт",
+      "b": "Лацио",
+      "c": "Сицилия",
+      "d": "Трентино-Альто Адидже"
+    },
+    "correct_answer": "a",
+    "explanation": "La Morra — одна из ключевых коммун Бароло, известная ароматными и элегантными интерпретациями неббиоло.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "la_morra",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 14,
+    "question": "В каком регионе Италии находится Кастильоне Фаллетто (Castiglione Falletto)?",
+    "options": {
+      "a": "Фриули-Венеция Джулия",
+      "b": "Пьемонт",
+      "c": "Тоскана",
+      "d": "Сардиния"
+    },
+    "correct_answer": "b",
+    "explanation": "Castiglione Falletto — коммуна Бароло с богатой структурой и плотными стилями неббиоло.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "castiglione_falletto",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 15,
+    "question": "В каком регионе Италии находится Серралунга д'Альба (Serralunga d'Alba)?",
+    "options": {
+      "a": "Абруццо",
+      "b": "Ломбардия",
+      "c": "Пьемонт",
+      "d": "Венето"
+    },
+    "correct_answer": "c",
+    "explanation": "Serralunga d'Alba известна более строгими и танинными версиями Бароло.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "serralunga_d_alba",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 16,
+    "question": "В каком регионе Италии находится Монфорте д'Альба (Monforte d'Alba)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Лацио",
+      "c": "Сицилия",
+      "d": "Пьемонт"
+    },
+    "correct_answer": "d",
+    "explanation": "Monforte d'Alba — коммуна Бароло, известная плотной структурой и потенциалом выдержки.",
+    "tags": [
+      "italy",
+      "piemonte",
+      "monforte_d_alba",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 17,
+    "question": "В каком регионе Италии находится Вальдадж (Valdadige)?",
+    "options": {
+      "a": "Трентино-Альто Адидже",
+      "b": "Венето",
+      "c": "Ломбардия",
+      "d": "Пьемонт"
+    },
+    "correct_answer": "a",
+    "explanation": "Valdadige — альпийская зона с прохладным климатом, где часто доминируют свежие и ароматные стили.",
+    "tags": [
+      "italy",
+      "trentino_alto_adige",
+      "valdadige",
+      "geography",
+      "climate"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 18,
+    "question": "В каком регионе Италии находится Кальдаро (Caldaro)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Трентино-Альто Адидже",
+      "c": "Умбрия",
+      "d": "Пулия"
+    },
+    "correct_answer": "b",
+    "explanation": "Caldaro (Kaltern) известен свежими ароматными винами, формируемыми высотными виноградниками.",
+    "tags": [
+      "italy",
+      "trentino_alto_adige",
+      "caldaro",
+      "geography",
+      "climate"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 19,
+    "question": "В каком регионе Италии находится Тренто (Trento)?",
+    "options": {
+      "a": "Венето",
+      "b": "Сицилия",
+      "c": "Трентино-Альто Адидже",
+      "d": "Марке"
+    },
+    "correct_answer": "c",
+    "explanation": "Trento — центр игристых стилей традиционного метода благодаря прохладному климату и высотам.",
+    "tags": [
+      "italy",
+      "trentino_alto_adige",
+      "trento",
+      "geography",
+      "sparkling"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 20,
+    "question": "В каком регионе Италии находится Терольдего Ротальяно (Teroldego Rotaliano)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Венето",
+      "c": "Марке",
+      "d": "Трентино-Альто Адидже"
+    },
+    "correct_answer": "d",
+    "explanation": "Teroldego Rotaliano — знаковая красная зона региона, связанная с сортом терольдего.",
+    "tags": [
+      "italy",
+      "trentino_alto_adige",
+      "teroldego_rotaliano",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 21,
+    "question": "В каком регионе Италии находится Кастеллер (Casteller)?",
+    "options": {
+      "a": "Трентино-Альто Адидже",
+      "b": "Пьемонт",
+      "c": "Тоскана",
+      "d": "Абруццо"
+    },
+    "correct_answer": "a",
+    "explanation": "Casteller — небольшая зона региона, известная локальными красными стилями.",
+    "tags": [
+      "italy",
+      "trentino_alto_adige",
+      "casteller",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 22,
+    "question": "В каком регионе Италии находится Коллио (Collio)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Фриули-Венеция Джулия",
+      "c": "Сицилия",
+      "d": "Ломбардия"
+    },
+    "correct_answer": "b",
+    "explanation": "Collio — ключевая белая зона Фриули, известная ароматикой и чистыми сортовыми стилями.",
+    "tags": [
+      "italy",
+      "friuli_venezia_giulia",
+      "collio",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 23,
+    "question": "В каком регионе Италии находится Колли Ориентали (Colli Orientali)?",
+    "options": {
+      "a": "Венето",
+      "b": "Трентино-Альто Адидже",
+      "c": "Фриули-Венеция Джулия",
+      "d": "Ломбардия"
+    },
+    "correct_answer": "c",
+    "explanation": "Colli Orientali — зона Фриули с сильной традицией как белых, так и красных вин.",
+    "tags": [
+      "italy",
+      "friuli_venezia_giulia",
+      "colli_orientali",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 24,
+    "question": "В каком регионе Италии находится Колли Ориентали дель Фриули Пиколит (Colli Orientali del Friuli Picolit)?",
+    "options": {
+      "a": "Венето",
+      "b": "Марке",
+      "c": "Умбрия",
+      "d": "Фриули-Венеция Джулия"
+    },
+    "correct_answer": "d",
+    "explanation": "Зона известна редким сортом пиколит и десертными стилями.",
+    "tags": [
+      "italy",
+      "friuli_venezia_giulia",
+      "colli_orientali_del_friuli_picolit",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 25,
+    "question": "В каком регионе Италии находится Рамандоло (Ramandolo)?",
+    "options": {
+      "a": "Фриули-Венеция Джулия",
+      "b": "Тоскана",
+      "c": "Сицилия",
+      "d": "Ломбардия"
+    },
+    "correct_answer": "a",
+    "explanation": "Ramandolo связан с ароматными белыми и сладкими стилями из местных сортов.",
+    "tags": [
+      "italy",
+      "friuli_venezia_giulia",
+      "ramandolo",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 26,
+    "question": "В каком регионе Италии находится Розаццо (Rosazzo)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Фриули-Венеция Джулия",
+      "c": "Венето",
+      "d": "Кампания"
+    },
+    "correct_answer": "b",
+    "explanation": "Rosazzo — зона белых вин с яркой ароматикой и свежестью.",
+    "tags": [
+      "italy",
+      "friuli_venezia_giulia",
+      "rosazzo",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 27,
+    "question": "В каком регионе Италии находится Карсо (Carso)?",
+    "options": {
+      "a": "Марке",
+      "b": "Ломбардия",
+      "c": "Фриули-Венеция Джулия",
+      "d": "Лацио"
+    },
+    "correct_answer": "c",
+    "explanation": "Carso известен каменистыми почвами и минеральными, прохладными стилями.",
+    "tags": [
+      "italy",
+      "friuli_venezia_giulia",
+      "carso",
+      "geography",
+      "terroir"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 28,
+    "question": "В каком регионе Италии находится Фриули Граве (Friuli Grave)?",
+    "options": {
+      "a": "Венето",
+      "b": "Тоскана",
+      "c": "Сицилия",
+      "d": "Фриули-Венеция Джулия"
+    },
+    "correct_answer": "d",
+    "explanation": "Friuli Grave — широкая зона Фриули с чистыми, свежими белыми стилями.",
+    "tags": [
+      "italy",
+      "friuli_venezia_giulia",
+      "friuli_grave",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 29,
+    "question": "В каком регионе Италии находится Вальполичелла (Valpolicella)?",
+    "options": {
+      "a": "Венето",
+      "b": "Пьемонт",
+      "c": "Тоскана",
+      "d": "Абруццо"
+    },
+    "correct_answer": "a",
+    "explanation": "Valpolicella — ключевая зона Венето, основанная на купажах корвины и родственных сортов.",
+    "tags": [
+      "italy",
+      "veneto",
+      "valpolicella",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 30,
+    "question": "В каком регионе Италии находится Вальполичелла Рипассо (Valpolicella Ripasso)?",
+    "options": {
+      "a": "Сицилия",
+      "b": "Венето",
+      "c": "Умбрия",
+      "d": "Пьемонт"
+    },
+    "correct_answer": "b",
+    "explanation": "Ripasso создается повторной мацерацией на выжимке Амароне, что усиливает плотность и ароматику.",
+    "tags": [
+      "italy",
+      "veneto",
+      "valpolicella_ripasso",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 31,
+    "question": "В каком регионе Италии находится Амароне делла Вальполичелла (Amarone della Valpolicella)?",
+    "options": {
+      "a": "Пьемонт",
+      "b": "Тоскана",
+      "c": "Венето",
+      "d": "Кампания"
+    },
+    "correct_answer": "c",
+    "explanation": "Amarone — мощный стиль из подвяленного винограда, концентрированный и долговечный.",
+    "tags": [
+      "italy",
+      "veneto",
+      "amarone_della_valpolicella",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 32,
+    "question": "В каком регионе Италии находится Речото делла Вальполичелла (Recioto della Valpolicella)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Умбрия",
+      "c": "Тоскана",
+      "d": "Венето"
+    },
+    "correct_answer": "d",
+    "explanation": "Recioto — традиционный сладкий стиль на базе подвяленного винограда.",
+    "tags": [
+      "italy",
+      "veneto",
+      "recioto_della_valpolicella",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 33,
+    "question": "В каком регионе Италии находится Соаве (Soave)?",
+    "options": {
+      "a": "Венето",
+      "b": "Ломбардия",
+      "c": "Пьемонт",
+      "d": "Марке"
+    },
+    "correct_answer": "a",
+    "explanation": "Soave известен белыми винами на сорте гарганега с яркой кислотностью.",
+    "tags": [
+      "italy",
+      "veneto",
+      "soave",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 34,
+    "question": "В каком регионе Италии находится Соаве Классико (Soave Classico)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Венето",
+      "c": "Тоскана",
+      "d": "Марке"
+    },
+    "correct_answer": "b",
+    "explanation": "Soave Classico — историческое ядро Soave, с более выраженной минераликой.",
+    "tags": [
+      "italy",
+      "veneto",
+      "soave_classico",
+      "geography",
+      "terroir"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 35,
+    "question": "В каком регионе Италии находится Речото ди Соаве (Recioto di Soave)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Пьемонт",
+      "c": "Венето",
+      "d": "Умбрия"
+    },
+    "correct_answer": "c",
+    "explanation": "Recioto di Soave — сладкий стиль из подвяленного винограда (чаще гарганега).",
+    "tags": [
+      "italy",
+      "veneto",
+      "recioto_di_soave",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 36,
+    "question": "В каком регионе Италии находится Бардолино (Bardolino)?",
+    "options": {
+      "a": "Трентино-Альто Адидже",
+      "b": "Умбрия",
+      "c": "Лацио",
+      "d": "Венето"
+    },
+    "correct_answer": "d",
+    "explanation": "Bardolino — легкие красные стили у озера Гарда, часто с освежающим профилем.",
+    "tags": [
+      "italy",
+      "veneto",
+      "bardolino",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 37,
+    "question": "В каком регионе Италии находится Гамбеллара (Gambellara)?",
+    "options": {
+      "a": "Венето",
+      "b": "Тоскана",
+      "c": "Лигурия",
+      "d": "Сицилия"
+    },
+    "correct_answer": "a",
+    "explanation": "Gambellara — белая зона Венето, связанная с гарганега и минеральным стилем.",
+    "tags": [
+      "italy",
+      "veneto",
+      "gambellara",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 38,
+    "question": "В каком регионе Италии находится Просекко (Prosecco)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Венето",
+      "c": "Трентино-Альто Адидже",
+      "d": "Марке"
+    },
+    "correct_answer": "b",
+    "explanation": "Prosecco основан на сорте глера и известен свежим игристым стилем.",
+    "tags": [
+      "italy",
+      "veneto",
+      "prosecco",
+      "geography",
+      "sparkling"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 39,
+    "question": "В каком регионе Италии находится Просекко Конельяно-Вальдоббьядене (Prosecco Conegliano-Valdobbiadene)?",
+    "options": {
+      "a": "Пьемонт",
+      "b": "Ломбардия",
+      "c": "Венето",
+      "d": "Фриuli-Венеция Джулия"
+    },
+    "correct_answer": "c",
+    "explanation": "Эта зона Венето считается одним из эталонов стиля Prosecco благодаря холмистому терруару.",
+    "tags": [
+      "italy",
+      "veneto",
+      "prosecco_conegliano_valdobbiadene",
+      "geography",
+      "sparkling"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 40,
+    "question": "В каком регионе Италии находится Франчакорта (Franciacorta)?",
+    "options": {
+      "a": "Венето",
+      "b": "Трентино-Альто Адидже",
+      "c": "Тоскана",
+      "d": "Ломбардия"
+    },
+    "correct_answer": "d",
+    "explanation": "Franciacorta — зона Ломбардии для игристых традиционного метода.",
+    "tags": [
+      "italy",
+      "lombardy",
+      "franciacorta",
+      "geography",
+      "sparkling"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 41,
+    "question": "В каком регионе Италии находится Олтрепо Павезе (Oltrepo Pavese)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Венето",
+      "c": "Пьемонт",
+      "d": "Тоскана"
+    },
+    "correct_answer": "a",
+    "explanation": "Oltrepo Pavese — крупная зона Ломбардии с разнообразием стилей, включая игристые.",
+    "tags": [
+      "italy",
+      "lombardy",
+      "oltrepo_pavese",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 42,
+    "question": "В каком регионе Италии находится Вальтеллина (Valtellina)?",
+    "options": {
+      "a": "Трентино-Альто Адидже",
+      "b": "Ломбардия",
+      "c": "Венето",
+      "d": "Умбрия"
+    },
+    "correct_answer": "b",
+    "explanation": "Valtellina — альпийская зона с террасными виноградниками и свежей структурой красных вин.",
+    "tags": [
+      "italy",
+      "lombardy",
+      "valtellina",
+      "geography",
+      "terroir"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 43,
+    "question": "В каком регионе Италии находится Лугана (Lugana)?",
+    "options": {
+      "a": "Лацио",
+      "b": "Пулия",
+      "c": "Ломбардия",
+      "d": "Умбрия"
+    },
+    "correct_answer": "c",
+    "explanation": "Lugana — белая зона у озера Гарда, известная свежим и минеральным стилем.",
+    "tags": [
+      "italy",
+      "lombardy",
+      "lugana",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 44,
+    "question": "В каком регионе Италии находится Гарда (Garda)?",
+    "options": {
+      "a": "Венето",
+      "b": "Пьемонт",
+      "c": "Тоскана",
+      "d": "Ломбардия"
+    },
+    "correct_answer": "d",
+    "explanation": "Garda у озера Гарда; влияние водоема смягчает климат и формирует легкие стили.",
+    "tags": [
+      "italy",
+      "lombardy",
+      "garda",
+      "geography",
+      "climate"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 45,
+    "question": "В каком регионе Италии находится Ламбруско Монтоввано (Lambrusco Mantovano)?",
+    "options": {
+      "a": "Ломбардия",
+      "b": "Эмилия-Романья",
+      "c": "Венето",
+      "d": "Пулия"
+    },
+    "correct_answer": "a",
+    "explanation": "Mantovano — ломбардийская зона Lambrusco с фруктовым, часто игристым стилем.",
+    "tags": [
+      "italy",
+      "lombardy",
+      "lambrusco_mantovano",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 46,
+    "question": "В каком регионе Италии находится Кьянти Классико (Chianti Classico)?",
+    "options": {
+      "a": "Трентино-Альто Адидже",
+      "b": "Тоскана",
+      "c": "Сицилия",
+      "d": "Венето"
+    },
+    "correct_answer": "b",
+    "explanation": "Chianti Classico — сердце Тосканы, базовый сорт санджовезе определяет стиль.",
+    "tags": [
+      "italy",
+      "tuscany",
+      "chianti_classico",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 47,
+    "question": "В каком регионе Италии находится Вино Нобиле ди Монтепульчано (Vino Nobile di Montepulciano)?",
+    "options": {
+      "a": "Венето",
+      "b": "Ломбардия",
+      "c": "Тоскана",
+      "d": "Пьемонт"
+    },
+    "correct_answer": "c",
+    "explanation": "Vino Nobile — зона Тосканы с доминированием санджовезе (Prugnolo Gentile).",
+    "tags": [
+      "italy",
+      "tuscany",
+      "vino_nobile_di_montepulciano",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 48,
+    "question": "В каком регионе Италии находится Брунелло ди Монтальчино (Brunello di Montalcino)?",
+    "options": {
+      "a": "Абруццо",
+      "b": "Кампания",
+      "c": "Умбрия",
+      "d": "Тоскана"
+    },
+    "correct_answer": "d",
+    "explanation": "Brunello — знаковая зона Тосканы с высокими требованиями к выдержке.",
+    "tags": [
+      "italy",
+      "tuscany",
+      "brunello_di_montalcino",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 49,
+    "question": "В каком регионе Италии находится Верначча ди Сан Джиминьяно (Vernaccia di San Gimignano)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Лигурия",
+      "c": "Абруццо",
+      "d": "Пулия"
+    },
+    "correct_answer": "a",
+    "explanation": "Vernaccia di San Gimignano — историческая белая зона Тосканы на автохтонном сорте.",
+    "tags": [
+      "italy",
+      "tuscany",
+      "vernaccia_di_san_gimignano",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 50,
+    "question": "В каком регионе Италии находится Болгери (Bolgheri)?",
+    "options": {
+      "a": "Пьемонт",
+      "b": "Тоскана",
+      "c": "Венето",
+      "d": "Сардиния"
+    },
+    "correct_answer": "b",
+    "explanation": "Bolgheri известен купажами на международных сортах и стилем \"супертоскана\".",
+    "tags": [
+      "italy",
+      "tuscany",
+      "bolgheri",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 51,
+    "question": "В каком регионе Италии находится Вердиккьо деи Кастелли ди Йези (Verdicchio dei Castelli di Jesi)?",
+    "options": {
+      "a": "Лацио",
+      "b": "Умбрия",
+      "c": "Марке",
+      "d": "Кампания"
+    },
+    "correct_answer": "c",
+    "explanation": "Зона Марке, где доминирует сорт вердиккьо и свежие белые стили.",
+    "tags": [
+      "italy",
+      "marche",
+      "verdicchio_dei_castelli_di_jesi",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 52,
+    "question": "В каком регионе Италии находится Орвието (Orvieto)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Марке",
+      "c": "Лацио",
+      "d": "Умбрия"
+    },
+    "correct_answer": "d",
+    "explanation": "Orvieto — традиционная белая зона Умбрии с историей купажей.",
+    "tags": [
+      "italy",
+      "umbria",
+      "orvieto",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 53,
+    "question": "В каком регионе Италии находится Сагрантино ди Монтефалько (Sagrantino di Montefalco)?",
+    "options": {
+      "a": "Умбрия",
+      "b": "Тоскана",
+      "c": "Пулия",
+      "d": "Сицилия"
+    },
+    "correct_answer": "a",
+    "explanation": "Сагрантино дает очень танинные красные и считается визитной карточкой Умбрии.",
+    "tags": [
+      "italy",
+      "umbria",
+      "sagrantino_di_montefalco",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 54,
+    "question": "В каком регионе Италии находится Фраскати (Frascati)?",
+    "options": {
+      "a": "Умбрия",
+      "b": "Лацио",
+      "c": "Марке",
+      "d": "Кампания"
+    },
+    "correct_answer": "b",
+    "explanation": "Frascati — классическая белая зона возле Рима с легкими, свежими стилями.",
+    "tags": [
+      "italy",
+      "lazio",
+      "frascati",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 55,
+    "question": "В каком регионе Италии находится Эст! Эст!! Эст!!! ди Монтефьясконе (Est! Est!! Est!!! di Montefiascone)?",
+    "options": {
+      "a": "Умбрия",
+      "b": "Абруццо",
+      "c": "Лацио",
+      "d": "Сардиния"
+    },
+    "correct_answer": "c",
+    "explanation": "Историческая белая зона Лацио с легким, освежающим стилем.",
+    "tags": [
+      "italy",
+      "lazio",
+      "est_est_est_di_montefiascone",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 56,
+    "question": "В каком регионе Италии находится Монтепульчано д'Абруццо (Montepulciano d'Abruzzo)?",
+    "options": {
+      "a": "Лацио",
+      "b": "Умбрия",
+      "c": "Кампания",
+      "d": "Абруццо"
+    },
+    "correct_answer": "d",
+    "explanation": "Montepulciano d'Abruzzo — основная красная зона региона на сорте монтепульчано.",
+    "tags": [
+      "italy",
+      "abruzzo",
+      "montepulciano_d_abruzzo",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 57,
+    "question": "В каком регионе Италии находится Треббиано д'Абруццо (Trebbiano d'Abruzzo)?",
+    "options": {
+      "a": "Абруццо",
+      "b": "Марке",
+      "c": "Пулия",
+      "d": "Лацио"
+    },
+    "correct_answer": "a",
+    "explanation": "Trebbiano d'Abruzzo — белая зона Абруццо с акцентом на свежую кислотность.",
+    "tags": [
+      "italy",
+      "abruzzo",
+      "trebbiano_d_abruzzo",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 58,
+    "question": "В каком регионе Италии находится Черазуоло д'Абруццо (Cerasuolo d'Abruzzo)?",
+    "options": {
+      "a": "Марке",
+      "b": "Абруццо",
+      "c": "Лацио",
+      "d": "Кампания"
+    },
+    "correct_answer": "b",
+    "explanation": "Cerasuolo d'Abruzzo — розовый стиль из сорта монтепульчано, часто более структурный, чем типичный розе.",
+    "tags": [
+      "italy",
+      "abruzzo",
+      "cerasuolo_d_abruzzo",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 59,
+    "question": "В каком регионе Италии находится Таурази (Taurasi)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Пулия",
+      "c": "Кампания",
+      "d": "Умбрия"
+    },
+    "correct_answer": "c",
+    "explanation": "Taurasi — флагман Кампании на сорте альянико, с потенциалом выдержки.",
+    "tags": [
+      "italy",
+      "campania",
+      "taurasi",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 60,
+    "question": "В каком регионе Италии находится Греко ди Туфо (Greco di Tufo)?",
+    "options": {
+      "a": "Лацио",
+      "b": "Марке",
+      "c": "Сицилия",
+      "d": "Кампания"
+    },
+    "correct_answer": "d",
+    "explanation": "Greco di Tufo — белая зона Кампании, известная минеральностью и плотностью.",
+    "tags": [
+      "italy",
+      "campania",
+      "greco_di_tufo",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 61,
+    "question": "В каком регионе Италии находится Фьяно ди Авеллино (Fiano di Avellino)?",
+    "options": {
+      "a": "Кампания",
+      "b": "Лацио",
+      "c": "Марке",
+      "d": "Ломбардия"
+    },
+    "correct_answer": "a",
+    "explanation": "Fiano di Avellino — один из лучших белых Кампании, часто с потенциалом выдержки.",
+    "tags": [
+      "italy",
+      "campania",
+      "fiano_di_avellino",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 62,
+    "question": "В каком регионе Италии находится Примитиво ди Мандурия (Primitivo di Manduria)?",
+    "options": {
+      "a": "Базиликата",
+      "b": "Пулия",
+      "c": "Сицилия",
+      "d": "Абруццо"
+    },
+    "correct_answer": "b",
+    "explanation": "Primitivo di Manduria — знаковая зона Пулии с мощными и зрелыми красными.",
+    "tags": [
+      "italy",
+      "puglia",
+      "primitivo_di_manduria",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 63,
+    "question": "В каком регионе Италии находится Саличе Салентино (Salice Salentino)?",
+    "options": {
+      "a": "Кампания",
+      "b": "Марке",
+      "c": "Пулия",
+      "d": "Лацио"
+    },
+    "correct_answer": "c",
+    "explanation": "Salice Salentino связано с сортом негроамаро и южным, насыщенным стилем.",
+    "tags": [
+      "italy",
+      "puglia",
+      "salice_salentino",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 64,
+    "question": "В каком регионе Италии находится Кастель дель Монте (Castel del Monte)?",
+    "options": {
+      "a": "Сардиния",
+      "b": "Сицилия",
+      "c": "Умбрия",
+      "d": "Пулия"
+    },
+    "correct_answer": "d",
+    "explanation": "Castel del Monte — зона Пулии, часто связанная с сортом неро ди троя.",
+    "tags": [
+      "italy",
+      "puglia",
+      "castel_del_monte",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 65,
+    "question": "В каком регионе Италии находится Альянико дель Вультуре (Aglianico del Vulture)?",
+    "options": {
+      "a": "Базиликата",
+      "b": "Калабрия",
+      "c": "Сардиния",
+      "d": "Абруццо"
+    },
+    "correct_answer": "a",
+    "explanation": "Aglianico del Vulture — вулканическая зона с танинными и долгоживущими красными.",
+    "tags": [
+      "italy",
+      "basilicata",
+      "aglianico_del_vulture",
+      "geography",
+      "terroir"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 66,
+    "question": "В каком регионе Италии находится Черазуоло ди Виттория (Cerasuolo di Vittoria)?",
+    "options": {
+      "a": "Пулия",
+      "b": "Сицилия",
+      "c": "Тоскана",
+      "d": "Марке"
+    },
+    "correct_answer": "b",
+    "explanation": "Cerasuolo di Vittoria — сицилийская зона, часто купаж неро д'авола и фраппато.",
+    "tags": [
+      "italy",
+      "sicily",
+      "cerasuolo_di_vittoria",
+      "geography",
+      "grape_variety"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 67,
+    "question": "В каком регионе Италии находится Марсала (Marsala)?",
+    "options": {
+      "a": "Тоскана",
+      "b": "Ломбардия",
+      "c": "Сицилия",
+      "d": "Марке"
+    },
+    "correct_answer": "c",
+    "explanation": "Marsala — зона крепленых вин с окислительной выдержкой и историческим стилем.",
+    "tags": [
+      "italy",
+      "sicily",
+      "marsala",
+      "geography",
+      "wine_style"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  },
+  {
+    "id": 68,
+    "question": "В каком регионе Италии находится Этна (Etna)?",
+    "options": {
+      "a": "Кампания",
+      "b": "Тоскана",
+      "c": "Ломбардия",
+      "d": "Сицилия"
+    },
+    "correct_answer": "d",
+    "explanation": "Etna — вулканическая зона с высотными виноградниками и яркой кислотностью.",
+    "tags": [
+      "italy",
+      "sicily",
+      "etna",
+      "geography",
+      "terroir"
+    ],
+    "country": "Италия",
+    "region": "Италия"
+  }
+]

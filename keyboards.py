@@ -377,6 +377,11 @@ def get_group_result_keyboard() -> InlineKeyboardMarkup:
         text="📋 Все пояснения списком",
         callback_data="gall_explanations"
     ))
+
+    builder.row(InlineKeyboardButton(
+        text="🧹 Очистить содержимое",
+        callback_data="gcleanup"
+    ))
     
     builder.row(InlineKeyboardButton(
         text="🔄 Новая групповая викторина",

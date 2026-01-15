@@ -135,6 +135,15 @@ COUNTRIES = {
             "all": {"name": "🍷 Все регионы США", "file": "usa.json"},
         },
         "random_label": "🎲 Случайно по США"
+    },
+    "appellations": {
+        "name": "🏷️ Апелласьоны",
+        "flag": "🏷️",
+        "regions": {
+            "france": {"name": "🇫🇷 Франция", "file": "appellations/France.json"},
+            "italy": {"name": "🇮🇹 Италия", "file": "appellations/Italy.json"},
+        },
+        "random_label": "🎲 Случайно по апелласьонам"
     }
 }
 
