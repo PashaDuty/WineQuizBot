@@ -2,6 +2,7 @@
 Обработчик логики викторины (личный режим)
 """
 import asyncio
+from typing import List
 from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery, Message
 from aiogram.filters import Command
@@ -32,6 +33,28 @@ router = Router()
 def is_private_chat(callback: CallbackQuery) -> bool:
     """Проверить, что это личный чат"""
     return callback.message.chat.type == ChatType.PRIVATE
+
+
+def split_text(text: str, limit: int = 4000) -> List[str]:
+    """Разбить длинный текст на части для Telegram"""
+    if len(text) <= limit:
+        return [text]
+
+    parts = []
+    remaining = text
+    while remaining:
+        if len(remaining) <= limit:
+            parts.append(remaining)
+            break
+
+        split_at = remaining.rfind("\n", 0, limit)
+        if split_at == -1 or split_at < limit * 0.5:
+            split_at = limit
+
+        parts.append(remaining[:split_at].rstrip())
+        remaining = remaining[split_at:].lstrip("\n")
+
+    return parts
 
 
 async def get_time_per_question() -> int:
@@ -344,12 +367,15 @@ async def callback_show_explanations(callback: CallbackQuery):
     
     # Показываем пояснение к первому вопросу
     text = format_explanation(session.answers[0], 0)
-    
+
+    parts = split_text(text)
     await callback.message.edit_text(
-        text,
+        parts[0],
         reply_markup=get_explanation_keyboard(0, len(session.answers)),
         parse_mode="Markdown"
     )
+    for part in parts[1:]:
+        await callback.message.answer(part, parse_mode="Markdown")
     await callback.answer()
 
 
@@ -364,12 +390,15 @@ async def callback_explanation(callback: CallbackQuery):
         return
     
     text = format_explanation(session.answers[index], index)
-    
+
+    parts = split_text(text)
     await callback.message.edit_text(
-        text,
+        parts[0],
         reply_markup=get_explanation_keyboard(index, len(session.answers)),
         parse_mode="Markdown"
     )
+    for part in parts[1:]:
+        await callback.message.answer(part, parse_mode="Markdown")
     await callback.answer()
 
 
@@ -383,14 +412,13 @@ async def callback_all_explanations(callback: CallbackQuery):
         return
     
     text = format_all_explanations(session)
-    
-    # Telegram имеет лимит на длину сообщения (4096 символов)
-    if len(text) > 4000:
-        text = text[:3997] + "..."
-    
+
+    parts = split_text(text)
     await callback.message.edit_text(
-        text,
+        parts[0],
         reply_markup=get_back_to_menu_keyboard(),
         parse_mode="Markdown"
     )
+    for part in parts[1:]:
+        await callback.message.answer(part, parse_mode="Markdown")
     await callback.answer()

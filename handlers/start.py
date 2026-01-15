@@ -60,7 +60,7 @@ async def cmd_start(message: Message):
     user = message.from_user
     
     # Проверяем наличие username
-    if not user.username:
+    if not user.username and message.chat.type == ChatType.PRIVATE:
         await message.answer(
             NO_USERNAME_MESSAGE,
             parse_mode="Markdown"
@@ -136,6 +136,7 @@ async def btn_my_stats(message: Message):
     await message.answer(text)
 
 
+@router.message(F.text == "💬 Обратная связь")
 @router.message(F.text == "👨‍💻 Разработчик")
 async def btn_developer_info(message: Message):
     """Кнопка информация о разработчике"""

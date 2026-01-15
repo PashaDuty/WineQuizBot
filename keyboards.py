@@ -14,7 +14,7 @@ def get_main_menu_keyboard() -> ReplyKeyboardMarkup:
         KeyboardButton(text="📊 Моя статистика")
     )
     builder.row(
-        KeyboardButton(text="👨‍💻 Разработчик")
+        KeyboardButton(text="💬 Обратная связь")
     )
     builder.row(
         KeyboardButton(text="👥 Multiplayer")

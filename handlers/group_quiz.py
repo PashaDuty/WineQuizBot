@@ -3,6 +3,7 @@
 """
 import asyncio
 import logging
+from typing import List
 from aiogram import Router, F, Bot
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
@@ -61,6 +62,28 @@ def is_group_chat(message_or_callback) -> bool:
     else:
         chat = message_or_callback.message.chat
     return chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]
+
+
+def split_text(text: str, limit: int = 4000) -> List[str]:
+    """Разбить длинный текст на части для Telegram"""
+    if len(text) <= limit:
+        return [text]
+
+    parts = []
+    remaining = text
+    while remaining:
+        if len(remaining) <= limit:
+            parts.append(remaining)
+            break
+
+        split_at = remaining.rfind("\n", 0, limit)
+        if split_at == -1 or split_at < limit * 0.5:
+            split_at = limit
+
+        parts.append(remaining[:split_at].rstrip())
+        remaining = remaining[split_at:].lstrip("\n")
+
+    return parts
 
 
 async def get_time_per_question() -> int:
@@ -1161,25 +1184,22 @@ async def callback_group_show_explanations(callback: CallbackQuery):
     if not session or not session.questions:
         await callback.answer("❌ Данные не найдены!", show_alert=True)
         return
-    
-    question = session.questions[0]
-    correct = question.get('correct_answer', '')
-    options = question.get('options', {})
-    explanation = question.get('explanation', 'Пояснение отсутствует.')
-    question_text = escape_markdown(question.get('question', ''))
-    correct_text = escape_markdown(str(options.get(correct, '—')))
-    explanation_text = escape_markdown(explanation)
-    
-    text = f"*1/{session.total_questions}*\n\n"
-    text += f"❓ _{question_text}_\n\n"
-    text += f"✅ Правильный ответ: *{correct}\\) {correct_text}*\n\n"
-    text += f"📖 *Пояснение:*\n{explanation_text}"
-    
+
+    participant = session.get_participant(callback.from_user.id)
+    answers = participant.answers if participant else []
+    if not answers:
+        await callback.answer("❌ У вас нет ответов для пояснений.", show_alert=True)
+        return
+
+    text = format_group_explanation(answers[0], 0)
+    parts = split_text(text)
     await callback.message.edit_text(
-        text,
-        reply_markup=get_group_explanation_keyboard(0, session.total_questions),
+        parts[0],
+        reply_markup=get_group_explanation_keyboard(0, len(answers)),
         parse_mode="Markdown"
     )
+    for part in parts[1:]:
+        await callback.message.answer(part, parse_mode="Markdown")
     await callback.answer()
 
 
@@ -1189,28 +1209,25 @@ async def callback_group_explanation(callback: CallbackQuery):
     index = int(callback.data.split(":")[1])
     session = group_session_manager.get_session(callback.message.chat.id)
     
-    if not session or index >= len(session.questions):
+    if not session:
         await callback.answer("❌ Данные не найдены!", show_alert=True)
         return
-    
-    question = session.questions[index]
-    correct = question.get('correct_answer', '')
-    options = question.get('options', {})
-    explanation = question.get('explanation', 'Пояснение отсутствует.')
-    question_text = escape_markdown(question.get('question', ''))
-    correct_text = escape_markdown(str(options.get(correct, '—')))
-    explanation_text = escape_markdown(explanation)
-    
-    text = f"*{index + 1}/{session.total_questions}*\n\n"
-    text += f"❓ _{question_text}_\n\n"
-    text += f"✅ Правильный ответ: *{correct}\\) {correct_text}*\n\n"
-    text += f"📖 *Пояснение:*\n{explanation_text}"
-    
+
+    participant = session.get_participant(callback.from_user.id)
+    answers = participant.answers if participant else []
+    if not answers or index >= len(answers):
+        await callback.answer("❌ Данные не найдены!", show_alert=True)
+        return
+
+    text = format_group_explanation(answers[index], index)
+    parts = split_text(text)
     await callback.message.edit_text(
-        text,
-        reply_markup=get_group_explanation_keyboard(index, session.total_questions),
+        parts[0],
+        reply_markup=get_group_explanation_keyboard(index, len(answers)),
         parse_mode="Markdown"
     )
+    for part in parts[1:]:
+        await callback.message.answer(part, parse_mode="Markdown")
     await callback.answer()
 
 
@@ -1222,17 +1239,19 @@ async def callback_group_all_explanations(callback: CallbackQuery):
     if not session:
         await callback.answer("❌ Данные не найдены!", show_alert=True)
         return
-    
-    text = format_group_all_explanations(session)
-    
-    if len(text) > 4000:
-        text = text[:3997] + "..."
-    
+
+    participant = session.get_participant(callback.from_user.id)
+    answers = participant.answers if participant else []
+    text = format_group_all_explanations(session, answers or None)
+
+    parts = split_text(text)
     await callback.message.edit_text(
-        text,
+        parts[0],
         reply_markup=get_group_result_keyboard(),
         parse_mode="Markdown"
     )
+    for part in parts[1:]:
+        await callback.message.answer(part, parse_mode="Markdown")
     await callback.answer()
 
 

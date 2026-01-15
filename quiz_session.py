@@ -236,10 +236,6 @@ def format_all_explanations(session: QuizSession) -> str:
         options = question.get('options', {})
         explanation = question.get('explanation', '')
         
-        # Сокращаем пояснение если оно слишком длинное
-        if len(explanation) > 200:
-            explanation = explanation[:197] + "..."
-        
         text += f"*{i + 1}.* {status} {question_text}\n"
         text += f"   ➡️ {correct}) {options.get(correct, '—')}\n"
         text += f"   _{explanation}_\n\n"

@@ -389,31 +389,58 @@ def format_group_explanation(answer_record: dict, index: int, participant_name: 
     return text
 
 
-def format_group_all_explanations(session: GroupQuizSession) -> str:
+def format_group_all_explanations(
+    session: GroupQuizSession,
+    answers: Optional[List[dict]] = None
+) -> str:
     """Форматировать все пояснения для групповой викторины"""
     text = "📚 *Пояснения к вопросам викторины:*\n\n"
-    
-    for i, question in enumerate(session.questions):
-        correct = question.get('correct_answer', '')
-        options = question.get('options', {})
-        explanation = question.get('explanation', '')
-        
-        # Сокращаем текст вопроса
-        question_text = question['question']
-        if len(question_text) > 80:
-            question_text = question_text[:77] + "..."
-        question_text = escape_markdown(question_text)
-        
-        # Сокращаем пояснение если оно слишком длинное
-        if len(explanation) > 200:
-            explanation = explanation[:197] + "..."
-        explanation = escape_markdown(explanation)
-        
-        correct_text = escape_markdown(str(options.get(correct, '—')))
-        text += f"*{i + 1}\\.* {question_text}\n"
-        text += f"   ➡️ {correct}\\) {correct_text}\n"
-        text += f"   _{explanation}_\n\n"
-    
+
+    if answers:
+        for i, answer_record in enumerate(answers):
+            question = answer_record['question']
+            is_correct = answer_record.get('is_correct', False)
+            user_answer = answer_record.get('user_answer')
+
+            status = "✅" if is_correct else "❌"
+
+            question_text = question.get('question', '')
+            if len(question_text) > 80:
+                question_text = question_text[:77] + "..."
+            question_text = escape_markdown(question_text)
+
+            correct = question.get('correct_answer', '')
+            options = question.get('options', {})
+            explanation = escape_markdown(question.get('explanation', ''))
+            correct_text = escape_markdown(str(options.get(correct, '—')))
+
+            text += f"*{i + 1}\\.* {status} {question_text}\n"
+            text += f"   ➡️ {correct}\\) {correct_text}\n"
+
+            if user_answer and user_answer != correct:
+                user_answer_text = escape_markdown(str(options.get(user_answer, '—')))
+                text += f"   ❌ Ваш ответ: {user_answer}\\) {user_answer_text}\n"
+
+            text += f"   _{explanation}_\n\n"
+    else:
+        for i, question in enumerate(session.questions):
+            correct = question.get('correct_answer', '')
+            options = question.get('options', {})
+            explanation = question.get('explanation', '')
+
+            # Сокращаем текст вопроса
+            question_text = question['question']
+            if len(question_text) > 80:
+                question_text = question_text[:77] + "..."
+            question_text = escape_markdown(question_text)
+
+            explanation = escape_markdown(explanation)
+
+            correct_text = escape_markdown(str(options.get(correct, '—')))
+            text += f"*{i + 1}\\.* {question_text}\n"
+            text += f"   ➡️ {correct}\\) {correct_text}\n"
+            text += f"   _{explanation}_\n\n"
+
     return text
 
 
