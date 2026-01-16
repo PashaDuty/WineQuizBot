@@ -7,6 +7,7 @@ from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery, Message
 from aiogram.filters import Command
 from aiogram.enums import ChatType
+from aiogram.exceptions import TelegramRetryAfter
 
 from keyboards import (
     get_answer_keyboard, 
@@ -82,12 +83,21 @@ async def send_question(bot: Bot, chat_id: int, session):
     )
     
     # Отправляем вопрос
-    msg = await bot.send_message(
-        chat_id,
-        text,
-        reply_markup=get_answer_keyboard(session.current_index),
-        parse_mode="Markdown"
-    )
+    try:
+        msg = await bot.send_message(
+            chat_id,
+            text,
+            reply_markup=get_answer_keyboard(session.current_index),
+            parse_mode="Markdown"
+        )
+    except TelegramRetryAfter as e:
+        await asyncio.sleep(e.retry_after + 1)
+        msg = await bot.send_message(
+            chat_id,
+            text,
+            reply_markup=get_answer_keyboard(session.current_index),
+            parse_mode="Markdown"
+        )
     session.message_id = msg.message_id
     
     # Запускаем таймер
@@ -366,12 +376,13 @@ async def callback_show_explanations(callback: CallbackQuery):
         return
     
     # Показываем пояснение к первому вопросу
-    text = format_explanation(session.answers[0], 0)
+    ordered_answers = sorted(session.answers, key=lambda r: r.get("question_index", 0))
+    text = format_explanation(ordered_answers[0], 0)
 
     parts = split_text(text)
     await callback.message.edit_text(
         parts[0],
-        reply_markup=get_explanation_keyboard(0, len(session.answers)),
+        reply_markup=get_explanation_keyboard(0, len(ordered_answers)),
         parse_mode="Markdown"
     )
     for part in parts[1:]:
@@ -389,12 +400,13 @@ async def callback_explanation(callback: CallbackQuery):
         await callback.answer("❌ Данные не найдены!", show_alert=True)
         return
     
-    text = format_explanation(session.answers[index], index)
+    ordered_answers = sorted(session.answers, key=lambda r: r.get("question_index", 0))
+    text = format_explanation(ordered_answers[index], index)
 
     parts = split_text(text)
     await callback.message.edit_text(
         parts[0],
-        reply_markup=get_explanation_keyboard(index, len(session.answers)),
+        reply_markup=get_explanation_keyboard(index, len(ordered_answers)),
         parse_mode="Markdown"
     )
     for part in parts[1:]:

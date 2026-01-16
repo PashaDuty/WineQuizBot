@@ -45,6 +45,7 @@ class QuizSession:
         question = self.current_question
         if question:
             self.answers.append({
+                "question_index": self.current_index,
                 "question": question,
                 "user_answer": user_answer,
                 "is_correct": is_correct,

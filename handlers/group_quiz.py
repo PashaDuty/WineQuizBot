@@ -735,7 +735,21 @@ async def stop_group_quiz(bot: Bot, chat_id: int):
         return
 
     session.cancel_timer()
-    session.is_question_active = False
+    # Даем короткое окно, чтобы успели прийти ответы на текущий вопрос
+    if session.is_question_active and session.current_question:
+        await asyncio.sleep(0.5)
+        for user_id, participant in session.participants.items():
+            if user_id not in session.answered_users:
+                participant.answers.append({
+                    "question_index": session.current_index,
+                    "question": session.current_question,
+                    "user_answer": None,
+                    "is_correct": False,
+                    "time_expired": True
+                })
+                participant.total_answered += 1
+        session.end_question()
+
     session.current_index = len(session.questions)
 
     # Отправляем результат остановленной викторины
@@ -998,6 +1012,7 @@ async def finish_question(bot: Bot, chat_id: int, session):
     for user_id, participant in session.participants.items():
         if user_id not in session.answered_users:
             participant.answers.append({
+                "question_index": session.current_index,
                 "question": question,
                 "user_answer": None,
                 "is_correct": False,
@@ -1195,6 +1210,7 @@ async def callback_group_show_explanations(callback: CallbackQuery):
 
     participant = session.get_participant(callback.from_user.id)
     answers = participant.answers if participant else []
+    answers = sorted(answers, key=lambda r: r.get("question_index", 0))
     if not answers:
         await callback.answer("❌ У вас нет ответов для пояснений.", show_alert=True)
         return
@@ -1224,6 +1240,7 @@ async def callback_group_explanation(callback: CallbackQuery):
 
     participant = session.get_participant(callback.from_user.id)
     answers = participant.answers if participant else []
+    answers = sorted(answers, key=lambda r: r.get("question_index", 0))
     if not answers or index >= len(answers):
         await callback.answer("❌ Данные не найдены!", show_alert=True)
         return
@@ -1252,6 +1269,7 @@ async def callback_group_all_explanations(callback: CallbackQuery):
 
     participant = session.get_participant(callback.from_user.id)
     answers = participant.answers if participant else []
+    answers = sorted(answers, key=lambda r: r.get("question_index", 0))
     text = format_group_all_explanations(session, answers or None)
 
     parts = split_text(text)

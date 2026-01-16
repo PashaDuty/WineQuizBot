@@ -98,6 +98,7 @@ class GroupQuizSession:
                 answer_time = time.time() - self.question_start_time
             
             participant.answers.append({
+                "question_index": self.current_index,
                 "question": question,
                 "user_answer": answer,
                 "is_correct": is_correct,
