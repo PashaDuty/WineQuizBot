@@ -1,0 +1,15 @@
+[Unit]
+Description=Wine Quiz Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=winebot
+WorkingDirectory=/home/winebot/WineQuizBot
+Environment="PATH=/home/winebot/WineQuizBot/venv/bin"
+ExecStart=/home/winebot/WineQuizBot/venv/bin/python /home/winebot/WineQuizBot/bot.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
